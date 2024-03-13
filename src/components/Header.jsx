@@ -9,13 +9,17 @@ import SearchBar from './SearchBar';
 
 export default function Header() {
   return (
-    <div className="flex gap-6 bg-amber-400 text-center justify-center py-3">
-        <HeaderItems title='home' address='/' Icon={IoIosHome}/>
-        <HeaderItems title='about' address='/' Icon={FcAbout}/>
-        <SearchBar />
-        <HeaderItems title='sign-up' address='/' Icon={BsPersonFill}/>
-        <HeaderItems title='login' address='/' Icon={MdLogin}/>
-        <DarkModeSwitch />
+    <div className="flex bg-slate-200 dark:bg-gray-700 item-center justify-between p-3 pl-10">
+        <div className='flex gap-5'>
+          <HeaderItems title='home' address='/' Icon={IoIosHome}/>
+          <HeaderItems title='about' address='/about' Icon={FcAbout}/>
+          <SearchBar />
+        </div>
+        <div className='flex gap-5'>
+          <HeaderItems title='sign-up' address='/' Icon={BsPersonFill}/>
+          <HeaderItems title='login' address='/' Icon={MdLogin}/>
+          <DarkModeSwitch />
+        </div>     
     </div>
     
   )
