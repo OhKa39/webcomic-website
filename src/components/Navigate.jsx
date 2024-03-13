@@ -7,7 +7,7 @@ import { FaRankingStar } from "react-icons/fa6";
 
 export default function Navigate() {
   return (
-    <div className="flex bg-amber-400 dark: item-center justify-center p-3 mx-auto gap-5">    
+    <div className="flex bg-amber-400 item-center justify-center p-3 mx-auto gap-5">    
         <HeaderItems title='tags' address='/tags' Icon={IoPricetags}/>
         <HeaderItems title='follow' address='/follow' Icon={FaBookmark}/>
         <HeaderItems title='history' address='/history' Icon={GrHistory}/>
