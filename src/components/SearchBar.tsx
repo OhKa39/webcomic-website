@@ -1,10 +1,12 @@
 'use client'
-import { useState } from 'react';
+import router, { useRouter } from 'next/router';
+import { Children, useState } from 'react';
 import { FaSearch } from "react-icons/fa";
 
 
 export default function SearchBar() {
     const [searchValue, setSearchValue] = useState('');
+
 
     //   const handleInputChange = event => {
     //     setSearchValue(event.target.value);
@@ -24,8 +26,8 @@ export default function SearchBar() {
                 onChange={(e) => setSearchValue(e.target.value)}
                 placeholder="Search here.."
             />
-            <button type="submit"><FaSearch /></button>
-
+            <button type="button" onClick={() => router.push('/search')}><FaSearch />
+            </button>
         </form>
     );
 }
