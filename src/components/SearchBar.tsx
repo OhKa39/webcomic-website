@@ -17,7 +17,7 @@ export default function SearchBar() {
     };
 
     return (
-        <form onSubmit={handleSearch} className='flex gap-4'>
+        <form onSubmit={handleSearch} className='flex gap-4 hidden lg:inline-flex'>
             <input className="border rounded"
                 type="text"
                 value={searchValue}
