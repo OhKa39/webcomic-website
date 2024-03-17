@@ -12,8 +12,10 @@ export default function Container() {
     ]
 
   return (     
-        <div className="grid grid-cols-5 mx-auto max-w-6xl py-4 w-full gap-5">
+    <div>
+        <div className="grid grid-cols-5 mx-auto max-w-6xl py-4 w-full gap-5 ">
             <ContainerItems data={data}/>
         </div>
+    </div>
   )
 }

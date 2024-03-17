@@ -9,10 +9,10 @@ export default function Containeritems({data}) {
                 width={100}
                 height={100}
                 style={{
-                    width: '300px',
-                    height: '100px',
+                    width: '100%',
+                    height: '210px',
                   }}
-                //sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  alt="Picture of comic"
             />
             <p>{result.link}</p>
             <p className='font-bold truncate'>{result.name}</p>
