@@ -1,3 +1,4 @@
+
 import React from 'react'
 
 export default function page() {
@@ -13,3 +14,12 @@ export default function page() {
         </div>
     )
 }
+
+
+const tags: React.FC = () => {
+    return (
+        <p>test</p>
+
+    );
+};
+export default tags;

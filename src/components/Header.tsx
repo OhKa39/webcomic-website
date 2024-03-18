@@ -4,8 +4,10 @@ import { IoIosHome } from "react-icons/io";
 import { FcAbout } from "react-icons/fc";
 import { BsPersonFill } from "react-icons/bs";
 import { MdLogin } from "react-icons/md";
+import { MdOutlineCatchingPokemon } from "react-icons/md"
 import DarkModeSwitch from './DarkModeSwitch';
 import SearchBar from './SearchBar';
+
 
 export default function Header() {
   return (
@@ -20,6 +22,7 @@ export default function Header() {
         <HeaderItems title='Đăng Nhập' address='/' Icon={MdLogin} />
         <DarkModeSwitch />
       </div>
+
     </div>
 
   )
