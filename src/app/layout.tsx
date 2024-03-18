@@ -1,10 +1,15 @@
+import React from "react";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Provider from "./Provider";
 import Header from "@/components/Header"
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import Container from "@/components/Container";
+import Provider from "./Provider";
+
+
+
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {

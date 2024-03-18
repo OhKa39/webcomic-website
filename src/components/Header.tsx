@@ -11,20 +11,19 @@ import SearchBar from './SearchBar';
 
 export default function Header() {
   return (
-    <div className="flex  bg-slate-200 dark:bg-gray-700 item-center p-3 font-bold ">
-        <div className='flex gap-5 w-1/3 mx-auto'>
-          <HeaderItems title='home' address='/' Icon={IoIosHome}/>
-          <HeaderItems title='about' address='/about' Icon={FcAbout}/>
-          <SearchBar/>
-        </div>
-        <MdOutlineCatchingPokemon className='flex w-1/3 text-amber-400 text-[2em] hidden lg:inline-flex'/>
-        <div className='flex gap-5 w-1/3 justify-end mx-auto'>
-          <HeaderItems title='sign-up' address='/' Icon={BsPersonFill}/>
-          <HeaderItems title='login' address='/' Icon={MdLogin}/>
-          <DarkModeSwitch  />
+    <div className="flex bg-slate-200 dark:bg-gray-700 item-center justify-between p-3 pl-10">
+      <div className='flex gap-5'>
+        <HeaderItems title='Trang Chủ' address='/' Icon={IoIosHome} />
+        <HeaderItems title='Thông Tin ' address='/about' Icon={FcAbout} />
+        <SearchBar />
+      </div>
+      <div className='flex gap-5'>
+        <HeaderItems title='Đăng Ký' address='/' Icon={BsPersonFill} />
+        <HeaderItems title='Đăng Nhập' address='/' Icon={MdLogin} />
+        <DarkModeSwitch />
+      </div>
 
-        </div>     
     </div>
-    
+
   )
 }
