@@ -16,8 +16,9 @@ model Comics {
   comicName        String   @unique
   createdAt        DateTime @default(now())
   updatedAt        DateTime @default(now())
-  countryName      String
+  comicImageLink   String
   isCompleted      Boolean  @default(false)
+  authorName       String
   userID           String
   comicDescription String
 
@@ -47,7 +48,8 @@ model ComicChapters {
 model ChapterImages {
   comicChapterID String        @db.ObjectId
   id             String        @id @default(auto()) @map("_id") @db.ObjectId
-  chapterLink    String
+  imageLink      String
+  imageNumber    Int
   comicChapter   ComicChapters @relation(fields: [comicChapterID], references: [id], onDelete: Cascade)
 }
 
