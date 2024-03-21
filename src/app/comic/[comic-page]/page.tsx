@@ -36,7 +36,6 @@ async function getComic(params: any) {
 export default async function comicPage({params})  {
     const path = params['comic-page']
     const comic = await getComic(params['comic-page'])
-    //console.log(comic)
 
     return (
         <div className='px-12 sm:px-42 py-5'>

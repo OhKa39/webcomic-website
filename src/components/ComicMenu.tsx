@@ -3,7 +3,6 @@ import Link from 'next/link'
 
 
 export default async function ComicMenu({data, path}){
-    console.log(data)
     return (
         data.map((chapter) => (      
             <div className=' overflow-auto'>
