@@ -15,3 +15,7 @@ export default function page() {
     )
 }
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 931bf3bb8c57a5bc77ed0331dbfda67c95ae0650
