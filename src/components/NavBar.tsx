@@ -11,7 +11,10 @@ export default function NavBar() {
             <HeaderItems title='Thể Loại' address='/tags' Icon={IoPricetags} />
             <HeaderItems title='Theo Dõi' address='/follow' Icon={FaBookmark} />
             <HeaderItems title='Lịch Sử' address='/history' Icon={GrHistory} />
+<<<<<<< HEAD
             <HeaderItems title='Thông Báo' address='/notification' Icon={IoIosNotifications} />
+=======
+>>>>>>> 1a2684f6ae1da4484ee7041bc81d7700946fd118
             <HeaderItems title='rank' address='/rank' Icon={FaRankingStar} />
         </div>
     )
