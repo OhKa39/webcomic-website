@@ -1,7 +1,12 @@
 import React from 'react'
 
-export default function ReadComicPage() {
+import ComicPage from '@/components/ComicPage'
+
+export default function ReadComicPage({params}) {
+  const comicId = params['comic-page']
+  const comicChapter = params['read-comic-page']
+
   return (
-    <div>Page doc truyen</div>
+    <ComicPage comicId={comicId} comicChapter={comicChapter}/>
   )
 }

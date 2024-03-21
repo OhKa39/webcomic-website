@@ -42,7 +42,7 @@ export default async function Container({searchParams,}: {searchParams: { [key: 
     const {data, count} = await getContainerItems({page})
     //console.log(searchParams)
     
-    console.log(data)
+    //console.log(data)
     
     
     return (

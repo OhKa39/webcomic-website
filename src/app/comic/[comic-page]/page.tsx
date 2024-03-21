@@ -5,6 +5,7 @@ import { RiCalendarCheckFill } from "react-icons/ri";
 import { ImPen } from "react-icons/im";
 import { PrismaClient } from '@prisma/client'
 import { FaRegListAlt } from "react-icons/fa";
+import { FaRegCommentDots } from "react-icons/fa6";
 
 import ComicMenu from '@/components/ComicMenu'
 
@@ -74,6 +75,10 @@ export default async function comicPage({params})  {
             </div>
             <div className='overflow-auto h-44'>
                 <ComicMenu data={comic.comicChapters} path={path}/>
+            </div>
+            <div className='flex gap-3 items-center text-lg'>
+                <FaRegCommentDots/>
+                <p className='font-bold'>Bình luận</p>
             </div>
         </div>     
     );
