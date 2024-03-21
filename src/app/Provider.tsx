@@ -7,10 +7,10 @@ export default function provider({
     children: React.ReactNode
 }) {
     return (
-        // <ThemeProvider defaultTheme="system" attribute="class">
-            <div className="text-gray-700 bg-white dark:text-white dark:bg-gray-500 transition-colors duration-200 min-h-50">
+        <ThemeProvider defaultTheme="system" attribute="class">
+            <div className="text-gray-700 bg-white dark:text-white dark:bg-gray-500 transition-colors duration-200 min-h-screen " >
                 {children}
             </div>
-        // </ThemeProvider>
+        </ThemeProvider>
     )
 }

@@ -6,9 +6,15 @@ import Link from 'next/link'
 export default function Containeritems({data}) {
   return (   
     data.map((result) => (      
-        <Link href={`/comic/${result.name}`} className='rounded border-amber-400 bg-slate-200 dark:bg-amber-400 border-4 '>          
+        <Link 
+          href={{
+            pathname: `/comic/${result.id}`
+          }}
+          // as= {`/comic/${result.id}`}
+          className='rounded border-amber-400 bg-slate-200 dark:bg-amber-400 border-4 my-3'
+        >          
             <Image 
-                src={result.imageLink}
+                src={result.comicImageLink}
                 width={150}
                 height={150}
                 style={{
@@ -18,7 +24,7 @@ export default function Containeritems({data}) {
                   alt="Picture of comic"
                   className='hover:opacity-80 transition-opacity duration-300'
             />
-            <p className='font-bold truncate'>{result.name}</p>
+            <p className='font-bold truncate'>{result.comicName}</p>
         </Link>
     ))  
   )

@@ -5,17 +5,10 @@ import { authMiddleware } from "@clerk/nextjs";
  
 export default authMiddleware({
   // Allow signed out users to access the specified routes:
-  publicRoutes: [
-    '/'
-],
+  publicRoutes: ['/', '/about','/rank', '/terms', '/comic/(.*)', '/contact', '/search', '/history', '/notification', '/tags', '/follow', '/api/(.*)'],
   // Prevent the specified routes from accessing
   // authentication information:
-  
-  ignoredRoutes: [
-    "/((?!api|trpc))(_next.*|.+\.[\w]+$)","/about", 
-    "/search", "/rank", 
-    "/history","/follow" 
-],
+  // ignoredRoutes: ['/no-auth-in-this-route'],
 });
  
 export const config = {
