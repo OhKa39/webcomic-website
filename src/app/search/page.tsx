@@ -1,71 +1,67 @@
 'use client'
-import { color } from "framer-motion";
-import { PiSelectionBackground } from "react-icons/pi";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { FaSearch } from "react-icons/fa";
+import axios from 'axios';
 
-async function getData() {
-    const res = await fetch('http://localhost:3000/api/comicTypes')
-    return res.json()
+export default function SearchType() {
+    const [data, setData] = useState([]);
+    const [selectedId, setSelectedId] = useState<string[]>([]);
 
-}
-
-
-
-
-export default async function SearchType() {
-
-    const data = await getData()
-
-
-
-    // check box
-    // function setSelectedIds(selectedId: string[]) {
-    //     try {
-    //         setSelectedIds(selectedId.concat(selectedId));
-    //     } catch (error) {
-    //         console.error('Error when updating selectedIds:', error);
-    //     }
-    // }
-
-
-    const selectedId: string[] = []
-
-    function UpdateID(id: string, selectedIds: string[]) {
-        if (!selectedIds.includes(id)) {
-            selectedIds.push(id);
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const response = await axios.get('http://localhost:3000/api/comicTypes');
+                setData(response.data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
         }
-        return selectedIds;
-    }
-    function removeID(idToRemove: string, selectedIds: string[]) {
-        const index = selectedIds.indexOf(idToRemove);
-        if (index !== -1) {
-            selectedIds.splice(index, 1);
+
+        fetchData();
+    }, []);
+
+    function UpdateID(id: string) {
+        if (!selectedId.includes(id)) {
+            setSelectedId([...selectedId, id]);
         }
-        return selectedIds;
     }
 
-
+    function removeID(idToRemove: string) {
+        setSelectedId(selectedId.filter(itemId => itemId !== idToRemove));
+    }
 
     function handleCheckboxChange(event: { target: { value: any; checked: any; }; }) {
         const id = event.target.value;
         if (event.target.checked) {
-            UpdateID(id, selectedId);
+            UpdateID(id);
         } else {
-            removeID(id, selectedId);
-
+            removeID(id);
         }
-
     }
 
-    //search 
     function handleSearch() {
-        console.clear();
-        console.log('Các id đã chọn:', selectedId);
+        const queryString = selectedId.join('&');
+        const apiUrl = `http://localhost:3000/api/comicTypes?category=${encodeURIComponent(queryString)}`;
+
+        fetch(apiUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Data from API:', selectedId);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+
+        console.log('QueryString:', queryString);
     }
 
 
     return (
-
         <div className="bg-white p-8">
             <h2 className="text-2xl font-semibold mb-4 text-center text-black">Comic Types</h2>
             <div className="grid grid-cols-3 gap-2">
@@ -84,18 +80,12 @@ export default async function SearchType() {
             </div>
             <div className="mt-4 flex justify-center">
                 <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center"
                     onClick={handleSearch}
                 >
-                    Tìm kiếm
+                    <FaSearch className="mr-2" /> Tìm kiếm
                 </button>
             </div>
-
         </div>
     );
-}
-
-
-function usestate(arg0: never[]): string[] {
-    throw new Error("Function not implemented.");
 }
