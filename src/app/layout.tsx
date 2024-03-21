@@ -4,8 +4,8 @@ import "./globals.css";
 import Header from "@/components/Header"
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
-import Container from "@/components/Container";
 import Provider from "./Provider";
+import { ClerkProvider } from '@clerk/nextjs'
 
 
 
@@ -23,15 +23,17 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <Provider>
-          <Header />
-          <NavBar />
-          {children}
-          <Footer />
-        </Provider>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={inter.className}>
+          <Provider>
+            <Header />
+            <NavBar />
+            {children}
+            <Footer />
+          </Provider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
