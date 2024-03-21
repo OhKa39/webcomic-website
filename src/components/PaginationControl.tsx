@@ -2,17 +2,15 @@
 
 import { FC } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import {Pagination} from "@nextui-org/react";
+
 
 interface PaginationControlsProps {
-  hasNextPage: boolean
-  hasPrevPage: boolean
   count: Number
 }
 
 const PaginationControls: FC<PaginationControlsProps> = (
   {
-    hasNextPage,
-    hasPrevPage,
     count,
   }
 ) => {
@@ -35,26 +33,17 @@ const PaginationControls: FC<PaginationControlsProps> = (
 
   return (
     <div className='flex gap-5 justify-center '>
-      <button
-        className='bg-gray-400 hover:bg-amber-400 text-white p-1 disabled:hidden'
-        disabled={!hasPrevPage}
-        onClick={() => {
-          router.push(`/?page=${Number(page) - 1}`)
-        }}>
-        Trang trước
-      </button>
-
       <div>
-        {page} / {Math.ceil(Number(count) / Number(per_page))}
+          <Pagination boundaries={2} loop total={Math.ceil(Number(count) / Number(per_page))} initialPage={page}  color={`danger`} classNames={{
+        wrapper: "gap-1 overflow-visible h-8 rounded border border-divider",
+        item: "w-8 h-8 text-small rounded-none bg-transparent",
+        cursor:
+          "bg-amber-400 shadow-lg from-default-500 to-default-800 text-white font-bold",
+        }} 
+        onChange={(page: Number)=> router.push(`/?page=${Number(page)}`)}
+        page={page}
+      />
       </div>
-      <button
-        className='bg-gray-400 hover:bg-amber-400 text-white p-1 disabled:hidden'
-        disabled={!hasNextPage}
-        onClick={() => {
-          router.push(`/?page=${Number(page) + 1}`)
-        }}>
-        Trang tiếp theo
-      </button>
     </div>
   )
 }

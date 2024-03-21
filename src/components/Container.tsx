@@ -8,9 +8,12 @@ import PaginationControls from './PaginationControl'
 
 
 const prisma = new PrismaClient()
+const PER_PAGE = 5
 
-async function getContainerItems() {
+async function getContainerItems({page}) {
     const allComics = await prisma.comics.findMany({      
+        take: PER_PAGE,
+        skip: (page - 1) * PER_PAGE,
         select: {          
             id: true,
             comicName: true,
@@ -26,33 +29,29 @@ async function getContainerItems() {
 
     })
     const count = await prisma.comics.count()
+    
     return {data: allComics, count: count}
 }
 
 
 export default async function Container({searchParams,}: {searchParams: { [key: string]: string | string[] | undefined }}) 
 {
-    const {data, count} = await getContainerItems()
-    //console.log(searchParams)
     const Page = searchParams['page'] ?? '1'
     let page = Number(Page)
-    let per_page = '5'
+    if (page <= 0 || isNaN(page)) return
+    const {data, count} = await getContainerItems({page})
+    //console.log(searchParams)
     
-    if (page < 0) return
+    console.log(data)
     
-    let start = (Number(page) - 1) * Number(per_page) 
-    let end = start + Number(per_page) 
     
-
-    const entries = data.slice(start, end)
-
     return (
         <div>
             
             <div className="grid grid-cols-5 mx-auto max-w-6xl py-4 w-full gap-5">
-                <ContainerItems data={entries} />
+                <ContainerItems data={data} />
             </div>
-            <PaginationControls hasNextPage={end < data.length} hasPrevPage={start > 0} count={count}/>
+            <PaginationControls count={count}/>
         </div>
     )
 }

@@ -15,11 +15,3 @@ export default function page() {
     )
 }
 
-
-const tags: React.FC = () => {
-    return (
-        <p>test</p>
-
-    );
-};
-export default tags;
