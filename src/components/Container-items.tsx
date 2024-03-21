@@ -6,13 +6,7 @@ import Link from 'next/link'
 export default function Containeritems({data}) {
   return (   
     data.map((result) => (      
-        <Link 
-          href={{
-            pathname: `/comic/${result.id}`
-          }}
-          // as= {`/comic/${result.id}`}
-          className='rounded border-amber-400 bg-slate-200 dark:bg-amber-400 border-4 my-3'
-        >          
+        <Link href={`/comic/${result.id}`} className='rounded border-amber-400 bg-slate-200 dark:bg-amber-400 border-4 my-3'>          
             <Image 
                 src={result.comicImageLink}
                 width={150}

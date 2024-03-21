@@ -13,9 +13,11 @@ import {
   SignedOut,
   SignInButton,
   UserButton,
-  SignUpButton 
+  SignUpButton,
+  ClerkLoaded, 
+  ClerkLoading
 } from "@clerk/nextjs";
-import { auth } from '@clerk/nextjs';
+import {Loader} from "lucide-react"
 
 
 export default function Header() {
@@ -27,13 +29,19 @@ export default function Header() {
         <SearchBar />
       </div>
       <div className='flex gap-5 items-center'>
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
-        <SignedOut>
-          <SignUpButton mode="modal"/>
-          <SignInButton mode="modal"/>
-        </SignedOut>
+        <ClerkLoading>
+          <Loader className='h-5 w-5 text-muted-foreground animate-spin'/>
+        </ClerkLoading>
+        <ClerkLoaded>
+          <SignedIn>
+            <UserButton afterSignOutUrl='/'/>
+          </SignedIn>
+          <SignedOut>
+            <SignUpButton mode="modal"/>
+            <SignInButton mode="modal"/>
+          </SignedOut>
+        </ClerkLoaded>
+        
         {/* <HeaderItems title='Đăng Ký' address='/' Icon={BsPersonFill} /> */}
         {/* <HeaderItems title='Đăng Nhập' address='/' Icon={MdLogin} /> */}
         <DarkModeSwitch />

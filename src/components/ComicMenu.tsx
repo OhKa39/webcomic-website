@@ -2,8 +2,7 @@ import comic from '@/app/comic/page'
 import Link from 'next/link'
 
 
-export default function ComicMenu({data, path}){
-    console.log(data)
+export default async function ComicMenu({data, path}){
     return (
         data.map((chapter) => (      
             <div className=' overflow-auto'>

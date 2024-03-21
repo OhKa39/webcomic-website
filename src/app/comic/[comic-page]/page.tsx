@@ -5,7 +5,6 @@ import { RiCalendarCheckFill } from "react-icons/ri";
 import { ImPen } from "react-icons/im";
 import { PrismaClient } from '@prisma/client'
 import { FaRegListAlt } from "react-icons/fa";
-import { useSearchParams  } from 'next/navigation'
 import ComicMenu from '@/components/ComicMenu'
 
 const prisma = new PrismaClient()
@@ -37,8 +36,6 @@ async function getComic(params: any) {
 export default async function comicPage({params})  {
     const path = params['comic-page']
     const comic = await getComic(params['comic-page'])
-    console.log(comic)
-
     return (
         <div className='px-12 sm:px-42 py-5'>
             <div className="gap-5 flex pb-8">
