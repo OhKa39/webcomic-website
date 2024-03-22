@@ -10,6 +10,16 @@ export async function GET(req: NextRequest) {
                 id: true, comicTypeName: true
             }
         })
+        const typeComics = await prisma.comics.findMany(
+            {
+                select:{
+                    id:true,
+                    comicName: true,
+                    comicTypesIDs:true,
+                    comicTypes:{select:{id:true}}
+                }
+            }
+        )
         return NextResponse.json(allComics, { status: 200 })
     }
     catch (error) {
