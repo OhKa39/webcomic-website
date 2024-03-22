@@ -34,11 +34,3 @@ export default function SearchType() {
         </div>
     );
 }
-<<<<<<< HEAD
-=======
-
-<<<<<<< HEAD
-
-=======
->>>>>>> 931bf3bb8c57a5bc77ed0331dbfda67c95ae0650
->>>>>>> 1a2684f6ae1da4484ee7041bc81d7700946fd118
