@@ -20,11 +20,8 @@ export default async function page({
   if (page <= 0 || isNaN(page)) notFound();
   const [count, data] = await getData(page, 40);
   return (
-    <div className="container p-3 pt-4 text-center">
-      <Suspense fallback={<p>Loading feed...</p>}>
-        <Container data={data} />
-      </Suspense>
-
+    <div className="container mx-auto text-center">
+      <Container data={data} />
       <PaginationControls count={count} perPage={40} />
     </div>
   );

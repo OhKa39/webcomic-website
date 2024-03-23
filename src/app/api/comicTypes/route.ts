@@ -4,7 +4,6 @@ import prisma from '@/lib/db'
 
 export async function GET(req: NextRequest) {
     try {
-        const pageNumbers = req.nextUrl.searchParams.get('page')
         const allComics = await prisma.comicTypes.findMany({
             select: {
                 id: true, comicTypeName: true
