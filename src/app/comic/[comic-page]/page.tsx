@@ -8,35 +8,42 @@ import { FaRegListAlt } from "react-icons/fa";
 import { FaRegCommentDots } from "react-icons/fa6";
 import ComicMenu from '@/components/ComicMenu'
 
-const prisma = new PrismaClient()
 
-async function getComic(params: any) {
-    const comic = await prisma.comics.findUniqueOrThrow({
-        where: {
-            id: params
-        },
-        select: {
-            id: true,
-            comicName: true,
-            comicImageLink: true,
-            isCompleted: true,
-            authorName: true,
-            comicDescription: true,
-            comicChapters: {
-                select: {
-                    id: true,
-                    chapterNumber: true,
-                }
-            },
-        },
-    })
-    return comic
-}
+// async function getComic(params: any) {
+//     const comic = await prisma.comics.findUniqueOrThrow({
+//         where: {
+//             id: params
+//         },
+//         select: {
+//             id: true,
+//             comicName: true,
+//             comicImageLink: true,
+//             isCompleted: true,
+//             authorName: true,
+//             comicDescription: true,
+//             comicChapters: {
+//                 select: {
+//                     id: true,
+//                     chapterNumber: true,
+//                 }
+//             },
+//         },
+//     })
+//     return comic
+// }
 
+const getComic = async (comicID : any) => {
+    const data = await fetch(
+      `http://localhost:3000/api/comicpage?comicID=${comicID}`
+    );
+    return data.json();
+  };
 
 export default async function comicPage({params})  {
     const path = params['comic-page']
-    const comic = await getComic(params['comic-page'])
+    console.log(path)
+    const [count, comic] = await getComic(path);
+
     return (
         <div className='px-12 sm:px-42 py-5'>
             <div className="gap-5 flex pb-8">
