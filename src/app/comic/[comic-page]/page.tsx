@@ -41,7 +41,6 @@ const getComic = async (comicID : any) => {
 
 export default async function comicPage({params})  {
     const path = params['comic-page']
-    console.log(path)
     const [count, comic] = await getComic(path);
 
     return (

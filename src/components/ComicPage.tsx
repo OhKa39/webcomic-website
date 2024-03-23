@@ -1,36 +1,18 @@
-import page from '@/app/follow/page'
-import { PrismaClient} from '@prisma/client'
-import { pages } from 'next/dist/build/templates/app-page'
+import Image from 'next/image'
 
-import ComicPageItems from '@/components/ComicPage-items'
 
-const prisma = new PrismaClient()
-
-async function getPages({comicId, comicChapter}: {comicId: { [key: string]: string | string[] | undefined }, comicChapter: { [key: string]: string | string[] | undefined }}) {
-    const pages = await prisma.comicChapters.findFirstOrThrow({            
-        where: {
-            comicsId: comicId,
-            chapterNumber: Number(comicChapter)
-        },
-        select: {          
-            chapterImages: {
-                select: {
-                    imageLink: true
-                }
-            },        
-        },
-    })    
-    return pages
-}
-
-export default async function ComicPage({comicId, comicChapter}: {comicId: { [key: string]: string | string[] | undefined }, comicChapter: { [key: string]: string | string[] | undefined }}) 
+export default async function ComicPage({data}) 
 {
-    const data = await getPages({comicId, comicChapter})
-
     return (
-        <div className='p-10 '>
-            <ComicPageItems data={data.chapterImages} />
-
-        </div>
+        data.map((result : any) => (      
+            <Image 
+                className='block m-auto w-1/2 h-1/2'
+                src={result.imageLink}
+                width={2000}
+                height={2000}
+                alt="Picture of comic"
+                
+            /> 
+        ))        
     )
 }
