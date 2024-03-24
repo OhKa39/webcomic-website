@@ -1,4 +1,5 @@
 import HeaderItems from "./Header-items"
+import { RiMenuSearchLine } from "react-icons/ri";
 import { FaBookmark } from "react-icons/fa";
 import { IoPricetags } from "react-icons/io5";
 import { GrHistory } from "react-icons/gr";
@@ -8,6 +9,7 @@ import { FaRankingStar } from "react-icons/fa6";
 export default function NavBar() {
     return (
         <div className="flex bg-amber-400 item-center justify-center p-3 mx-auto gap-5">
+            <HeaderItems title='Tìm Nâng Cao' address='/search' Icon={RiMenuSearchLine} />
             <HeaderItems title='Thể Loại' address='/tags' Icon={IoPricetags} />
             <HeaderItems title='Theo Dõi' address='/follow' Icon={FaBookmark} />
             <HeaderItems title='Lịch Sử' address='/history' Icon={GrHistory} />
