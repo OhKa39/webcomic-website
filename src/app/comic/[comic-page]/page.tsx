@@ -9,32 +9,9 @@ import { FaRegCommentDots } from "react-icons/fa6";
 import ComicMenu from '@/components/ComicMenu'
 
 
-// async function getComic(params: any) {
-//     const comic = await prisma.comics.findUniqueOrThrow({
-//         where: {
-//             id: params
-//         },
-//         select: {
-//             id: true,
-//             comicName: true,
-//             comicImageLink: true,
-//             isCompleted: true,
-//             authorName: true,
-//             comicDescription: true,
-//             comicChapters: {
-//                 select: {
-//                     id: true,
-//                     chapterNumber: true,
-//                 }
-//             },
-//         },
-//     })
-//     return comic
-// }
-
 const getComic = async (comicID : any) => {
     const data = await fetch(
-      `http://localhost:3000/api/comicpage?comicID=${comicID}`
+      `http://localhost:3000/api/comic/${comicID}`
     );
     return data.json();
   };

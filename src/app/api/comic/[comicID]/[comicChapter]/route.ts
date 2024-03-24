@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/lib/db'
-export async function GET(req: NextRequest) {
+export async function GET(req: NextRequest, context : any) {
     
     try{
-        const comicID = String(req.nextUrl.searchParams.get('comicID'))
-        const comicChapter = Number(req.nextUrl.searchParams.get('comicChapter'))
+        const {params} = context
+        const comicID = params.comicID
+        const comicChapter = params.comicChapter
 
         const pages = await prisma.$transaction([
             prisma.comics.count(),
