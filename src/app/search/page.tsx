@@ -1,91 +1,38 @@
-'use client'
-import React, { useEffect, useState } from 'react';
-import { FaSearch } from "react-icons/fa";
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import { useSearchParams, notFound } from "next/navigation";
+import Container from "@/components/Container";
+import PaginationControl from "@/components/PaginationControl";
+import ComicCategory from "@/components/ComicCategory";
 
-export default function SearchType() {
-    const [data, setData] = useState([]);
-    const [selectedId, setSelectedId] = useState<string[]>([]);
+const getData = async (page, offset, ctid) => {
+  const query = {
+    page: page,
+    offset: offset,
+    categoryIds: ctid,
+  };
+  let url = "http://localhost:3000/api/comic?";
+  Object.entries(query).forEach(([key, value], index) => {
+    if (value !== undefined) url += key + "=" + value + "&";
+  });
+  const data = await fetch(url);
+  return data.json();
+};
 
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const response = await axios.get('http://localhost:3000/api/comicTypes');
-                setData(response.data);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        }
-
-        fetchData();
-    }, []);
-
-    function UpdateID(id: string) {
-        if (!selectedId.includes(id)) {
-            setSelectedId([...selectedId, id]);
-        }
-    }
-
-    function removeID(idToRemove: string) {
-        setSelectedId(selectedId.filter(itemId => itemId !== idToRemove));
-    }
-
-    function handleCheckboxChange(event: { target: { value: any; checked: any; }; }) {
-        const id = event.target.value;
-        if (event.target.checked) {
-            UpdateID(id);
-        } else {
-            removeID(id);
-        }
-    }
-
-    function handleSearch() {
-        const queryString = selectedId.join('&');
-        const apiUrl = `http://localhost:3000/api/comicTypes?category=${encodeURIComponent(queryString)}`;
-
-        fetch(apiUrl)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Data from API:', selectedId);
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-
-        console.log('QueryString:', queryString);
-    }
-
-
-    return (
-        <div className="bg-white p-8">
-            <h2 className="text-2xl font-semibold mb-4 text-center text-black">Comic Types</h2>
-            <div className="grid grid-cols-3 gap-2">
-                {data.map((type: any) => (
-                    <div key={type.id} className="flex items-center space-x-1">
-                        <input
-                            type="checkbox"
-                            id={type.id}
-                            value={type.id}
-                            onChange={handleCheckboxChange}
-                            className="form-checkbox h-4 w-4 text-blue-500"
-                        />
-                        <label htmlFor={type.id} className="text-gray-700 text-sm">{type.comicTypeName}</label>
-                    </div>
-                ))}
-            </div>
-            <div className="mt-4 flex justify-center">
-                <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center"
-                    onClick={handleSearch}
-                >
-                    <FaSearch className="mr-2" /> Tìm kiếm
-                </button>
-            </div>
-        </div>
-    );
+export default async function SearchType({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  const Page = searchParams["page"] ?? "1";
+  const categoryIDs = searchParams["categoryIds"];
+  let page = Number(Page);
+  if (page <= 0 || isNaN(page)) notFound();
+  const [count, data] = await getData(page, 40, categoryIDs);
+  return (
+    <div className="container mx-auto">
+      <ComicCategory />
+      <Container data={data} />
+      <PaginationControl count={count} perPage={40} />
+    </div>
+  );
 }
