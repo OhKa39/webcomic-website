@@ -17,15 +17,16 @@ export default async function page({
 }) {
   const Page = searchParams["page"] ?? "1";
   let page = Number(Page);
+  let perPage = 40
   if (page <= 0 || isNaN(page)) notFound();
-  const [count, data] = await getData(page, 40);
+  const [count, data] = await getData(page, perPage);
   return (
     <div className="container p-auto pt-4 text-center m-auto ">
       <Suspense fallback={<p>Loading feed...</p>}>
         <Container data={data} />
       </Suspense>
 
-      <PaginationControls count={count} perPage={40} />
+      <PaginationControls count={count} perPage={perPage} />
     </div>
   );
 }

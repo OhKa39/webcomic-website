@@ -1,7 +1,8 @@
 'use client'
 import React from 'react'
-
 import ComicPage from '@/components/ComicPage'
+
+import {Select, SelectItem} from "@nextui-org/react";
 import { useRouter } from 'next/navigation'
 import { TbPlayerTrackNextFilled } from "react-icons/tb";
 import { TbPlayerTrackPrevFilled } from "react-icons/tb";
@@ -48,17 +49,24 @@ export default async function ReadComicPage({params}) {
 
   const [count, pages] = await getPages(comicId, comicChapter);
   const [count2, data] = await getData(comicId)  
- 
+  Promise.all([getPages, getData])
+  const ListChapter = data.comicChapters
+
+  console.log(ListChapter)
   const nOfChapter = data.comicChapters.length
   const [hasNext, hasPrev] = checkButton(nOfChapter, comicChapter)
-
+  
   return (
-    <div className='p-8 w-auto'>
-      <div className='flex gap-5 justify-center pb-5 '>
-        <button onClick={()=>router.push(`/comic/${comicId}/${Number(comicChapter) - 1}`)} disabled={!hasPrev} className='disabled:hidden p-3 bg-amber-400 flex gap-2 items-center hover:underline hover:underline-offset-8'><TbPlayerTrackPrevFilled className="inline" />Tập trước </button>
-        <button onClick={()=>router.push(`/comic/${comicId}/${Number(comicChapter) + 1}`)} disabled={!hasNext} className='disabled:hidden p-3 bg-amber-400 flex gap-2 items-center hover:underline hover:underline-offset-8'>Tập tiếp theo<TbPlayerTrackNextFilled className="inline" /></button>
-      </div>
+    <div className='p-8 w-full bg-gray-400 relative'> 
+      {/* <Select label="Chapter" items={ListChapter}>
+        {ListChapter.map((chap) => <SelectItem key={chap.chapterNumber}>Chuong {chap.chapterNumber}</SelectItem>)}
+      </Select>   */}
       <ComicPage data={pages['chapterImages']}/>
+      <div className='flex w-full gap-5 justify-center fixed bottom-0  bg-black h-12 -ml-8'>   
+        <button onClick={()=>router.push(`/comic/${comicId}/${Number(comicChapter) - 1}`)} disabled={!hasPrev} className='p-4 rounded-full disabled:hidden bg-amber-400 flex gap-2 items-center hover:underline hover:underline-offset-8'><TbPlayerTrackPrevFilled className="inline" /></button>
+        <button onClick={()=>router.push(`/comic/${comicId}/${Number(comicChapter) + 1}`)} disabled={!hasNext} className='p-4 rounded-full disabled:hidden bg-amber-400 flex gap-2 items-center hover:underline hover:underline-offset-8'><TbPlayerTrackNextFilled className="inline" /></button>
+      </div>
+      
     </div>
   )
 }

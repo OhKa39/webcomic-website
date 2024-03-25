@@ -14,7 +14,8 @@ const getData = async (page, offset, ctid) => {
   Object.entries(query).forEach(([key, value], index) => {
     if (value !== undefined) url += key + "=" + value + "&";
   });
-  const data = await fetch(url);
+  console.log(url)
+  const data = await fetch(url, { cache: 'no-store' });
   return data.json();
 };
 

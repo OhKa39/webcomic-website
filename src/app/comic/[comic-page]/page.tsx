@@ -3,11 +3,13 @@ import Image from 'next/image'
 import { FaUserTie } from "react-icons/fa";
 import { RiCalendarCheckFill } from "react-icons/ri";
 import { ImPen } from "react-icons/im";
-import { PrismaClient } from '@prisma/client'
 import { FaRegListAlt } from "react-icons/fa";
 import { FaRegCommentDots } from "react-icons/fa6";
-import ComicMenu from '@/components/ComicMenu'
+import {Button} from "@nextui-org/react";
 
+import Link from 'next/link';
+import ComicMenu from '@/components/ComicMenu'
+import ComicPageButton from '@/components/ComicPageButtons';
 
 const getComic = async (comicID : any) => {
     const data = await fetch(
@@ -40,8 +42,16 @@ export default async function comicPage({params})  {
                     <h1 className='font-bold'>{comic.comicName}</h1>
                     <ul className='leading-10'>
                         <li> <FaUserTie className='inline'/> Tác giả: {comic.authorName}</li>
-                        <li> <RiCalendarCheckFill className='inline'/> Tình trạng: {comic.isCompleted}</li>
+                        <li> <RiCalendarCheckFill className='inline'/> Tình trạng: {(comic.isCompleted ? "Hoàn thành" : "Chưa hoàn thành")}</li>
+                        <li> <RiCalendarCheckFill className='inline'/> Lượt thích: {(comic.isCompleted ? "Hoàn thành" : "Chưa hoàn thành")}</li>
+                        <li> <RiCalendarCheckFill className='inline'/> Lượt theo dõi: {(comic.isCompleted ? "Hoàn thành" : "Chưa hoàn thành")}</li>
+                        <li> <RiCalendarCheckFill className='inline'/> Lượt xem: {(comic.isCompleted ? "Hoàn thành" : "Chưa hoàn thành")}</li>                        
                     </ul>
+                    <div className='flex gap-5 mt-6'>
+                        <Link href={"/comic/" + comic.id + "/" +comic.comicChapters[0].chapterNumber}><Button color='warning'>Đọc từ đầu</Button> </Link>
+                        <ComicPageButton />
+                    </div>
+
                 </div>
             </div>
             <div className='flex gap-3 items-center text-lg '>
