@@ -3,41 +3,46 @@ import prisma from '@/lib/db'
 import { Prisma } from '@prisma/client';
 export async function GET(req: NextRequest) {
     
-        
-    try{
-        // console.log(req.nextUrl.searchParams)
-        const pageNumber = Number(req.nextUrl.searchParams.get('page'))
-        const offset = Number(req.nextUrl.searchParams.get('offset'))
-        const categoryID = req.nextUrl.searchParams.get('categoryIds') ?? undefined
-        const query: Prisma.ComicsFindManyArgs  = {
-            select:{
-                id: true,
-                comicName: true,
-                updatedAt: true,
-                comicImageLink: true,
-                
-            },
-            where:{
-                comicTypes: {
-                    some: {
-                        id: {
-                          in: !!categoryID ? (<string>categoryID).split(",") : undefined
-                        }
-                    },
-                },
-            },
-            
-            skip: (pageNumber - 1) * offset,
-            take: offset,
+    try {
+        const pageNumber = Number(req.nextUrl.searchParams.get('page'));
+        const offset = Number(req.nextUrl.searchParams.get('offset'));
+        const categoryID = req.nextUrl.searchParams.get('categoryIds') ?? undefined;
+      
+        const whereClause = {
+          comicTypesIDs: {
+            hasEvery: !!categoryID ? categoryID.split(",") : [],
+          }
         };
-        const allComics = await prisma.$transaction([
-            prisma.comics.count({where: query.where}),
-            prisma.comics.findMany(query)
-        ])
-        return NextResponse.json(allComics,{status: 200})
-    }
-    catch(error)
-    {
-        return NextResponse.json({ message: `Something is error:${error}`},{status: 500})
-    }
+      
+        const countQuery = prisma.comics.count({ where: whereClause });
+        const comicsQuery = prisma.comics.findMany({
+          where:whereClause,
+          skip: (pageNumber - 1) * offset,
+          take: offset,
+          select: {
+            id: true,
+            comicName: true,
+            updatedAt: true,
+            comicImageLink: true,
+            comicTypesIDs: true
+          },
+        });
+      
+        const [totalComicsCount, comics] = await prisma.$transaction([
+          countQuery,
+          comicsQuery,
+        ]);
+      
+        const response = {
+          totalComicsCount,
+          comics,
+        };
+      
+        return NextResponse.json(response, { status: 200 });
+      } catch (error) {
+        return NextResponse.json(
+          { message: `Something went wrong: ${error}` },
+          { status: 500 }
+        );
+      }
 }

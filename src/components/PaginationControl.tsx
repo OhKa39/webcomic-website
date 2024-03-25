@@ -15,6 +15,7 @@ const PaginationControls: FC<PaginationControlsProps> = ({
 }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const query = new URLSearchParams(searchParams);
   //console.log(count)
 
   let Page = searchParams.get("page") ?? "1";
@@ -45,7 +46,7 @@ const PaginationControls: FC<PaginationControlsProps> = ({
               "bg-amber-400 shadow-lg from-default-500 to-default-800 text-white font-bold",
           }}
           onChange={(page: Number) =>
-            router.push(`http://localhost:3000${pathName}?page=${Number(page)}`)
+            router.push(`http://localhost:3000${pathName}?${query}`)
           }
           page={page}
         />
