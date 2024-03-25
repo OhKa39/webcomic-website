@@ -16,7 +16,7 @@ const getData = async (page, offset, ctid) => {
   Object.entries(query).forEach(([key, value], index) => {
     if (value !== undefined) url += key + "=" + value + "&";
   });
-  const data = await fetch(url);
+  const data = await fetch(url, { cache: "no-cache" });
   return data.json();
 };
 
@@ -29,12 +29,12 @@ export default async function SearchType({
   const categoryIDs = searchParams["categoryIds"];
   let page = Number(Page);
   if (page <= 0 || isNaN(page)) notFound();
-  const [count, data] = await getData(page, 40, categoryIDs);
+  const { totalComicsCount, comics } = await getData(page, 40, categoryIDs);
   return (
     <div className="container mx-auto">
       <ComicCategory />
-      <Container data={data} />
-      <PaginationControl count={count} perPage={40} />
+      <Container data={comics} />
+      <PaginationControl count={totalComicsCount} perPage={40} />
     </div>
   );
 }

@@ -7,7 +7,8 @@ const getData = async (page, offset) => {
   const data = await fetch(
     `http://localhost:3000/api/comic?page=${page}&offset=${offset}`
   );
-  return data.json();
+  const dataJson = await data.json();
+  return dataJson;
 };
 
 export default async function page({
@@ -18,11 +19,11 @@ export default async function page({
   const Page = searchParams["page"] ?? "1";
   let page = Number(Page);
   if (page <= 0 || isNaN(page)) notFound();
-  const [count, data] = await getData(page, 40);
+  const { totalComicsCount, comics } = await getData(page, 40);
   return (
     <div className="container mx-auto text-center">
-      <Container data={data} />
-      <PaginationControls count={count} perPage={40} />
+      <Container data={comics} />
+      <PaginationControls count={totalComicsCount} perPage={40} />
     </div>
   );
 }
