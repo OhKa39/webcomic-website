@@ -20,7 +20,7 @@ export default async function page({
   if (page <= 0 || isNaN(page)) notFound();
   const [count, data] = await getData(page, 40);
   return (
-    <div className="container p-3 pt-4 text-center">
+    <div className="container p-auto pt-4 text-center m-auto ">
       <Suspense fallback={<p>Loading feed...</p>}>
         <Container data={data} />
       </Suspense>
