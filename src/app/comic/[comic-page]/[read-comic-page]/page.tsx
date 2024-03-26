@@ -47,12 +47,12 @@ export default async function ReadComicPage({params}) {
   const comicId = params['comic-page']
   const comicChapter = params['read-comic-page']
 
-  const [count, pages] = await getPages(comicId, comicChapter);
-  const [count2, data] = await getData(comicId)  
-  Promise.all([getPages, getData])
+  const pagesData = getPages(comicId, comicChapter);
+  const ListData = getData(comicId)  
+  const [[count1, pages], [count2, data]] = await Promise.all([pagesData, ListData])
   const ListChapter = data.comicChapters
 
-  console.log(ListChapter)
+  console.log(data)
   const nOfChapter = data.comicChapters.length
   const [hasNext, hasPrev] = checkButton(nOfChapter, comicChapter)
   

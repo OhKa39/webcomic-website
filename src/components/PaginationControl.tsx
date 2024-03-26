@@ -15,9 +15,10 @@ const PaginationControls: FC<PaginationControlsProps> = ({
 }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  //console.log(count)
 
   let Page = searchParams.get("page") ?? "1";
+  let CatergoryIds = searchParams.get("categoryIds") ?? "";
+
   let page = Number(Page);
 
   if (isNaN(page) || page < 1) {
@@ -28,7 +29,6 @@ const PaginationControls: FC<PaginationControlsProps> = ({
     return;
   }
   const pathName = usePathname();
-  console.log(pathName);
   return (
     <div className="flex gap-5 justify-center ">
       <div>
@@ -45,7 +45,7 @@ const PaginationControls: FC<PaginationControlsProps> = ({
               "bg-amber-400 shadow-lg from-default-500 to-default-800 text-white font-bold",
           }}
           onChange={(page: Number) =>
-            router.push(`http://localhost:3000${pathName}?page=${Number(page)}`)
+            router.push(`http://localhost:3000${pathName}?page=${Number(page)}&categoryIds=${CatergoryIds}`)
           }
           page={page}
         />

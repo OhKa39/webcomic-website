@@ -66,7 +66,7 @@ export default async function comicPage({params})  {
                 <p className='font-bold'>Danh sách chương</p>
             </div>
             <div className='overflow-auto h-44'>
-                <ComicMenu data={comic.comicChapters} path={path}/>
+                <ComicMenu data={comic.comicChapters.reverse()} path={path}/>
             </div>
             <div className='flex gap-3 items-center text-lg'>
                 <FaRegCommentDots/>

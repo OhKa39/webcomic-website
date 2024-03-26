@@ -6,7 +6,7 @@ import PaginationControls from "@/components/PaginationControl";
 const getData = async (page, offset) => {
   const data = await fetch(
     `http://localhost:3000/api/comic?page=${page}&offset=${offset}`
-  );
+  , { cache: 'no-store' });
   return data.json();
 };
 
@@ -17,16 +17,15 @@ export default async function page({
 }) {
   const Page = searchParams["page"] ?? "1";
   let page = Number(Page);
-  let perPage = 40
   if (page <= 0 || isNaN(page)) notFound();
-  const [count, data] = await getData(page, perPage);
+  const { totalComicsCount, comics } = await getData(page, 40);
   return (
     <div className="container p-auto pt-4 text-center m-auto ">
       <Suspense fallback={<p>Loading feed...</p>}>
-        <Container data={data} />
+        <Container data={comics} />
       </Suspense>
 
-      <PaginationControls count={count} perPage={perPage} />
+      <PaginationControls count={totalComicsCount} perPage={40} />
     </div>
   );
 }
