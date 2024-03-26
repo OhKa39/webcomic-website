@@ -2,24 +2,23 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from '@/lib/db'
 
 
-export async function GET(req: NextRequest) {
+export async function GET() {
     try {
-        const pageNumbers = req.nextUrl.searchParams.get('page')
         const allComics = await prisma.comicTypes.findMany({
             select: {
                 id: true, comicTypeName: true
             }
         })
-        const typeComics = await prisma.comics.findMany(
-            {
-                select:{
-                    id:true,
-                    comicName: true,
-                    comicTypesIDs:true,
-                    comicTypes:{select:{id:true}}
-                }
-            }
-        )
+        // const typeComics = await prisma.comics.findMany(
+        //     {
+        //         select:{
+        //             id:true,
+        //             comicName: true,
+        //             comicTypesIDs:true,
+        //             comicTypes:{select:{id:true}}
+        //         }
+        //     }
+        // )
         return NextResponse.json(allComics, { status: 200 })
     }
     catch (error) {
