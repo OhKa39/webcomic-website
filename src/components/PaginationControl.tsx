@@ -19,6 +19,8 @@ const PaginationControls: FC<PaginationControlsProps> = ({
   //console.log(count)
 
   let Page = searchParams.get("page") ?? "1";
+  let CatergoryIds = searchParams.get("categoryIds") ?? "";
+
   let page = Number(Page);
 
   if (isNaN(page) || page < 1) {
@@ -29,7 +31,6 @@ const PaginationControls: FC<PaginationControlsProps> = ({
     return;
   }
   const pathName = usePathname();
-  console.log(pathName);
   return (
     <div className="flex gap-5 justify-center ">
       <div>

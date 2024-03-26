@@ -6,17 +6,18 @@ import Link from "next/link";
 const getData = async (page: number, offset: number) => {
   const data = await fetch(
     `http://localhost:3000/api/comic?page=${page}&offset=${offset}`
-  );
+  ,{cache: "no-cache"});
   return data.json();
 };
 
 export default async function Home({}) {
-  const [count, data] = await getData(1, 20);
+  const {totalComicsCount, comics} = await getData(1, 40);
+  
   return (
     <div className="p-3 pt-4 text-center">
       <PiBookOpenFill className="inline" />
       <h1 className="uppercase font-bold">New Comics</h1>
-      <Container data={data} />
+      <Container data={comics} />
       <Link href={`/new-comic?page=1`}>
         <Button
           color="warning"
