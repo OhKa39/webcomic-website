@@ -1,30 +1,19 @@
-"use client"
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import React from "react";
+import Link from "next/link";
 
-const ComicTag: React.FC<{ data: any[] }> = ({ data }) => {
-  const [selectedId, setSelectedId] = useState<string[]>([]);
-  const router = useRouter();
+interface ComicTagProps {
+  data: { id: string; comicTypeName: string }[];
+}
 
-  function handleTypeClick(id: string) {
-    setSelectedId([]);
-    const params = new URLSearchParams({
-      page: "1",
-      categoryIds: id,
-    });
-    router.push(`/tags?${params}`);
-  }
-
+const ComicTag: React.FC<ComicTagProps> = ({ data }) => {
   return (
-    <div className="bg-amber-400 fixed container mx-auto my-auto ">
-      <ul className="">
-        {data.map((type: any) => (
-          <li
-            key={type.id}
-            className="text-gray-500 cursor-pointer  hover:text-black"
-            onClick={() => handleTypeClick(type.id)}
-          >
-            {type.comicTypeName}
+    <div className="bg-amber-400 fixed container mx-auto my-auto">
+      <ul className="grid grid-cols-8 gap-2 overflow-y-auto relative">
+        {data.map(({ id, comicTypeName }) => (
+          <li key={id} className="text-black cursor-pointer">
+            <Link href={`/tags/${id}`}>
+              {comicTypeName}
+            </Link>
           </li>
         ))}
       </ul>
