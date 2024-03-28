@@ -17,11 +17,11 @@ const ComicTag: React.FC<{ data: any[] }> = ({ data }) => {
 
   return (
     <div className="bg-amber-400 fixed container mx-auto my-auto ">
-      <ul className="grid grid-cols-8 gap-2 overflow-y-auto relative">
+      <ul className="">
         {data.map((type: any) => (
           <li
             key={type.id}
-            className="text-black cursor-pointer"
+            className="text-gray-500 cursor-pointer  hover:text-black"
             onClick={() => handleTypeClick(type.id)}
           >
             {type.comicTypeName}
