@@ -28,17 +28,3 @@
     text-wrap: balance;
   }
 }
-
-/* 
-.comic-types-form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  background-color: white;
-  color: #000;
-}
-
-.comic-type-item {
-  flex: 0 0 calc(33.33% - 10px);
-  max-width: calc(33.33% - 10px);
-} */
