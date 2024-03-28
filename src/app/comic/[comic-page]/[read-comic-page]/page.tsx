@@ -1,10 +1,14 @@
 'use client'
 import React from 'react'
-
 import ComicPage from '@/components/ComicPage'
+
+import { Suspense } from 'react'
+import {Select, SelectItem} from "@nextui-org/react";
 import { useRouter } from 'next/navigation'
 import { TbPlayerTrackNextFilled } from "react-icons/tb";
 import { TbPlayerTrackPrevFilled } from "react-icons/tb";
+import { useState } from 'react';
+
 
 const getPages = async (comicID : any, comicChapter: any) => {
   const data = await fetch(
@@ -43,22 +47,39 @@ function checkButton(ListChapter: Number, comicChapter: Number)  {
 
 export default async function ReadComicPage({params}) {
   const router = useRouter()
-  const comicId = params['comic-page']
-  const comicChapter = params['read-comic-page']
+  const comicChapter = params['read-comic-page'] // chapter cua thg comic do
+  const comicId = params['comic-page'] // id cua thg comic
 
-  const [count, pages] = await getPages(comicId, comicChapter);
-  const [count2, data] = await getData(comicId)  
- 
-  const nOfChapter = data.comicChapters.length
-  const [hasNext, hasPrev] = checkButton(nOfChapter, comicChapter)
+  const pagesData = getPages(comicId, comicChapter); // lay trang trong chapter do
+  const ListData = getData(comicId)  
+  const [[count1, pages], [count2, data]] = await Promise.all([pagesData, ListData])
+  const ListChapter = data.comicChapters // lay mang gom cac chapter
 
+  const nOfChapter = data.comicChapters.length // lay so phan tu cua mang tren
+  const [hasNext, hasPrev] = checkButton(nOfChapter, comicChapter) // check button next, prev
+
+
+  const handleSelectionChange = (e : any) => {
+    const selectedChapter =  e.target.value
+    if (selectedChapter == "") return
+    router.push(`/comic/${comicId}/${selectedChapter}`)
+  }
+
+  // console.log(ListChapter)
   return (
-    <div className='p-8 w-auto'>
-      <div className='flex gap-5 justify-center pb-5 '>
-        <button onClick={()=>router.push(`/comic/${comicId}/${Number(comicChapter) - 1}`)} disabled={!hasPrev} className='disabled:hidden p-3 bg-amber-400 flex gap-2 items-center hover:underline hover:underline-offset-8'><TbPlayerTrackPrevFilled className="inline" />Tập trước </button>
-        <button onClick={()=>router.push(`/comic/${comicId}/${Number(comicChapter) + 1}`)} disabled={!hasNext} className='disabled:hidden p-3 bg-amber-400 flex gap-2 items-center hover:underline hover:underline-offset-8'>Tập tiếp theo<TbPlayerTrackNextFilled className="inline" /></button>
+    <div className='p-8 w-full bg-gray-400 relative justify-center'>   
+      <Suspense fallback={"chờ xíu"}>
+        <ComicPage data={pages['chapterImages']}/>
+      </Suspense>
+      
+      <div className='p-1 flex w-full mx-auto gap-5 fixed bottom-0 bg-slate-200 dark:bg-gray-700 h-15 -ml-8 justify-center'>   
+        <button onClick={()=>router.push(`/comic/${comicId}/${Number(comicChapter) - 1}`)} disabled={!hasPrev} className='p-3 rounded-full disabled:hidden bg-amber-400 flex gap-2 items-center hover:opacity-80 transition-opacity duration-300'><TbPlayerTrackPrevFilled className="inline" /></button>
+        <Select className='w-1/2'  label="Chapter" items={ListChapter} defaultSelectedKeys={[comicChapter]} onChange={handleSelectionChange}>
+            {ListChapter.map((chap : any) => <SelectItem key={chap.chapterNumber} textValue={chap.chapterNumber}>Chương {chap.chapterNumber}</SelectItem>)}
+        </Select>  
+        <button onClick={()=>router.push(`/comic/${comicId}/${Number(comicChapter) + 1}`)} disabled={!hasNext} className='p-3 rounded-full disabled:hidden bg-amber-400 flex gap-2 items-center hover:opacity-80 transition-opacity duration-300'><TbPlayerTrackNextFilled className="inline" /></button>
       </div>
-      <ComicPage data={pages['chapterImages']}/>
+      
     </div>
   )
 }
