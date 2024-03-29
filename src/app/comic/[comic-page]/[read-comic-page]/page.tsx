@@ -40,7 +40,7 @@ function checkButton(ListChapter: Number, comicChapter: Number) {
   return [checkNext, checkPrev];
 }
 
-export default async function ReadComicPage({ params }) {
+export default async function ReadComicPage({ params }: { params: any }) {
   const router = useRouter();
   const comicChapter = params["read-comic-page"]; // chapter cua thg comic do
   const comicId = params["comic-page"]; // id cua thg comic

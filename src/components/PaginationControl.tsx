@@ -15,6 +15,7 @@ const PaginationControls: FC<PaginationControlsProps> = ({
 }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathName = usePathname();
 
   let Page = searchParams.get("page") ?? "1";
   let CatergoryIds = searchParams.get("categoryIds") ?? "";
@@ -28,7 +29,6 @@ const PaginationControls: FC<PaginationControlsProps> = ({
     page = 2;
     return;
   }
-  const pathName = usePathname();
   return (
     <div className="flex gap-5 justify-center ">
       <div>

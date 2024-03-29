@@ -2,7 +2,11 @@
 import React, { useState, useEffect } from "react";
 import DropDownItems from "@/components/DropdownItems";
 
-export default function DropDownContainer({ onMouseLeave }) {
+export default function DropDownContainer({
+  onMouseLeave,
+}: {
+  onMouseLeave: any;
+}) {
   // const datafetch = await fetch("http://localhost:3000/api/comicTypes", {cache: "no-cache"})
   // const data = await datafetch.json()
   const [data, setData] = useState([]);
