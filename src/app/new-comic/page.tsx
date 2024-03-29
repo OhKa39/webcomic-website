@@ -4,11 +4,12 @@ import { notFound, useSearchParams } from "next/navigation";
 import Container from "@/components/Container";
 import PaginationControls from "@/components/PaginationControl";
 const getData = async (page, offset) => {
+  const urlPage = process.env.NEXT_URL;
   const data = await fetch(
-    `http://localhost:3000/api/comic?page=${page}&offset=${offset}`
+    `${urlPage}/api/comic?page=${page}&offset=${offset}`,
+    { cache: "no-store" }
   );
-  const dataJson = await data.json();
-  return dataJson;
+  return data.json();
 };
 
 export default async function page({

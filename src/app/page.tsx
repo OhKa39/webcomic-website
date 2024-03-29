@@ -4,8 +4,10 @@ import { Button } from "@nextui-org/react";
 import Link from "next/link";
 
 const getData = async (page: number, offset: number) => {
+  const urlPage = process.env.NEXT_URL;
   const data = await fetch(
-    `http://localhost:3000/api/comic?page=${page}&offset=${offset}`
+    `${urlPage}/api/comic?page=${page}&offset=${offset}`,
+    { cache: "no-cache" }
   );
   return data.json();
 };

@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
-//import axios from "axios";
 import { useRouter } from "next/navigation";
 
 export default function ComicCategory({ data }) {
