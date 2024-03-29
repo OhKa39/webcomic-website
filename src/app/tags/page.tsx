@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import Container from "@/components/Container";
 import PaginationControl from "@/components/PaginationControl";
-import ComicTag from "@/components/ComicTag";
 
 const getData = async (page: any, offset: any, ctid: any) => {
   const query = {

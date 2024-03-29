@@ -2,8 +2,8 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Containeritems({ data }) {
-  return data.map((result) => (
+export default function Containeritems({ data }: { data: any }) {
+  return data.map((result: any) => (
     <Link
       href={`/comic/${result.id}`}
       className="rounded border-amber-400 bg-slate-200 dark:bg-amber-400 border-4 my-3"
