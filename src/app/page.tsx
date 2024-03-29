@@ -11,7 +11,9 @@ const getData = async (page: number, offset: number) => {
 };
 
 export default async function Home({}) {
-  const { totalComicsCount, comics } = await getData(1, 20);
+  const perPage = 20;
+
+  const { totalComicsCount, comics } = await getData(1, perPage);
   return (
     <div className="p-3 pt-4 text-center">
       <PiBookOpenFill className="inline" />

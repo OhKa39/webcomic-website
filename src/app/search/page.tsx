@@ -6,7 +6,7 @@ import Container from "@/components/Container";
 import PaginationControl from "@/components/PaginationControl";
 import ComicCategory from "@/components/ComicCategory";
 
-const getData = async (page, offset, ctid) => {
+const getComicData = async (page: any, offset: any, ctid: any) => {
   const query = {
     page: page,
     offset: offset,
@@ -16,8 +16,14 @@ const getData = async (page, offset, ctid) => {
   Object.entries(query).forEach(([key, value], index) => {
     if (value !== undefined) url += key + "=" + value + "&";
   });
-  const data = await fetch(url, { cache: "no-cache" });
+  const data = await fetch(url, { cache: "no-store" });
   return data.json();
+};
+const getCategoryData = async () => {
+  const responseComicTypes = await fetch(
+    "http://localhost:3000/api/comicTypes"
+  );
+  return responseComicTypes.json();
 };
 
 export default async function SearchType({
@@ -29,12 +35,19 @@ export default async function SearchType({
   const categoryIDs = searchParams["categoryIds"];
   let page = Number(Page);
   if (page <= 0 || isNaN(page)) notFound();
-  const { totalComicsCount, comics } = await getData(page, 40, categoryIDs);
+  const perPage = 40;
+  const comicFetch = getComicData(page, perPage, categoryIDs);
+  const categoryFetch = getCategoryData();
+  const [comicsData, categoriesData] = await Promise.all([
+    comicFetch,
+    categoryFetch,
+  ]);
+  const { totalComicsCount, comics } = comicsData;
   return (
     <div className="container mx-auto">
-      <ComicCategory />
+      <ComicCategory data={categoriesData} />
       <Container data={comics} />
-      <PaginationControl count={totalComicsCount} perPage={40} />
+      <PaginationControl count={totalComicsCount} perPage={perPage} />
     </div>
   );
 }

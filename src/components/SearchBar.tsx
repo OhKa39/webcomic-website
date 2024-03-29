@@ -20,7 +20,7 @@ export default function SearchBar() {
                 type="text"
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
-                placeholder="Search here.."
+                placeholder="Bạn muốn mua Tivi?"
             />
             <button
                 className="hover:bg-orange-300 py-3 px-4 rounded hover:text-black focus:outline-none"

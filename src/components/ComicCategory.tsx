@@ -1,27 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
-import axios from "axios";
+//import axios from "axios";
 import { useRouter } from "next/navigation";
 
-export default function ComicCategory({}) {
-  const [data, setData] = useState([]);
+export default function ComicCategory({ data }) {
   const [selectedId, setSelectedId] = useState<string[]>([]);
   const router = useRouter();
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const responseComicTypes = await axios.get(
-          "http://localhost:3000/api/comicTypes"
-        );
-        setData(responseComicTypes.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    }
-    fetchData();
-  }, []);
 
   function UpdateID(id: string) {
     if (!selectedId.includes(id)) {
@@ -50,25 +35,6 @@ export default function ComicCategory({}) {
       categoryIds: selectedId.join(","),
     });
     router.push(`/search?${params}`);
-
-    // const queryString = selectedId.join("&");
-    // const apiUrl = `http://localhost:3000/api/comic
-    //   queryString
-    // )}`;
-
-    // fetch(apiUrl)
-    //   .then((response) => {
-    //     if (!response.ok) {
-    //       throw new Error("Network response was not ok");
-    //     }
-    //     return response.json();
-    //   })
-    //   .then((data) => {
-    //     console.log("Data from API:", selectedId);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching data:", error);
-    //   });
   }
 
   return (
@@ -86,7 +52,7 @@ export default function ComicCategory({}) {
               onChange={handleCheckboxChange}
               className="form-checkbox h-4 w-4 text-blue-500"
             />
-            <label htmlFor={type.id} className="text-gray-700 text-sm">
+            <label htmlFor={type.id} className="text-black text-sm">
               {type.comicTypeName}
             </label>
           </div>
