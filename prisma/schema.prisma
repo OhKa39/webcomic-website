@@ -1,0 +1,142 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Comics {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  comicName        String   @unique
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @default(now())
+  comicImageLink   String
+  isCompleted      Boolean  @default(false)
+  authorName       String
+  userID           String
+  comicDescription String
+
+  comicChapters   ComicChapters[]
+  events          Events[]
+  comicViewCounts ComicViewCounts[]
+  commentsComic   CommentComics[]
+
+  comicTypesIDs String[]     @db.ObjectId
+  comicTypes    ComicTypes[] @relation(fields: [comicTypesIDs], references: [id])
+}
+
+model ComicChapters {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  chapterNumber Int
+  createAt      DateTime @default(now())
+  updatedAt     DateTime @default(now())
+
+  chapterImages ChapterImages[]
+  Comics        Comics          @relation(fields: [comicsId], references: [id], onDelete: Cascade)
+  comicsId      String          @db.ObjectId
+
+  commentsChapter CommentsChapter[]
+}
+
+model ChapterImages {
+  comicChapterID String        @db.ObjectId
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
+  imageLink      String
+  imageNumber    Int
+  comicChapter   ComicChapters @relation(fields: [comicChapterID], references: [id], onDelete: Cascade)
+}
+
+model ComicTypes {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  comicTypeName String
+  comicsIDs     String[] @db.ObjectId
+  comics        Comics[] @relation(fields: [comicsIDs], references: [id])
+}
+
+model Events {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  eventType EventType
+  createdAt DateTime  @default(now())
+  updateAt  DateTime  @default(now())
+  isTurnOn  Boolean   @default(true)
+  userID    String
+  Comics    Comics    @relation(fields: [comicsId], references: [id], onDelete: Cascade)
+  comicsId  String    @db.ObjectId
+}
+
+enum EventType {
+  FOLLOW
+  LIKE
+}
+
+model ComicViewCounts {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  Comics    Comics   @relation(fields: [comicsId], references: [id], onDelete: Cascade)
+  comicsId  String   @db.ObjectId
+  userID    String
+}
+
+model Comments {
+  id              String           @id @default(auto()) @map("_id") @db.ObjectId
+  commentDetail   String
+  commentReplyID  String?
+  userID          String
+  createdAt       DateTime         @default(now())
+  updateAt        DateTime         @default(now())
+  CommentComics   CommentComics?
+  CommentsChapter CommentsChapter?
+}
+
+model CommentComics {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  comment   Comments @relation(fields: [commentID], references: [id])
+  commentID String   @unique @db.ObjectId
+  Comics    Comics   @relation(fields: [comicsId], references: [id])
+  comicsId  String   @db.ObjectId
+}
+
+model CommentsChapter {
+  id              String        @id @default(auto()) @map("_id") @db.ObjectId
+  comment         Comments      @relation(fields: [commentID], references: [id])
+  commentID       String        @unique @db.ObjectId
+  ComicChapters   ComicChapters @relation(fields: [comicChaptersId], references: [id])
+  comicChaptersId String        @db.ObjectId
+}
+
+model NotificationChanges {
+  id                    String              @id @default(auto()) @map("_id") @db.ObjectId
+  NotificationObjects   NotificationObjects @relation(fields: [notificationObjectsId], references: [id])
+  notificationObjectsId String              @db.ObjectId
+  receiverID            String
+  isRead                Boolean             @default(false)
+}
+
+enum EntityTypes {
+  COMMENT
+  COMIC
+}
+
+model NotificationObjects {
+  id                  String                @id @default(auto()) @map("_id") @db.ObjectId
+  entityTypes         EntityTypes
+  entityID            String
+  createAt            DateTime              @default(now())
+  notifications       Notifications[]
+  notificationChanges NotificationChanges[]
+}
+
+model Notifications {
+  id                    String              @id @default(auto()) @map("_id") @db.ObjectId
+  NotificationObjects   NotificationObjects @relation(fields: [notificationObjectsId], references: [id])
+  notificationObjectsId String              @db.ObjectId
+  actorID               String
+  notificationMessage   String
+}
