@@ -1,7 +1,7 @@
 import React from "react";
 import ContainerItems from "./Container-items";
 export default function Container({ data }) {
-  //   console.log(data);
+  // console.log(data);
 
   return (
     <div>

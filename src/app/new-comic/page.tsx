@@ -4,9 +4,11 @@ import { notFound, useSearchParams } from "next/navigation";
 import Container from "@/components/Container";
 import PaginationControls from "@/components/PaginationControl";
 const getData = async (page, offset) => {
+  const urlPage = process.env.NEXT_URL;
   const data = await fetch(
-    `http://localhost:3000/api/comic?page=${page}&offset=${offset}`
-  , { cache: 'no-store' });
+    `${urlPage}/api/comic?page=${page}&offset=${offset}`,
+    { cache: "no-store" }
+  );
   return data.json();
 };
 
@@ -18,14 +20,15 @@ export default async function page({
   const Page = searchParams["page"] ?? "1";
   let page = Number(Page);
   if (page <= 0 || isNaN(page)) notFound();
-  const { totalComicsCount, comics } = await getData(page, 40);
+  const perPage = 40;
+  const { totalComicsCount, comics } = await getData(page, perPage);
   return (
     <div className="container p-auto pt-4 text-center m-auto ">
       <Suspense fallback={<p>Loading feed...</p>}>
         <Container data={comics} />
       </Suspense>
 
-      <PaginationControls count={totalComicsCount} perPage={40} />
+      <PaginationControls count={totalComicsCount} perPage={perPage} />
     </div>
   );
 }

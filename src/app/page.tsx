@@ -4,15 +4,18 @@ import { Button } from "@nextui-org/react";
 import Link from "next/link";
 
 const getData = async (page: number, offset: number) => {
+  const urlPage = process.env.NEXT_URL;
   const data = await fetch(
-    `http://localhost:3000/api/comic?page=${page}&offset=${offset}`
-  ,{cache: "no-cache"});
+    `${urlPage}/api/comic?page=${page}&offset=${offset}`,
+    { cache: "no-cache" }
+  );
   return data.json();
 };
 
 export default async function Home({}) {
-  const {totalComicsCount, comics} = await getData(1, 40);
-  
+  const perPage = 20;
+
+  const { totalComicsCount, comics } = await getData(1, perPage);
   return (
     <div className="p-3 pt-4 text-center">
       <PiBookOpenFill className="inline" />

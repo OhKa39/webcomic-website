@@ -6,7 +6,7 @@ export async function GET(req: NextRequest) {
     try {
         const pageNumber = Number(req.nextUrl.searchParams.get('page'));
         const offset = Number(req.nextUrl.searchParams.get('offset'));
-        const categoryID = req.nextUrl.searchParams.get('categoryIds') ?? undefined;
+        const categoryID = req.nextUrl.searchParams.get('categoryIds');
       
         const whereClause = {
           comicTypesIDs: {
@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
             comicName: true,
             updatedAt: true,
             comicImageLink: true,
-            comicTypesIDs: true
+            // comicTypesIDs: true
           },
         });
       
