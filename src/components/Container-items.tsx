@@ -7,6 +7,7 @@ export default function Containeritems({ data }) {
     <Link
       href={`/comic/${result.id}`}
       className="rounded border-amber-400 bg-slate-200 dark:bg-amber-400 border-4 my-3"
+      key={result.id}
     >
       <Image
         src={result.comicImageLink}
@@ -18,7 +19,6 @@ export default function Containeritems({ data }) {
         }}
         alt="Picture of comic"
         className="hover:opacity-80 transition-opacity duration-300"
-        key={result.id}
       />
       <p className="font-bold truncate">{result.comicName}</p>
     </Link>
