@@ -18,6 +18,7 @@ export default function Containeritems({ data }) {
         }}
         alt="Picture of comic"
         className="hover:opacity-80 transition-opacity duration-300"
+        key={result.id}
       />
       <p className="font-bold truncate">{result.comicName}</p>
     </Link>
