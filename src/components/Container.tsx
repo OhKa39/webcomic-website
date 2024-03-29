@@ -1,6 +1,6 @@
 import React from "react";
 import ContainerItems from "./Container-items";
-export default function Container({ data }) {
+export default function Container({ data }: { data: any }) {
   // console.log(data);
 
   return (
