@@ -1,13 +1,11 @@
 "use client";
 import React from "react";
 import ComicPage from "@/components/ComicPage";
-
 import { Suspense } from "react";
 import { Select, SelectItem } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { TbPlayerTrackNextFilled } from "react-icons/tb";
 import { TbPlayerTrackPrevFilled } from "react-icons/tb";
-import { useState } from "react";
 
 const getPages = async (comicID: any, comicChapter: any) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
