@@ -16,7 +16,7 @@ import ComicMenu from "@/components/ComicMenu";
 import ComicPageButton from "@/components/ComicPageButtons";
 
 const getComic = async (comicID: any) => {
-  const urlPage = process.env.NEXT_URL;
+  const urlPage = process.env.NEXT_PUBLIC_URL;
   const data = await fetch(`${urlPage}/api/comic/${comicID}`);
   return data.json();
 };

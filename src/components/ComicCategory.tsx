@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 
-export default function ComicCategory({ data }) {
+export default function ComicCategory({ data }: { data: any }) {
   const [selectedId, setSelectedId] = useState<string[]>([]);
   const router = useRouter();
 

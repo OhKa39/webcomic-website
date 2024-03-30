@@ -2,12 +2,16 @@
 import React, { useState, useEffect } from "react";
 import DropDownItems from "@/components/DropdownItems";
 
-export default function DropDownContainer({ onMouseLeave }) {
+export default function DropDownContainer({
+  onMouseLeave,
+}: {
+  onMouseLeave: any;
+}) {
   // const datafetch = await fetch("http://localhost:3000/api/comicTypes", {cache: "no-cache"})
   // const data = await datafetch.json()
   const [data, setData] = useState([]);
   console.log("data");
-  const urlPage = process.env.NEXT_URL;
+  const urlPage = process.env.NEXT_PUBLIC_URL;
   useEffect(() => {
     const fetchData = async () => {
       try {
