@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { FaSearch } from "react-icons/fa";
-import axios from "axios";
 import { useSearchParams, notFound } from "next/navigation";
 import Container from "@/components/Container";
 import PaginationControl from "@/components/PaginationControl";
-import ComicCategory from "@/components/ComicCategory";
+import ComicCategory from "@/app/search/_components/ComicCategory";
 
 const getComicData = async (page: any, offset: any, ctid: any) => {
   const query = {
