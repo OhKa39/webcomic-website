@@ -10,14 +10,14 @@ import { TbPlayerTrackPrevFilled } from "react-icons/tb";
 import { useState } from "react";
 
 const getPages = async (comicID: any, comicChapter: any) => {
-  const urlPage = process.env.NEXT_URL;
+  const urlPage = process.env.NEXT_PUBLIC_URL;
 
   const data = await fetch(`${urlPage}/api/comic/${comicID}/${comicChapter}`);
   return data.json();
 };
 
 const getData = async (comicID: any) => {
-  const urlPage = process.env.NEXT_URL;
+  const urlPage = process.env.NEXT_PUBLIC_URL;
   const data = await fetch(`${urlPage}/api/comic/${comicID}`);
   return data.json();
 };

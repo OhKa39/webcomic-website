@@ -3,8 +3,8 @@ import React, { Suspense } from "react";
 import { notFound, useSearchParams } from "next/navigation";
 import Container from "@/components/Container";
 import PaginationControls from "@/components/PaginationControl";
-const getData = async (page:any, offset:any) => {
-  const urlPage = process.env.NEXT_URL;
+const getData = async (page: any, offset: any) => {
+  const urlPage = process.env.NEXT_PUBLIC_URL;
   const data = await fetch(
     `${urlPage}/api/comic?page=${page}&offset=${offset}`,
     { cache: "no-store" }

@@ -15,11 +15,12 @@ const PaginationControls: FC<PaginationControlsProps> = ({
 }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const pathName = usePathname();
+  console.log(searchParams);
+  const categoryIds = searchParams.get("categoryIds");
+  // const params = new URLSearchParams(searchParams);
+  //console.log(count)
 
   let Page = searchParams.get("page") ?? "1";
-  let CatergoryIds = searchParams.get("categoryIds") ?? "";
-  const urlPage = process.env.NEXT_URL;
   let page = Number(Page);
 
   if (isNaN(page) || page < 1) {
@@ -29,6 +30,11 @@ const PaginationControls: FC<PaginationControlsProps> = ({
     page = 2;
     return;
   }
+  const urlPage = process.env.NEXT_PUBLIC_URL;
+  const pathName = usePathname();
+  console.log(pathName);
+
+  // console.log(params);
   return (
     <div className="flex gap-5 justify-center ">
       <div>
@@ -44,13 +50,17 @@ const PaginationControls: FC<PaginationControlsProps> = ({
             cursor:
               "bg-amber-400 shadow-lg from-default-500 to-default-800 text-white font-bold",
           }}
-          onChange={(page: Number) =>
+          onChange={(page: Number) => {
+            const paramObj = {
+              page: page.toString(),
+              categoryIds: categoryIds,
+            };
+            if (paramObj["categoryIds"] === null)
+              delete paramObj["categoryIds"];
             router.push(
-              `${urlPage}${pathName}?page=${Number(
-                page
-              )}&categoryIds=${CatergoryIds}`
-            )
-          }
+              `${urlPage}${pathName}?${new URLSearchParams(paramObj)}`
+            );
+          }}
           page={page}
         />
       </div>
