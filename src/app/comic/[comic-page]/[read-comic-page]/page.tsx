@@ -65,7 +65,7 @@ export default async function ReadComicPage({ params }: { params: any }) {
   // console.log(ListChapter)
   return (
     <div className="p-8 w-full bg-gray-400 relative justify-center">
-      <Suspense fallback={"chờ xíu"}>
+      <Suspense>
         <ComicPage data={pages["chapterImages"]} />
       </Suspense>
 

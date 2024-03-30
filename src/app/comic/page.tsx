@@ -1,6 +1,6 @@
+import { redirect } from 'next/navigation'  
+
 const comic: React.FC = () => {
-    return (
-        <p>re-direct to homepage</p>
-    );
+    redirect('/')
 };
 export default comic;
