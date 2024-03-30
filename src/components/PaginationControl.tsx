@@ -16,6 +16,7 @@ const PaginationControls: FC<PaginationControlsProps> = ({
   const router = useRouter();
   const searchParams = useSearchParams();
   console.log(searchParams);
+  const categoryIds = searchParams.get("categoryIds");
   // const params = new URLSearchParams(searchParams);
   //console.log(count)
 
@@ -32,7 +33,7 @@ const PaginationControls: FC<PaginationControlsProps> = ({
   const urlPage = process.env.NEXT_PUBLIC_URL;
   const pathName = usePathname();
   console.log(pathName);
-  const categoryIds = searchParams.get("categoryIds");
+
   // console.log(params);
   return (
     <div className="flex gap-5 justify-center ">
