@@ -15,6 +15,8 @@ const PaginationControls: FC<PaginationControlsProps> = ({
 }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathName = usePathname();
+
   console.log(searchParams);
   const categoryIds = searchParams.get("categoryIds");
   // const params = new URLSearchParams(searchParams);
@@ -31,7 +33,6 @@ const PaginationControls: FC<PaginationControlsProps> = ({
     return;
   }
   const urlPage = process.env.NEXT_PUBLIC_URL;
-  const pathName = usePathname();
   console.log(pathName);
 
   // console.log(params);
