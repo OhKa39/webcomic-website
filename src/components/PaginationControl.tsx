@@ -15,6 +15,8 @@ const PaginationControls: FC<PaginationControlsProps> = ({
 }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathName = usePathname();
+
   console.log(searchParams);
   const categoryIds = searchParams.get("categoryIds");
   // const params = new URLSearchParams(searchParams);
@@ -31,7 +33,6 @@ const PaginationControls: FC<PaginationControlsProps> = ({
     return;
   }
   const urlPage = process.env.NEXT_PUBLIC_URL;
-  const pathName = usePathname();
   console.log(pathName);
 
   // console.log(params);
@@ -51,12 +52,15 @@ const PaginationControls: FC<PaginationControlsProps> = ({
               "bg-amber-400 shadow-lg from-default-500 to-default-800 text-white font-bold",
           }}
           onChange={(page: Number) => {
-            const paramObj = {
-              page: page.toString(),
-              categoryIds: categoryIds,
+            type typeParam = {
+              page: string;
+              categoryIds?: string;
             };
-            if (paramObj["categoryIds"] === null)
-              delete paramObj["categoryIds"];
+            const paramObj: typeParam = {
+              page: page.toString(),
+              categoryIds: categoryIds ?? "delete",
+            };
+            if (paramObj.categoryIds === "delete") delete paramObj.categoryIds;
             router.push(
               `${urlPage}${pathName}?${new URLSearchParams(paramObj)}`
             );
