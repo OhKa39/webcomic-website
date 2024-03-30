@@ -11,7 +11,7 @@ export default function DropDownContainer({
   // const data = await datafetch.json()
   const [data, setData] = useState([]);
   console.log("data");
-  const urlPage = process.env.NEXT_URL;
+  const urlPage = process.env.NEXT_PUBLIC_URL;
   useEffect(() => {
     const fetchData = async () => {
       try {
