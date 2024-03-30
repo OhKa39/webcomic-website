@@ -12,7 +12,7 @@ const getComicData = async (page: any, offset: any, ctid: any) => {
     offset: offset,
     categoryIds: ctid,
   };
-  const urlPage = process.env.NEXT_URL;
+  const urlPage = process.env.NEXT_PUBLIC_URL;
   let url = `${urlPage}/api/comic?`;
   Object.entries(query).forEach(([key, value], index) => {
     if (value !== undefined) url += key + "=" + value + "&";
@@ -21,7 +21,7 @@ const getComicData = async (page: any, offset: any, ctid: any) => {
   return data.json();
 };
 const getCategoryData = async () => {
-  const urlPage = process.env.NEXT_URL;
+  const urlPage = process.env.NEXT_PUBLIC_URL;
   const responseComicTypes = await fetch(`${urlPage}/api/comicTypes`);
   return responseComicTypes.json();
 };
