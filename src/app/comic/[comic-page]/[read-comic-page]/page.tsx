@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import ComicPage from "@/components/ComicPage";
+import ComicPage from "@/app/comic/[comic-page]/[read-comic-page]/_components/ComicPage";
 import { Suspense } from "react";
 import { Select, SelectItem } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
@@ -73,29 +73,29 @@ export default async function ReadComicPage({ params }: { params: any }) {
             router.push(`/comic/${comicId}/${Number(comicChapter) - 1}`)
           }
           disabled={!hasPrev}
-          className="p-3 rounded-full disabled:hidden bg-amber-400 flex gap-2 items-center hover:opacity-80 transition-opacity duration-300"
+          className="p-3 rounded-full disabled:invisible  bg-amber-400 flex gap-2 items-center hover:opacity-80 transition-opacity duration-300"
         >
           <TbPlayerTrackPrevFilled className="inline" />
         </button>
-        <Select
-          className="w-1/2"
+        <Select 
+          className="w-1/2 "
+          disableAnimation={true}
           label="Chapter"
           items={ListChapter}
           defaultSelectedKeys={[comicChapter]}
-          onChange={handleSelectionChange}
-        >
-          {ListChapter.map((chap: any) => (
-            <SelectItem key={chap.chapterNumber} textValue={chap.chapterNumber}>
-              Chương {chap.chapterNumber}
-            </SelectItem>
-          ))}
+          onChange={handleSelectionChange}>
+            {ListChapter.map((chap: any) => (
+              <SelectItem className="" key={chap.chapterNumber} textValue={chap.chapterNumber}>
+                Chương {chap.chapterNumber}
+              </SelectItem>
+            ))}
         </Select>
         <button
           onClick={() =>
             router.push(`/comic/${comicId}/${Number(comicChapter) + 1}`)
           }
           disabled={!hasNext}
-          className="p-3 rounded-full disabled:hidden bg-amber-400 flex gap-2 items-center hover:opacity-80 transition-opacity duration-300"
+          className="p-3 rounded-full disabled:invisible  bg-amber-400 flex gap-2 items-center hover:opacity-80 transition-opacity duration-300"
         >
           <TbPlayerTrackNextFilled className="inline" />
         </button>

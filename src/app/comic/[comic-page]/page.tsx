@@ -13,8 +13,8 @@ import { FaRegEye } from "react-icons/fa";
 import { Button } from "@nextui-org/react";
 
 import Link from "next/link";
-import ComicMenu from "@/components/ComicMenu";
-import ComicPageButton from "@/components/ComicPageButtons";
+import ComicMenu from "@/app/comic/[comic-page]/_components/ComicMenu";
+import ComicPageButton from "@/app/comic/[comic-page]/_components/ComicPageButtons";
 
 const getComic = async (comicID: any) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
