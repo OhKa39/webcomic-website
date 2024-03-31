@@ -27,53 +27,47 @@ export default function ComicCategory({ data }: { data: any }) {
       setSelectedId(selectedId.filter((itemId) => itemId !== id));
     }
   };
-
+  const handleClear = () => {
+    setSelectedId([]);
+    router.push(`/search`);
+  };
   const handleSearch = () => {
-
-    const urlParams = new URLSearchParams(window.location.search);
-    //const categoryIds = urlParams.get("categoryIds");
-
-    //check invalid category
-    // const isValid = (categoryIds: string) => {
-    //   return categoryIds.split(",").every(id => id.length === 24);
-    // }
-    // if (!categoryIds || !isValidCategoryIds(categoryIds)) {
-    //   router.push("/no-results");
-    //   return;
-    // }
-
-    const filteredIds = selectedId.filter(id => data.some((item: ComicType) => item.id === id));
-    // if (!filteredIds || filteredIds.length === 0) {
-    //   router.push("/no-results");
-    // } else 
-    {
+    try {
+      const filteredIds = selectedId.filter(id => id.length === 24 && data.some((item: ComicType) => item.id === id));
       const params = new URLSearchParams({
         page: "1",
         categoryIds: filteredIds.join(","),
       });
       router.push(`/search?${params}`);
+    } catch (error) {
+      console.error("Error during search:", error);
+      router.push("/no-results")
     }
-  };
-
-
-
-  const isValidCategoryIds = (categoryIds: string) => {
-    //return categoryIds.split(",").every(id => id.length === 12);
-  };
-
-
-
-  const handleClear = () => {
-    setSelectedId([]);
-    router.push(`/search`);
+    setIsHidden(!isHidden);
   };
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const categoryIds = urlParams.get("categoryIds");
-    const ids = categoryIds ? categoryIds.split(",") : [];
-    setSelectedId(ids);
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const categoryIds = urlParams.get("categoryIds");
+      if (!categoryIds) {
+        router.push("/no-results");
+        return;
+      }
+
+      const ids = categoryIds.split(",");
+      const isValidIds = ids.every(id => id.length === 24);
+      if (!isValidIds) {
+        router.push("/no-results");
+        return;
+      }
+      setSelectedId(ids);
+    } catch (error) {
+      console.error("Error during URL parsing:", error);
+      router.push("no-results")
+    }
   }, []);
+
 
   return (
     <div className={`bg-gray-800 p-5 w-full border-3 border-white rounded-none}`}>
