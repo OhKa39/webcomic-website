@@ -25,10 +25,11 @@ model Comics {
   comicChapters   ComicChapters[]
   events          Events[]
   comicViewCounts ComicViewCounts[]
-  commentsComic   CommentComics[]
+  commentsComic   Comments[]
 
   comicTypesIDs String[]     @db.ObjectId
   comicTypes    ComicTypes[] @relation(fields: [comicTypesIDs], references: [id])
+  // CommentComics CommentComics[]
 }
 
 model ComicChapters {
@@ -42,7 +43,8 @@ model ComicChapters {
   Comics        Comics          @relation(fields: [comicsId], references: [id], onDelete: Cascade)
   comicsId      String          @db.ObjectId
 
-  commentsChapter CommentsChapter[]
+  commentsChapter Comments[]
+  // CommentsChapter CommentsChapter[]
 }
 
 model ChapterImages {
@@ -85,31 +87,37 @@ model ComicViewCounts {
 }
 
 model Comments {
-  id              String           @id @default(auto()) @map("_id") @db.ObjectId
-  commentDetail   String
-  commentReplyID  String?
-  userID          String
-  createdAt       DateTime         @default(now())
-  updateAt        DateTime         @default(now())
-  CommentComics   CommentComics?
-  CommentsChapter CommentsChapter?
+  id             String     @id @default(auto()) @map("_id") @db.ObjectId
+  content        String
+  commentReplies Comments[] @relation("CommentCommentReplies")
+  commentReplyId String?    @db.ObjectId
+  commentReply   Comments?  @relation("CommentCommentReplies", fields: [commentReplyId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  userID         String
+  createdAt      DateTime   @default(now())
+  updateAt       DateTime   @default(now())
+  likes          Int        @default(0)
+
+  Comics          Comics?        @relation(fields: [comicsId], references: [id])
+  comicsId        String?        @db.ObjectId
+  ComicChapters   ComicChapters? @relation(fields: [comicChaptersId], references: [id])
+  comicChaptersId String?        @db.ObjectId
 }
 
-model CommentComics {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  comment   Comments @relation(fields: [commentID], references: [id])
-  commentID String   @unique @db.ObjectId
-  Comics    Comics   @relation(fields: [comicsId], references: [id])
-  comicsId  String   @db.ObjectId
-}
+// model CommentComics {
+//   id        String   @id @default(auto()) @map("_id") @db.ObjectId
+//   comment   Comments @relation(fields: [commentID], references: [id])
+//   commentID String   @unique @db.ObjectId
+//   Comics    Comics   @relation(fields: [comicsId], references: [id])
+//   comicsId  String   @db.ObjectId
+// }
 
-model CommentsChapter {
-  id              String        @id @default(auto()) @map("_id") @db.ObjectId
-  comment         Comments      @relation(fields: [commentID], references: [id])
-  commentID       String        @unique @db.ObjectId
-  ComicChapters   ComicChapters @relation(fields: [comicChaptersId], references: [id])
-  comicChaptersId String        @db.ObjectId
-}
+// model CommentsChapter {
+//   id              String        @id @default(auto()) @map("_id") @db.ObjectId
+//   comment         Comments      @relation(fields: [commentID], references: [id])
+//   commentID       String        @unique @db.ObjectId
+//   ComicChapters   ComicChapters @relation(fields: [comicChaptersId], references: [id])
+//   comicChaptersId String        @db.ObjectId
+// }
 
 model NotificationChanges {
   id                    String              @id @default(auto()) @map("_id") @db.ObjectId

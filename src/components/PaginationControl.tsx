@@ -15,10 +15,11 @@ const PaginationControls: FC<PaginationControlsProps> = ({
 }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathName = usePathname();
+
   console.log(searchParams);
   const categoryIds = searchParams.get("categoryIds");
   const urlPage = process.env.NEXT_PUBLIC_URL;
-  const pathName = usePathname();
 
   let Page = searchParams.get("page") ?? "1";
   let page = Number(Page);

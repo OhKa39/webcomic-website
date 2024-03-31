@@ -12,7 +12,7 @@ const getData = async (page: number, offset: number) => {
   return data.json();
 };
 
-export default async function Home({}) {
+export default async function Home({ }) {
   const perPage = 20;
 
   const { totalComicsCount, comics } = await getData(1, perPage);
