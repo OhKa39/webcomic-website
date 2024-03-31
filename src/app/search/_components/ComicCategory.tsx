@@ -51,7 +51,7 @@ export default function ComicCategory({ data }: { data: any }) {
       const urlParams = new URLSearchParams(window.location.search);
       const categoryIds = urlParams.get("categoryIds");
       if (!categoryIds) {
-        router.push("/no-results");
+        //router.push("/no-results");
         return;
       }
 
