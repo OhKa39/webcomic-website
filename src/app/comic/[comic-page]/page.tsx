@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Suspense } from 'react'
+import { Suspense } from "react";
 
 import { FaUserTie } from "react-icons/fa";
 import { RiCalendarCheckFill } from "react-icons/ri";
@@ -13,19 +13,21 @@ import { FaRegEye } from "react-icons/fa";
 import { Button } from "@nextui-org/react";
 
 import Link from "next/link";
-import ComicMenu from "@/components/ComicMenu";
-import ComicPageButton from "@/components/ComicPageButtons";
+import ComicMenu from "@/app/comic/[comic-page]/_components/ComicMenu";
+import ComicPageButton from "@/app/comic/[comic-page]/_components/ComicPageButtons";
+import CommentInput from "@/components/CommentInput";
 
 const getComic = async (comicID: any) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
-  const data = await fetch(`${urlPage}/api/comic/${comicID}`);
+  const data = await fetch(`${urlPage}/api/comic/${comicID}`, {
+    next: { revalidate: 5 },
+  });
   return data.json();
 };
 
 export default async function comicPage({ params }: { params: any }) {
   const path = params["comic-page"];
-  const [count, comic] = await getComic(path);
-
+  const comic = await getComic(path);
   return (
     <Suspense>
       <div className="px-12 sm:px-42 py-5">
@@ -105,6 +107,7 @@ export default async function comicPage({ params }: { params: any }) {
           <FaRegCommentDots />
           <p className="font-bold">Bình luận</p>
         </div>
+        <CommentInput />
       </div>
     </Suspense>
   );

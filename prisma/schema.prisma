@@ -15,7 +15,7 @@ model Comics {
 
   comicName        String   @unique
   createdAt        DateTime @default(now())
-  updatedAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
   comicImageLink   String
   isCompleted      Boolean  @default(false)
   authorName       String
@@ -37,7 +37,7 @@ model ComicChapters {
 
   chapterNumber Int
   createAt      DateTime @default(now())
-  updatedAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   chapterImages ChapterImages[]
   Comics        Comics          @relation(fields: [comicsId], references: [id], onDelete: Cascade)
@@ -66,7 +66,7 @@ model Events {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
   eventType EventType
   createdAt DateTime  @default(now())
-  updateAt  DateTime  @default(now())
+  updateAt  DateTime  @updatedAt
   isTurnOn  Boolean   @default(true)
   userID    String
   Comics    Comics    @relation(fields: [comicsId], references: [id], onDelete: Cascade)
@@ -92,15 +92,35 @@ model Comments {
   commentReplies Comments[] @relation("CommentCommentReplies")
   commentReplyId String?    @db.ObjectId
   commentReply   Comments?  @relation("CommentCommentReplies", fields: [commentReplyId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  userID         String
+  userID         String     @db.ObjectId
+  user           User       @relation(fields: [userID], references: [id], onDelete: Cascade)
   createdAt      DateTime   @default(now())
-  updateAt       DateTime   @default(now())
+  updateAt       DateTime   @updatedAt
   likes          Int        @default(0)
 
   Comics          Comics?        @relation(fields: [comicsId], references: [id])
   comicsId        String?        @db.ObjectId
   ComicChapters   ComicChapters? @relation(fields: [comicChaptersId], references: [id])
   comicChaptersId String?        @db.ObjectId
+}
+
+enum Role {
+  ADMIN
+  MEMBER
+}
+
+model User {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  role     Role   @default(MEMBER)
+  userId   String @unique
+  name     String
+  imageUrl String
+  email    String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  comments Comments[]
 }
 
 // model CommentComics {

@@ -7,21 +7,19 @@ export async function GET(req: NextRequest, context : any) {
         const comicID = params.comicID
         const comicChapter = params.comicChapter
 
-        const pages = await prisma.$transaction([
-            prisma.comics.count(),
-            prisma.comicChapters.findFirstOrThrow({            
-                where: {
-                    comicsId: comicID,
-                    chapterNumber: Number(comicChapter)
-                },
-                select: {          
-                    chapterImages: {
-                        select: {
-                            imageLink: true
-                        }
-                    },        
-                },
-            })   ])
+        const pages = await prisma.comicChapters.findFirstOrThrow({            
+            where: {
+                comicsId: comicID,
+                chapterNumber: Number(comicChapter)
+            },
+            select: {          
+                chapterImages: {
+                    select: {
+                        imageLink: true
+                    }
+                },        
+            },
+        })  
         return NextResponse.json(pages,{status: 200})
     }
     catch(error)
