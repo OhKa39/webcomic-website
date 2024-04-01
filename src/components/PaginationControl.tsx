@@ -13,6 +13,13 @@ const PaginationControls: FC<PaginationControlsProps> = ({
   count,
   perPage,
 }) => {
+  if(count ==0){
+return(
+<h1 className="font-bold justìy-center text-center">KHÔNG TÌM THẤY TRUYỆN YÊU CẦU</h1>
+);
+  }
+  else{
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathName = usePathname();
@@ -70,6 +77,7 @@ const PaginationControls: FC<PaginationControlsProps> = ({
       </div>
     </div>
   );
+  }
 };
 
 export default PaginationControls;
