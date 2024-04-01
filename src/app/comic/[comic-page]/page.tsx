@@ -18,14 +18,14 @@ import ComicPageButton from "@/app/comic/[comic-page]/_components/ComicPageButto
 
 const getComic = async (comicID: any) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
-  const data = await fetch(`${urlPage}/api/comic/${comicID}`);
+  const data = await fetch(`${urlPage}/api/comic/${comicID}`, {cache:"no-cache"}); // Nho xoa no-cache 
   return data.json();
 };
 
 export default async function comicPage({ params }: { params: any }) {
   const path = params["comic-page"];
-  const [count, comic] = await getComic(path);
-
+  const comic = await getComic(path);
+  const hasChapter = comic.comicChapters.length > 0
   return (
     <Suspense>
       <div className="px-12 sm:px-42 py-5">
@@ -72,14 +72,15 @@ export default async function comicPage({ params }: { params: any }) {
             </ul>
             <div className="flex gap-5 mt-6">
               <Link
+                hidden={!hasChapter}
                 href={
                   "/comic/" +
                   comic.id +
                   "/" +
-                  comic.comicChapters[0].chapterNumber
+                  "1"
                 }
               >
-                <Button className="font-bold" color="warning">
+                <Button  className="font-bold" color="warning">
                   Đọc từ đầu
                 </Button>{" "}
               </Link>

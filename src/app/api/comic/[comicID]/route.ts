@@ -6,9 +6,7 @@ export async function GET(req: NextRequest, context : any) {
         const {params} = context
         const comicID = params.comicID
 
-        const comic = await prisma.$transaction([
-            prisma.comics.count(),
-            prisma.comics.findUniqueOrThrow({
+        const comic = await prisma.comics.findUniqueOrThrow({
         where: {
             id: comicID
         },
@@ -26,7 +24,7 @@ export async function GET(req: NextRequest, context : any) {
                 }
             },
         },
-    })])
+    })
         return NextResponse.json(comic,{status: 200})
     }
     catch(error)

@@ -45,10 +45,11 @@ export default async function ReadComicPage({ params }: { params: any }) {
 
   const pagesData = getPages(comicId, comicChapter); // lay trang trong chapter do
   const ListData = getData(comicId);
-  const [[count1, pages], [count2, data]] = await Promise.all([
+  const [pages, data] = await Promise.all([
     pagesData,
     ListData,
   ]);
+
   const ListChapter = data.comicChapters; // lay mang gom cac chapter
 
   const nOfChapter = data.comicChapters.length; // lay so phan tu cua mang tren
