@@ -37,87 +37,87 @@ export default async function comicPage({ params }: { params: any }) {
 
   const hasChapter = comic.comicChapters.length > 0
   return (
-    <div>Hello </div>
-    // <Suspense>
-    //   <div className="px-12 sm:px-42 py-5">
-    //     <div className="gap-10 flex pb-8">
-    //       <div className="rounded border-amber-400 border-4 w-60 hidden md:inline">
-    //         <Image
-    //           src={comic.comicImageLink}
-    //           width={150}
-    //           height={150}
-    //           style={{
-    //             width: "100%",
-    //             height: "100%",
-    //           }}
-    //           alt="Picture of comic"
-    //         />
-    //       </div>
-    //       <div className="text-left text-lg">
-    //         <h1 className="font-bold">{comic.comicName}</h1>
-    //         <ul className="leading-10">
-    //           <li>
-    //             {" "}
-    //             <FaUserTie className="inline" /> Tác giả: {comic.authorName}
-    //           </li>
-    //           <li>
-    //             {" "}
-    //             <RiCalendarCheckFill className="inline" /> Tình trạng:{" "}
-    //             {comic.isCompleted ? "Hoàn thành" : "Chưa hoàn thành"}
-    //           </li>
-    //           <li>
-    //             {" "}
-    //             <AiFillLike className="inline" /> Lượt thích:{" "}
-    //             {comic.isCompleted ? "Hoàn thành" : "Chưa hoàn thành"}
-    //           </li>
-    //           <li>
-    //             {" "}
-    //             <FaHeart className="inline" /> Lượt theo dõi:{" "}
-    //             {comic.isCompleted ? "Hoàn thành" : "Chưa hoàn thành"}
-    //           </li>
-    //           <li>
-    //             {" "}
-    //             <FaRegEye className="inline" /> Lượt xem:{" "}
-    //             {comic.isCompleted ? "Hoàn thành" : "Chưa hoàn thành"}
-    //           </li>
-    //         </ul>
-    //         <div className="flex gap-5 mt-6">
-    //           <Link
-    //             hidden={!hasChapter}
-    //             href={
-    //               "/comic/" +
-    //               comic.id +
-    //               "/" +
-    //               "1"
-    //             }
-    //           >
-    //             <Button className="font-bold" color="warning">
-    //               Đọc từ đầu
-    //             </Button>{" "}
-    //           </Link>
-    //           <ComicPageButton />
-    //         </div>
-    //       </div>
-    //     </div>
-    //     <div className="flex gap-3 items-center text-lg ">
-    //       <ImPen className="inline" />
-    //       <p className="font-bold"> Giới thiệu</p>
-    //     </div>
-    //     <div>
-    //       <p className="text-left text-lg pb-8 ">{comic.comicDescription}</p>
-    //     </div>
-    //     <div className="flex gap-3 items-center text-lg">
-    //       <FaRegListAlt />
-    //       <p className="font-bold">Danh sách chương</p>
-    //     </div>
-    //     <div className="overflow-auto h-44">
-    //       <ComicMenu data={comic.comicChapters.reverse()} path={path} />
-    //     </div>
-    //     <div className="flex gap-3 items-center text-lg">
-    //       <FaRegCommentDots />
-    //       <p className="font-bold">Bình luận</p>
-    //     </div>
-    //   </div>
-    // </Suspense>
+    // <div>Hello </div>
+    <Suspense>
+      <div className="px-12 sm:px-42 py-5">
+        <div className="gap-10 flex pb-8">
+          <div className="rounded border-amber-400 border-4 w-60 hidden md:inline">
+            <Image
+              src={comic.comicImageLink}
+              width={150}
+              height={150}
+              style={{
+                width: "100%",
+                height: "100%",
+              }}
+              alt="Picture of comic"
+            />
+          </div>
+          <div className="text-left text-lg">
+            <h1 className="font-bold">{comic.comicName}</h1>
+            <ul className="leading-10">
+              <li>
+                {" "}
+                <FaUserTie className="inline" /> Tác giả: {comic.authorName}
+              </li>
+              <li>
+                {" "}
+                <RiCalendarCheckFill className="inline" /> Tình trạng:{" "}
+                {comic.isCompleted ? "Hoàn thành" : "Chưa hoàn thành"}
+              </li>
+              <li>
+                {" "}
+                <AiFillLike className="inline" /> Lượt thích:{" "}
+                {comic.isCompleted ? "Hoàn thành" : "Chưa hoàn thành"}
+              </li>
+              <li>
+                {" "}
+                <FaHeart className="inline" /> Lượt theo dõi:{" "}
+                {comic.isCompleted ? "Hoàn thành" : "Chưa hoàn thành"}
+              </li>
+              <li>
+                {" "}
+                <FaRegEye className="inline" /> Lượt xem:{" "}
+                {comic.isCompleted ? "Hoàn thành" : "Chưa hoàn thành"}
+              </li>
+            </ul>
+            <div className="flex gap-5 mt-6">
+              <Link
+                hidden={!hasChapter}
+                href={
+                  "/comic/" +
+                  comic.id +
+                  "/" +
+                  "1"
+                }
+              >
+                <Button className="font-bold" color="warning">
+                  Đọc từ đầu
+                </Button>{" "}
+              </Link>
+              <ComicPageButton />
+            </div>
+          </div>
+        </div>
+        <div className="flex gap-3 items-center text-lg ">
+          <ImPen className="inline" />
+          <p className="font-bold"> Giới thiệu</p>
+        </div>
+        <div>
+          <p className="text-left text-lg pb-8 ">{comic.comicDescription}</p>
+        </div>
+        <div className="flex gap-3 items-center text-lg">
+          <FaRegListAlt />
+          <p className="font-bold">Danh sách chương</p>
+        </div>
+        <div className="overflow-auto h-44">
+          <ComicMenu data={comic.comicChapters.reverse()} path={path} />
+        </div>
+        <div className="flex gap-3 items-center text-lg">
+          <FaRegCommentDots />
+          <p className="font-bold">Bình luận</p>
+        </div>
+      </div>
+    </Suspense>
   );
 }
