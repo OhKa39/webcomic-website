@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import ComicPage from "@/app/comic/[comic-page]/[read-comic-page]/_components/ComicPage";
 import { Suspense } from "react";
@@ -12,7 +11,7 @@ const getPages = async (comicID: any, comicChapter: any) => {
   const urlPath = `${urlPage}/api/comic/${comicID}/${comicChapter}`
   const data = await fetch(urlPath);
   if (!data.ok) {
-    console.log(`API patth: ${urlPath}`)
+    console.log(`API path: ${urlPath}`)
     // console.log(data)
     throw new Error("Failed to fetch data!")
   }
