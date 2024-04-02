@@ -30,8 +30,11 @@ const getComic = async (comicID: any) => {
 };
 
 export default async function comicPage({ params }: { params: any }) {
+  console.log("Hello")
   const path = params["comic-page"];
   const comic = await getComic(path);
+  console.log("Hello 2")
+
   const hasChapter = comic.comicChapters.length > 0
   return (
     <Suspense>
