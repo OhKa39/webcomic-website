@@ -4,6 +4,8 @@ import { FaHeart } from "react-icons/fa6";
 import { FaHeartBroken } from "react-icons/fa";
 import ButtonForComicPage from "@/app/comic/[comic-page]/_components/CPB-items";
 
+
+
 export default function ComicPageButton({}) {
   const listButton = [
     {
