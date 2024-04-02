@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useSearchParams, notFound } from "next/navigation";
+import React from "react";
+import { notFound } from "next/navigation";
 import Container from "@/components/Container";
 import PaginationControl from "@/components/PaginationControl";
 import ComicCategory from "@/app/search/_components/ComicCategory";

@@ -32,7 +32,7 @@ const NavBar: React.FC<{ data?: any[] }> = ({ data }) => {
     { title: "Thông Báo", address: "/notification", icon: <FaBell /> },
     {
       title: "Fanpage",
-      address: "https://facebook.com/100026656487897",
+      address: "https://facebook.com/",
       icon: <FaFacebook />,
     },
   ];

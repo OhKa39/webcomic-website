@@ -1,30 +1,36 @@
-import React from "react";
-import { auth } from "@clerk/nextjs";
-import Container from "@/components/Container";
-import { FaShoppingCart } from "react-icons/fa";
+// "use client"
+// import React, { useState } from 'react';
+// import {useUser} from"./_components/userContext"
+// interface Comic {
+//   id: string;
+//   title: string;
+// }
 
-export default function page() {
-  const { userId }: { userId: string | null } = auth();
-  return (
-    <div className="max-w-6xl mx-auto p-3 space-y-3 overflow-auto">
-      <div className="container">
-        <div></div>
-        <h1 className="text-blue-600 text-xl mt-5">
-          <p>
-            <FaShoppingCart className="hidden sm:inline" />
-            Truyện đang theo dõi
-          </p>
-        </h1>
-        {
-          // userId ? <Container/> :
-          <div className="h-20 flex items-center bg-slate-200">
-            <h1>
-              Xin lỗi, không tìm thấy kết quả nào!! Hãy đăng nhập để sử dụng
-              tính năng này.
-            </h1>
-          </div>
-        }
-      </div>
-    </div>
-  );
-}
+// const ComicButton: React.FC<{ comic: Comic }> = ({ comic }) => {
+//   const [isFollowing, setIsFollowing] = useState<boolean>(false);
+//   const { user } = useUser();
+
+//   const handleFollowClick = () => {
+//     if (!user) {
+//       alert('Bạn cần đăng nhập để thực hiện chức năng này');
+//       return;
+//     }
+
+//     // Logic để thêm hoặc xoá comicId khỏi mảng isFollowing
+//     if (isFollowing) {
+//       // Xoá comicId khỏi mảng isFollowing
+//       setIsFollowing(false);
+//     } else {
+//       // Thêm comicId vào mảng isFollowing
+//       setIsFollowing(true);
+//     }
+//   };
+
+//   return (
+//     <button onClick={handleFollowClick}>
+//       {isFollowing ? 'Hủy theo dõi' : 'Theo dõi'} {comic.title}
+//     </button>
+//   );
+// };
+
+// export default ComicButton;
