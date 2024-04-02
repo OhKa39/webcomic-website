@@ -68,7 +68,8 @@ model Events {
   createdAt DateTime  @default(now())
   updateAt  DateTime  @updatedAt
   isTurnOn  Boolean   @default(true)
-  userID    String
+  userID    String    @db.ObjectId
+  user      User      @relation(fields: [userID], references: [id], onDelete: Cascade)
   Comics    Comics    @relation(fields: [comicsId], references: [id], onDelete: Cascade)
   comicsId  String    @db.ObjectId
 }
@@ -83,7 +84,8 @@ model ComicViewCounts {
   createdAt DateTime @default(now())
   Comics    Comics   @relation(fields: [comicsId], references: [id], onDelete: Cascade)
   comicsId  String   @db.ObjectId
-  userID    String
+  userID    String   @db.ObjectId
+  user      User     @relation(fields: [userID], references: [id], onDelete: Cascade)
 }
 
 model Comments {
@@ -120,7 +122,9 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  comments Comments[]
+  comments        Comments[]
+  events          Events[]
+  comicViewCounts ComicViewCounts[]
 }
 
 // model CommentComics {

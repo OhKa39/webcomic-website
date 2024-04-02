@@ -6,7 +6,7 @@ const initialUser = async () => {
   const user = await currentUser()
 
   if(!user)
-    return
+    return undefined
 
   const profile = await prisma.user.findUnique({
     where:{
@@ -15,7 +15,7 @@ const initialUser = async () => {
   })
 
   if (profile)
-    return
+    return profile
 
   const newProfile = await prisma.user.create({
       data:{
@@ -25,7 +25,7 @@ const initialUser = async () => {
         email: user.emailAddresses[0].emailAddress
       }
     })
-  return
+  return newProfile
 }
 
 export default initialUser

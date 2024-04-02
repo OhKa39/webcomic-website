@@ -16,7 +16,7 @@ const getData = async (page: number, offset: number) => {
 };
 
 export default async function Home({}) {
-  await initialUser();
+  const profile = await initialUser();
   const perPage = 20;
 
   const { totalComicsCount, comics } = await getData(1, perPage);

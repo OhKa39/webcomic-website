@@ -17,6 +17,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 // import EmojiPicker from "emoji-picker-react";
 import EmojiPicker from "@/components/Emoji-picker";
+import Image from "next/image";
 
 const formSchema = z.object({
   content: z.string().min(1, {
@@ -24,8 +25,16 @@ const formSchema = z.object({
   }),
 });
 
-const CommentInput = () => {
-  const [text, setText] = useState("");
+const CommentInput = ({
+  user,
+  comicsID,
+  chapterID,
+}: {
+  user: any;
+  chapterID?: string;
+  comicsID?: string;
+}) => {
+  // console.log(user);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -34,16 +43,32 @@ const CommentInput = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+  function onHandler(values: z.infer<typeof formSchema>) {
+    const urlPage = process.env.NEXT_PUBLIC_URL;
+    const query = {
+      content: values.content,
+      comicsID: comicsID,
+      chapterID: chapterID,
+    };
+    const data = fetch(`${urlPage}/api/comment`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ query }),
+    }).then((data) => data.json());
+    console.log(data);
     console.log(values);
+    form.reset();
   }
 
   return (
     <div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form
+          onSubmit={form.handleSubmit(onHandler)}
+          className="space-y-8 after:clear-both after:table"
+        >
           <FormField
             control={form.control}
             name="content"
@@ -51,10 +76,26 @@ const CommentInput = () => {
               <FormItem>
                 <FormLabel>Nội dung</FormLabel>
                 <FormControl>
-                  <div className="relative">
+                  <div className="relative flex space-x-2">
+                    {user && (
+                      <div className="avatar">
+                        <Image
+                          src={user.imageUrl}
+                          width={40}
+                          height={40}
+                          alt="Avatar"
+                          className="rounded-full"
+                        />
+                      </div>
+                    )}
                     <Textarea
-                      placeholder="Hãy bình luận văn minh để tránh bị khóa tài khoản"
+                      placeholder={
+                        !!user
+                          ? `Hãy nhập lời bình luận của bạn vào đây`
+                          : `Hãy đăng nhập để bình luận`
+                      }
                       className="h-10"
+                      disabled={!user}
                       {...field}
                     />
                     <div className="absolute top-2 right-2">
@@ -62,6 +103,7 @@ const CommentInput = () => {
                         onChange={(emoji: string) =>
                           field.onChange(`${field.value} ${emoji}`)
                         }
+                        isDisabled={!user}
                       />
                     </div>
                   </div>
@@ -70,7 +112,12 @@ const CommentInput = () => {
               </FormItem>
             )}
           />
-          <Button type="submit" variant="yellotheme">
+          <Button
+            type="submit"
+            disabled={!user}
+            variant="yellotheme"
+            className="float-right"
+          >
             Submit
           </Button>
         </form>
