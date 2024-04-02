@@ -1,6 +1,8 @@
 "use client";
 import { Button } from "@nextui-org/react";
 import { useState } from "react";
+import { useAuth } from '@clerk/clerk-react';
+
 type objectType = {
   color: any;
   text: string;
@@ -22,6 +24,10 @@ export default function ButtonForComicPage({
   }
 
   const [isChoose, setChooseState] = useState(state);
+  const { isSignedIn }  =  useAuth()
+  if(!isSignedIn){
+    return
+  }
 
   return (
     <div className="inline">

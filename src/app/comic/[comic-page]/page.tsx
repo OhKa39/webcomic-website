@@ -16,6 +16,7 @@ import Link from "next/link";
 import ComicMenu from "@/app/comic/[comic-page]/_components/ComicMenu";
 import ComicPageButton from "@/app/comic/[comic-page]/_components/ComicPageButtons";
 
+
 const getComic = async (comicID: any) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
   const data = await fetch(`${urlPage}/api/comic/${comicID}`, {cache:"no-cache"}); // Nho xoa no-cache 
@@ -80,7 +81,7 @@ export default async function comicPage({ params }: { params: any }) {
                   "1"
                 }
               >
-                <Button  className="font-bold" color="warning">
+                <Button className="font-bold" color="warning">
                   Đọc từ đầu
                 </Button>{" "}
               </Link>

@@ -12,6 +12,7 @@ const getData = async (page: number, offset: number) => {
   return data.json();
 };
 
+
 export default async function Home({ }) {
   const perPage = 20;
 
