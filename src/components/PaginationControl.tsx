@@ -16,12 +16,10 @@ const PaginationControls: FC<PaginationControlsProps> = ({
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathName = usePathname();
-  const urlPage = process.env.NEXT_PUBLIC_URL;
-  const categoryIds = searchParams.get("categoryIds");
 
-  // console.log(searchParams);
-  // const params = new URLSearchParams(searchParams);
-  //console.log(count)
+  console.log(searchParams);
+  const categoryIds = searchParams.get("categoryIds");
+  const urlPage = process.env.NEXT_PUBLIC_URL;
 
   let Page = searchParams.get("page") ?? "1";
   let page = Number(Page);
@@ -33,8 +31,7 @@ const PaginationControls: FC<PaginationControlsProps> = ({
     page = 2;
     return;
   }
-  console.log(pathName);
-
+  // console.log(pathName);
   // console.log(params);
   return (
     <div className="flex gap-5 justify-center ">

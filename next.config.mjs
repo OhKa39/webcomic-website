@@ -25,6 +25,11 @@ const nextConfig = {
             hostname: 'comicbucket23.s3.ap-southeast-1.amazonaws.com',
             pathname: '**',
             
+        },
+        {
+            protocol: 'https',
+            hostname: 'img.clerk.com',
+            pathname: '**',
         }
     ],
     },

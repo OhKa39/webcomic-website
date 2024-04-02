@@ -9,6 +9,8 @@ export default async function ComicPage({ data }: { data: any }) {
       height={2000}
       alt="Picture of comic"
       key={result.imageLink}
+      blurDataURL={result.imageLink}
+      placeholder="blur"
     />
   ));
 }

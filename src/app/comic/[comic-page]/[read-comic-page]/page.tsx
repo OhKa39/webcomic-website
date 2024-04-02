@@ -50,11 +50,7 @@ export default async function ReadComicPage({ params }: { params: any }) {
 
   const pagesData = getPages(comicId, comicChapter); // lay trang trong chapter do
   const ListData = getData(comicId);
-  const [pages, data] = await Promise.all([
-    pagesData,
-    ListData,
-  ]);
-
+  const [pages, data] = await Promise.all([pagesData, ListData]);
   const ListChapter = data.comicChapters; // lay mang gom cac chapter
 
   const nOfChapter = data.comicChapters.length; // lay so phan tu cua mang tren
@@ -83,18 +79,23 @@ export default async function ReadComicPage({ params }: { params: any }) {
         >
           <TbPlayerTrackPrevFilled className="inline" />
         </button>
-        <Select 
+        <Select
           className="w-1/2 "
           disableAnimation={true}
           label="Chapter"
           items={ListChapter}
           defaultSelectedKeys={[comicChapter]}
-          onChange={handleSelectionChange}>
-            {ListChapter.map((chap: any) => (
-              <SelectItem className="" key={chap.chapterNumber} textValue={chap.chapterNumber}>
-                Chương {chap.chapterNumber}
-              </SelectItem>
-            ))}
+          onChange={handleSelectionChange}
+        >
+          {ListChapter.map((chap: any) => (
+            <SelectItem
+              className=""
+              key={chap.chapterNumber}
+              textValue={chap.chapterNumber}
+            >
+              Chương {chap.chapterNumber}
+            </SelectItem>
+          ))}
         </Select>
         <button
           onClick={() =>
