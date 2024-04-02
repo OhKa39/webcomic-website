@@ -19,9 +19,10 @@ import ComicPageButton from "@/app/comic/[comic-page]/_components/ComicPageButto
 
 const getComic = async (comicID: any) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
-  const data = await fetch(`${urlPage}/api/comic/${comicID}`, {cache:"no-cache"}); // Nho xoa no-cache 
+  const urlPath = `${urlPage}/api/comic/${comicID}`
+  const data = await fetch(urlPath, {cache:"no-cache"}); // Nho xoa no-cache 
   if (!data.ok) {
-    console.log(`API path: ${urlPage}`)
+    console.log(`API path: ${urlPath}`)
     console.log(data)
     throw new Error("Failed to fetch data!")
   }

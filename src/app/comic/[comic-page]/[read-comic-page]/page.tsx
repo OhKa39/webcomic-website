@@ -9,10 +9,11 @@ import { TbPlayerTrackPrevFilled } from "react-icons/tb";
 
 const getPages = async (comicID: any, comicChapter: any) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
-  const data = await fetch(`${urlPage}/api/comic/${comicID}/${comicChapter}`);
+  const urlPath = `${urlPage}/api/comic/${comicID}/${comicChapter}`
+  const data = await fetch(urlPath);
   if (!data.ok) {
-    console.log(`API path: ${urlPage}`)
-    console.log(data)
+    console.log(`API patth: ${urlPath}`)
+    // console.log(data)
     throw new Error("Failed to fetch data!")
   }
   return data.json();
