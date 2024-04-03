@@ -40,7 +40,6 @@ function checkButton(ListChapter: Number, comicChapter: Number) {
 
 export default async function ReadComicPage({ params }: { params: any }) {
   const router = useRouter();
-  console.log("Hello")
 
   const comicChapter = params["read-comic-page"]; // chapter cua thg comic do
   const comicId = params["comic-page"]; // id cua thg comic

@@ -19,6 +19,8 @@ const PaginationControls: FC<PaginationControlsProps> = ({
 
   console.log(searchParams);
   const categoryIds = searchParams.get("categoryIds");
+  const sValue = searchParams.get("sValue");
+  console.log(sValue)
   const urlPage = process.env.NEXT_PUBLIC_URL;
 
   let Page = searchParams.get("page") ?? "1";
@@ -52,10 +54,12 @@ const PaginationControls: FC<PaginationControlsProps> = ({
             type typeParam = {
               page: string;
               categoryIds?: string;
+              sValue?: any;
             };
             const paramObj: typeParam = {
               page: page.toString(),
               categoryIds: categoryIds ?? "delete",
+              sValue: sValue 
             };
             if (paramObj.categoryIds === "delete") delete paramObj.categoryIds;
             router.push(
