@@ -82,7 +82,7 @@ export default async function comicPage({ params }: { params: any }) {
                 "/comic/" +
                 comic.id +
                 "/" +
-                comic.comicChapters[0].chapterNumber
+                "1"
               }
             >
               <Button className="font-bold" color="warning">

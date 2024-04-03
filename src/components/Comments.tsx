@@ -12,6 +12,7 @@ const Comments = ({
   comicID?: string;
   chapterID?: string;
 }) => {
+  console.log(initialData)
   const [inComingComments, setInComingComments] = useState<any[]>([
     ...initialData,
   ]);

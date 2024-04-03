@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import ComicPage from "@/app/comic/[comic-page]/[read-comic-page]/_components/ComicPage";
 import { Suspense } from "react";
@@ -8,20 +9,14 @@ import { TbPlayerTrackPrevFilled } from "react-icons/tb";
 
 const getPages = async (comicID: any, comicChapter: any) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
-  const urlPath = `${urlPage}/api/comic/${comicID}/${comicChapter}`
-  const data = await fetch(urlPath);
-  if (!data.ok) {
-    console.log(`API path: ${urlPath}`)
-    // console.log(data)
-    throw new Error("Failed to fetch data!")
-  }
+
+  const data = await fetch(`${urlPage}/api/comic/${comicID}/${comicChapter}`);
   return data.json();
 };
 
 const getData = async (comicID: any) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
   const data = await fetch(`${urlPage}/api/comic/${comicID}`);
-  if (!data.ok) throw new Error("Failed to fetch data!")
   return data.json();
 };
 
@@ -45,6 +40,8 @@ function checkButton(ListChapter: Number, comicChapter: Number) {
 
 export default async function ReadComicPage({ params }: { params: any }) {
   const router = useRouter();
+  console.log("Hello")
+
   const comicChapter = params["read-comic-page"]; // chapter cua thg comic do
   const comicId = params["comic-page"]; // id cua thg comic
 
@@ -55,7 +52,6 @@ export default async function ReadComicPage({ params }: { params: any }) {
 
   const nOfChapter = data.comicChapters.length; // lay so phan tu cua mang tren
   const [hasNext, hasPrev] = checkButton(nOfChapter, comicChapter); // check button next, prev
-
   const handleSelectionChange = (e: any) => {
     const selectedChapter = e.target.value;
     if (selectedChapter == "") return;
