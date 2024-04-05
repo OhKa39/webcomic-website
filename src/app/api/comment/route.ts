@@ -44,7 +44,11 @@ export async function POST(req: NextRequest, context : any) {
 
 export async function GET(req: NextRequest)
 {
-  const recursive = (level: number) => {
+  type RecursiveInclude = {
+    include: any
+  };
+
+  const recursive = (level: number): RecursiveInclude => {
     if (level === 0) {
       return {
         include: {
@@ -60,6 +64,7 @@ export async function GET(req: NextRequest)
       }
     };
   }
+
   try{
       const comicId = req.nextUrl.searchParams.get('ComicId') === "undefined" ? undefined : req.nextUrl.searchParams.get('ComicId')
       const chapterId = req.nextUrl.searchParams.get('chapterId') === "undefined" ? undefined : req.nextUrl.searchParams.get('chapterId')
