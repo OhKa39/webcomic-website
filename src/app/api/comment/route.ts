@@ -17,7 +17,8 @@ export async function POST(req: NextRequest, context : any) {
               content: data.query.content,
               userID: profile.id,
               comicsId: data.query.comicsID,
-              comicChaptersId: data.query.chapterID
+              comicChaptersId: data.query.chapterID,
+              commentReplyId: data.query.commentID
           },
           select:{
             id: true,
@@ -29,8 +30,10 @@ export async function POST(req: NextRequest, context : any) {
           }
         })
         
-        const id = data.query.comicsID === undefined ? data.query.chapterID : data.query.comicsID 
-        await pusherServer.trigger(id, "commentMessage", dataOut)
+        const id = data.query.commentID 
+          ||  data.query.comicsID || data.query.chapterID
+        await pusherServer.trigger(id, `commentMessage: ${id}`, dataOut)
+
         return NextResponse.json(dataOut,{status: 200})
     }
     catch(error)
@@ -41,24 +44,37 @@ export async function POST(req: NextRequest, context : any) {
 
 export async function GET(req: NextRequest)
 {
+  const recursive = (level: number) => {
+    if (level === 0) {
+      return {
+        include: {
+          commentReplies: true,
+          user: true
+        }
+      };
+    }
+    return {
+      include: {
+        commentReplies: recursive(level - 1),
+        user: true
+      }
+    };
+  }
   try{
-      const comicId = req.nextUrl.searchParams.get('ComicId') ?? undefined
+      const comicId = req.nextUrl.searchParams.get('ComicId') === "undefined" ? undefined : req.nextUrl.searchParams.get('ComicId')
       const chapterId = req.nextUrl.searchParams.get('chapterId') === "undefined" ? undefined : req.nextUrl.searchParams.get('chapterId')
       const data = await prisma.comments.findMany({
-        select:{
-          id: true,
-          user: true,
-          content: true,
-          updateAt: true,
-          commentReplies: true,
-          likes: true
-        },
         where:{
           comicsId: comicId,
-          comicChaptersId: chapterId
+          commentReply: null,
+          comicChaptersId: chapterId,
         },
         orderBy:{
           updateAt: "desc"
+        },
+        include:{
+          commentReplies: recursive(6),
+          user: true
         }
       })
       return NextResponse.json(data,{status: 200})

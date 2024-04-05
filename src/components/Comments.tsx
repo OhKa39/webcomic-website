@@ -1,60 +1,81 @@
 "use client";
 import { pusherClient } from "@/lib/pusher";
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, useEffect } from "react";
 import CommentItem from "./CommentItem";
+import { FaAngleDown } from "react-icons/fa";
+import { Pagination } from "@nextui-org/react";
 
 const Comments = ({
   initialData,
   comicID,
   chapterID,
+  commentID,
+  user,
+  depth,
 }: {
   initialData: any;
   comicID?: string;
   chapterID?: string;
+  commentID?: string;
+  user: any;
+  depth: number;
 }) => {
   const [inComingComments, setInComingComments] = useState<any[]>([
     ...initialData,
   ]);
-
-  const id = comicID === undefined ? chapterID : comicID;
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   // console.log(id!);
+
   useEffect(() => {
+    const id = commentID || comicID || chapterID;
     pusherClient.subscribe(id!);
-    pusherClient.bind("commentMessage", (data: any) => {
+    pusherClient.bind(`commentMessage: ${id}`, (data: any) => {
       // console.log(data);
-      setInComingComments((prev: any[]) => [data, ...prev]);
+      const stateHandler = !commentID
+        ? (prev: any[]) => [data, ...prev]
+        : (prev: any[]) => [...prev, data];
+      setInComingComments(stateHandler);
     });
 
     return () => {
       pusherClient.unsubscribe(id!);
-      pusherClient.unbind("commentMessage");
+      pusherClient.unbind(`commentMessage: ${id}`);
     };
   }, []);
-  // console.log(`inComingComments${inComingComments}`);
+
   return (
     <div>
-      {/* {initialData.map((attr: any) => (
-        <CommentItem
-          key={attr.id}
-          avatarURL={attr.user.imageUrl}
-          fullName={attr.user.name}
-          likeNumber={attr.likes}
-          role={attr.user.role}
-          content={attr.content}
-          updatedTime={attr.updateAt}
-        />
-      ))} */}
-      {inComingComments.map((attr: any) => (
-        <CommentItem
-          key={attr.id}
-          avatarURL={attr.user.imageUrl}
-          fullName={attr.user.name}
-          likeNumber={attr.likes}
-          role={attr.user.role}
-          content={attr.content}
-          updatedTime={attr.updateAt}
-        />
-      ))}
+      {inComingComments.length > 0 && commentID !== undefined && (
+        <div
+          className="mt-1 cursor-grab flex space-x-1 items-center hover:text-blue-600"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <FaAngleDown />
+          {!isOpen
+            ? `Hiển thị ${inComingComments.length} câu trả lời`
+            : "Ẩn tất cả"}
+        </div>
+      )}
+
+      {(isOpen || commentID === undefined) &&
+        inComingComments.map((attr: any) => (
+          <CommentItem
+            key={attr.id}
+            id={attr.id}
+            avatarURL={attr.user.imageUrl}
+            fullName={attr.user.name}
+            likeNumber={attr.likes}
+            role={attr.user.role}
+            content={attr.content}
+            updatedTime={attr.updateAt}
+            user={user}
+            comicID={comicID}
+            chapterID={chapterID}
+            depth={depth} //level nested
+            commentReplies={attr.commentReplies}
+            parentID={commentID ?? undefined}
+          />
+        ))}
     </div>
   );
 };

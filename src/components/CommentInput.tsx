@@ -29,13 +29,14 @@ const CommentInput = ({
   user,
   comicsID,
   chapterID,
+  commentID,
 }: {
   user: any;
   chapterID?: string;
   comicsID?: string;
+  commentID?: string;
 }) => {
   // console.log(user);
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -49,16 +50,18 @@ const CommentInput = ({
       content: values.content,
       comicsID: comicsID,
       chapterID: chapterID,
+      commentID: commentID,
     };
-    const data = fetch(`${urlPage}/api/comment`, {
+    const url = `${urlPage}/api/comment`;
+    const data = fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ query }),
     }).then((data) => data.json());
-    console.log(data);
-    console.log(values);
+    // console.log(data);
+    // console.log(values);
     form.reset();
   }
 
@@ -94,7 +97,7 @@ const CommentInput = ({
                           ? `Hãy nhập lời bình luận của bạn vào đây`
                           : `Hãy đăng nhập để bình luận`
                       }
-                      className="h-10"
+                      className="h-10 border-2 border-blue-200"
                       disabled={!user}
                       {...field}
                     />
@@ -118,7 +121,7 @@ const CommentInput = ({
             variant="yellotheme"
             className="float-right"
           >
-            Submit
+            Gửi
           </Button>
         </form>
       </Form>
