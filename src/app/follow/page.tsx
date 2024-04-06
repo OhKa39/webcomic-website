@@ -1,36 +1,23 @@
-// "use client"
-// import React, { useState } from 'react';
-// import {useUser} from"./_components/userContext"
-// interface Comic {
-//   id: string;
-//   title: string;
-// }
+"use client"
 
-// const ComicButton: React.FC<{ comic: Comic }> = ({ comic }) => {
-//   const [isFollowing, setIsFollowing] = useState<boolean>(false);
-//   const { user } = useUser();
+import { useState } from "react";
+import { User } from "@prisma/client"
+import initialUser from "@/lib/initial-user"
+export default async function FollowPage() {
+    const user = await initialUser()
+    try {
+        if (!user) alert("Please Login First")
+    }
+    catch {
 
-//   const handleFollowClick = () => {
-//     if (!user) {
-//       alert('Bạn cần đăng nhập để thực hiện chức năng này');
-//       return;
-//     }
+    }
 
-//     // Logic để thêm hoặc xoá comicId khỏi mảng isFollowing
-//     if (isFollowing) {
-//       // Xoá comicId khỏi mảng isFollowing
-//       setIsFollowing(false);
-//     } else {
-//       // Thêm comicId vào mảng isFollowing
-//       setIsFollowing(true);
-//     }
-//   };
 
-//   return (
-//     <button onClick={handleFollowClick}>
-//       {isFollowing ? 'Hủy theo dõi' : 'Theo dõi'} {comic.title}
-//     </button>
-//   );
-// };
+    return (
+        <div>
+            <h1>Truyện đã theo dõi</h1>
 
-// export default ComicButton;
+        </div>
+    );
+}
+

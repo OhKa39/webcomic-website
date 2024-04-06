@@ -27,11 +27,21 @@ const getComic = async (comicID: any) => {
   return data.json();
 };
 
+const getCurrentEvents = async (comicID: any) => {
+  const urlPage = process.env.NEXT_PUBLIC_URL;
+  const data = await fetch(`${urlPage}/api/events/${comicID}`, {
+    next: { revalidate: 5 },
+  });
+  return data.json();
+};
+
 export default async function comicPage({ params }: { params: any }) {
   const path = params["comic-page"];
   const comicFetch = getComic(path);
   const profileFetch = initialUser();
-  const [comic, profile] = await Promise.all([comicFetch, profileFetch]);
+  const CurrentEvents = getCurrentEvents(path);
+  const [comic, profile, currentEvent] = await Promise.all([comicFetch, profileFetch, CurrentEvents]);
+
   return (
     // <Suspense>
     <div className="px-12 sm:px-42 py-5">
@@ -89,7 +99,7 @@ export default async function comicPage({ params }: { params: any }) {
                 Đọc từ đầu
               </Button>{" "}
             </Link>
-            <ComicPageButton />
+            <ComicPageButton profileFetch={profile!} comicId={path} currentEvent={currentEvent!} />
           </div>
         </div>
       </div>

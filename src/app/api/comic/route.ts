@@ -23,6 +23,7 @@ export async function GET(req: NextRequest) {
         comicName: true,
         updatedAt: true,
         comicImageLink: true,
+        events: true,
         // comicTypesIDs: true
       },
     });
