@@ -12,28 +12,28 @@ type props = {
 export default function ComicPageButton({ profileFetch, comicId, currentEvent }: props) {
   const listButton = [
     {
+      //True: eventTypes == "FOLLOW"
       color: "warning",
-      text: "Theo dõi",
-      text2: "Bỏ theo dõi",
-      icon: <FaHeart />,
-      icon2: <FaHeartBroken />,
+      textFalse: "Theo dõi",
+      textTrue: "Bỏ theo dõi",
+      iconFalse: <FaHeart />,
+      iconTrue: <FaHeartBroken />,
       id: profileFetch,
       comicId,
-      isFollow: (currentEvent?.eventType === "FOLLOW" ? true : false) ?? false
+      CurrentFollow: ((currentEvent?.eventType === "FOLLOW" ? true : false) ?? false)
     },
   ];
   console.log("State check", currentEvent?.eventType)
   return listButton.map((i) => (
     <ButtonForComicPage
-      key={i.text}
+      key={i.textFalse}
       color={i.color}
-      text={i.text}
-      text2={i.text2}
-      state={i.isFollow} // if miss undefined ????? 
-      icon={i.icon}
-      icon2={i.icon2}
+      textFalse={i.textFalse}
+      textTrue={i.textTrue}
+      state={i.CurrentFollow} // if miss undefined ????? 
+      iconFalse={i.iconFalse}
+      iconTrue={i.iconTrue}
       id={profileFetch}
       comicId={comicId} />
-
-  ));
+  ),);
 }
