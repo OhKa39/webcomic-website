@@ -77,14 +77,7 @@ export default async function comicPage({ params }: { params: any }) {
             </li>
           </ul>
           <div className="flex gap-5 mt-6">
-            <Link
-              href={
-                "/comic/" +
-                comic.id +
-                "/" +
-                "1"
-              }
-            >
+            <Link href={"/comic/" + comic.id + "/" + "1"}>
               <Button className="font-bold" color="warning">
                 Đọc từ đầu
               </Button>{" "}
@@ -112,7 +105,7 @@ export default async function comicPage({ params }: { params: any }) {
         <p className="font-bold">Bình luận</p>
       </div>
       <CommentInput user={profile} comicsID={path} />
-      <CommentContainer comicID={path} />
+      <CommentContainer comicID={path} user={profile} />
     </div>
     // </Suspense>
   );
