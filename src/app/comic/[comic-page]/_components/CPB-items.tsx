@@ -37,7 +37,7 @@ export default function ButtonForComicPage({
         });
       } else {
         const query = {
-          eventType: isFollowed ? "FOLLOW" : "UNFOLLOW",
+          eventType: isFollowed ? "UNFOLLOW" : "FOLLOW",
           comicsId: comicId,
         };
         const data = fetch(`${urlPage}/api/events`, {
@@ -49,7 +49,7 @@ export default function ButtonForComicPage({
         }).then((data) => data.json());
         toast({
           variant: "success",
-          title: `${!isFollowed ? "Huỷ theo dõi" : "Theo dõi"} thành công`,
+          title: `${!isFollowed ? "Theo dõi" : "Hủy theo dõi"} thành công`,
         });
       }
       setIsFollowed(!isFollowed);
@@ -61,11 +61,11 @@ export default function ButtonForComicPage({
     <div className="inline">
       <Button
         className="font-bold"
-        color={isFollowed ? color : "danger"}
+        color={isFollowed ? "danger" : color}
         onClick={handleClick}
       >
-        {isFollowed ? iconFalse : iconTrue}
-        {isFollowed ? textFalse : textTrue}
+        {isFollowed ? iconTrue : iconFalse}
+        {isFollowed ? textTrue : textFalse}
       </Button>
     </div>
   );
