@@ -24,9 +24,10 @@ export default function ButtonForComicPage({
   comicId: string;
 }) {
   console.log("state", state);
-  const [isFollowed, setIsFollowed] = useState(state);
   const urlPage = process.env.NEXT_PUBLIC_URL;
   const { toast } = useToast();
+  const [isFollowed, setIsFollowed] = useState(state);
+
   async function handleClick() {
     try {
       if (!id) {
@@ -35,7 +36,8 @@ export default function ButtonForComicPage({
           title: "Đã có lỗi xảy ra",
           description: "Vui lòng đăng nhập để sử dụng tính năng này",
         });
-      } else {
+      }
+      else {
         const query = {
           eventType: isFollowed ? "UNFOLLOW" : "FOLLOW",
           comicsId: comicId,
@@ -51,8 +53,8 @@ export default function ButtonForComicPage({
           variant: "success",
           title: `${!isFollowed ? "Theo dõi" : "Hủy theo dõi"} thành công`,
         });
+        setIsFollowed(!isFollowed);
       }
-      setIsFollowed(!isFollowed);
     } catch (error) {
       console.error("Error updating event:", error);
     }
