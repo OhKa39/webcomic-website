@@ -22,17 +22,14 @@ export async function GET(req: NextRequest) {
                 comicName: true,
                 updatedAt: true,
                 comicImageLink: true,
-                // events:{
-                //     select:{
-                //     eventType:true
-                //     },
-                //     orderBy:{
-                //         createdAt:"desc"
-                //     },
-                //     where:{
-                //         eventType:"FOLLOW"
-                //     }
-                // }   
+                events:{
+                    select:{
+                        eventType:true,
+                    },
+                    orderBy:{
+                        createdAt:"desc"
+                    }
+                }
             },
             where: {
                 events: {
@@ -59,7 +56,8 @@ export async function GET(req: NextRequest) {
 
 
         return NextResponse.json(response, { status: 200 });
-    } catch (error) {
+    } 
+    catch (error) {
         return NextResponse.json(
             { message: `Something went wrong: ${error}` },
             { status: 500 }

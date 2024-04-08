@@ -4,7 +4,11 @@ import Container from "@/components/Container";
 import PaginationControl from "@/components/PaginationControl";
 import { User, Events } from "@prisma/client"
 
-
+type props = {
+    profileFetch: User,
+    comicId: string,
+    currentEvent: Events
+  }
 const getComicData = async (page: any, offset: any, ctid: any) => {
   const query = {
     page: page,

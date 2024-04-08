@@ -23,7 +23,7 @@ export default function ComicPageButton({ profileFetch, comicId, currentEvent }:
       CurrentFollow: ((currentEvent?.eventType === "FOLLOW" ? true : false) ?? false)
     },
   ];
-  console.log("State check", currentEvent?.eventType)
+  // console.log("State check", currentEvent?.eventType)
   return listButton.map((i) => (
     <ButtonForComicPage
       key={i.textFalse}
