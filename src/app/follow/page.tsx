@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import Container from "@/components/Container";
 import PaginationControl from "@/components/PaginationControl";
 import { User, Events } from "@prisma/client"
-
 type props = {
     profileFetch: User,
     comicId: string,
@@ -42,7 +41,7 @@ export default async function SearchType({
   const { totalComicsCount, comics } = comicsData;
   return (
     <div className="container mx-auto">
-        <h1 className = "mx-auto font-bold text-center text-2xl">Truyện đang theo dõi</h1>
+        <h1 className = "mx-auto mt-5 font-bold text-center text-2xl">Truyện đang theo dõi</h1>
       <Container data={comics} />
       <PaginationControl count={totalComicsCount} perPage={perPage} />
     </div>
