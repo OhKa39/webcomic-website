@@ -1,11 +1,12 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import ComicPage from "@/app/comic/[comic-page]/[read-comic-page]/_components/ComicPage";
 import { Suspense } from "react";
 import { Select, SelectItem } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { TbPlayerTrackNextFilled } from "react-icons/tb";
 import { TbPlayerTrackPrevFilled } from "react-icons/tb";
+import visitedComics from "./_components/Visited-Comics"
 
 const getPages = async (comicID: any, comicChapter: any) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
@@ -27,6 +28,7 @@ function checkButton(ListChapter: Number, comicChapter: Number) {
   const curPage = Number(comicChapter);
   const countChapter = Number(ListChapter);
 
+
   if (isNaN(curPage) || curPage < 1 || curPage > countChapter) {
     checkPrev = false;
     checkNext = false;
@@ -40,10 +42,15 @@ function checkButton(ListChapter: Number, comicChapter: Number) {
 
 export default async function ReadComicPage({ params }: { params: any }) {
   const router = useRouter();
-
+  
   const comicChapter = params["read-comic-page"]; // chapter cua thg comic do
   const comicId = params["comic-page"]; // id cua thg comic
 
+  useEffect(()=>{
+    visitedComics(comicChapter, comicId)
+
+  },[comicId])
+  
   const pagesData = getPages(comicId, comicChapter); // lay trang trong chapter do
   const ListData = getData(comicId);
   const [pages, data] = await Promise.all([pagesData, ListData]);

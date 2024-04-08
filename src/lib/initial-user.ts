@@ -1,15 +1,15 @@
 import React, { use } from 'react'
-import {currentUser} from '@clerk/nextjs'
+import { currentUser } from '@clerk/nextjs'
 import prisma from './db'
 
 const initialUser = async () => {
   const user = await currentUser()
 
-  if(!user)
-    return undefined
+  if (!user)
+    return
 
   const profile = await prisma.user.findUnique({
-    where:{
+    where: {
       userId: user.id
     }
   })
@@ -18,13 +18,13 @@ const initialUser = async () => {
     return profile
 
   const newProfile = await prisma.user.create({
-      data:{
-        userId: user.id,
-        name: `${user.firstName} ${user.lastName}`,
-        imageUrl: user.imageUrl,
-        email: user.emailAddresses[0].emailAddress
-      }
-    })
+    data: {
+      userId: user.id,
+      name: `${user.firstName} ${user.lastName}`,
+      imageUrl: user.imageUrl,
+      email: user.emailAddresses[0].emailAddress
+    }
+  })
   return newProfile
 }
 

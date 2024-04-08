@@ -1,6 +1,4 @@
 import Image from "next/image";
-import { Suspense } from "react";
-
 import { FaUserTie } from "react-icons/fa";
 import { RiCalendarCheckFill } from "react-icons/ri";
 import { ImPen } from "react-icons/im";
@@ -9,9 +7,7 @@ import { FaRegCommentDots } from "react-icons/fa6";
 import { AiFillLike } from "react-icons/ai";
 import { FaHeart } from "react-icons/fa";
 import { FaRegEye } from "react-icons/fa";
-
 import { Button } from "@nextui-org/react";
-
 import Link from "next/link";
 import ComicMenu from "@/app/comic/[comic-page]/_components/ComicMenu";
 import ComicPageButton from "@/app/comic/[comic-page]/_components/ComicPageButtons";
@@ -27,11 +23,20 @@ const getComic = async (comicID: any) => {
   return data.json();
 };
 
+const getCurrentEvents = async (comicID: any, userID: string | undefined) => {
+  const urlPage = process.env.NEXT_PUBLIC_URL;
+  const data = await fetch(`${urlPage}/api/events/${comicID}?userID=${userID}`);
+  console.log(`${urlPage}/api/events/${comicID}?${userID}`);
+  return await data.json();
+};
+
 export default async function comicPage({ params }: { params: any }) {
   const path = params["comic-page"];
   const comicFetch = getComic(path);
   const profileFetch = initialUser();
   const [comic, profile] = await Promise.all([comicFetch, profileFetch]);
+  const currentEvent = await getCurrentEvents(path, profile?.id);
+
   return (
     // <Suspense>
     <div className="px-12 sm:px-42 py-5">
@@ -82,7 +87,11 @@ export default async function comicPage({ params }: { params: any }) {
                 Đọc từ đầu
               </Button>{" "}
             </Link>
-            <ComicPageButton />
+            <ComicPageButton
+              profileFetch={profile!}
+              comicId={path}
+              currentEvent={currentEvent}
+            />
           </div>
         </div>
       </div>

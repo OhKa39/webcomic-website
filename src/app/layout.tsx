@@ -6,6 +6,7 @@ import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import Provider from "./Provider";
 import { ClerkProvider } from '@clerk/nextjs'
+import { Toaster } from "@/components/ui/toaster"
 
 
 
@@ -30,10 +31,11 @@ export default function RootLayout({
             <Header />
             <NavBar />
             {children}
+            <Toaster />
             <Footer />
           </Provider>
         </body>
       </html>
-    </ClerkProvider>
+    </ClerkProvider >
   );
 }
