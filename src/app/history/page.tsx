@@ -3,8 +3,8 @@ import HistoryContainer from "./_components/history-container"
 
 export default function page() {    
     return (
-        <div>
-            <h1>Lịch sử:</h1> 
+        <div className="container mx-auto">
+            <h1 className="pt-5 font-bold text-lg">Lịch sử đọc truyện:</h1> 
             <HistoryContainer/>
         </div>
     )

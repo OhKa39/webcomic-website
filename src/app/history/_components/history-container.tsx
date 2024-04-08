@@ -2,7 +2,7 @@
 import HistoryItems from "./history-items"
 import { useState, useEffect } from "react";
 
-export default function historyContainer() {
+export default function HistoryContainer() {
     const [localComics, setLocalComics] = useState([])
     
     useEffect(() => {

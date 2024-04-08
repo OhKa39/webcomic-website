@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import HistoryItem from "./history-item";
+import Container from "@/components/Container";
 
 async function getData(localComic:any){
     if (localComic.length == 0) return
@@ -12,7 +12,7 @@ async function getData(localComic:any){
 
 
 export default async function HistoryItems({data}:{data:any}) {
-    if (data.length == 0) return(<h1>Chua tim thay!</h1>)
+    if (data.length == 0) return(<h1>không tìm thấy truyện!</h1>)
     const comicIdString = data.map((i:any) => i.comicId)
     const chapterNumberString = data.map((i:any) => i.comicChapter)
     const comicIdArray = comicIdString.join(',')
@@ -26,9 +26,7 @@ export default async function HistoryItems({data}:{data:any}) {
 
     return (
     <div>
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 mx-auto max-w-6xl py-4 w-full gap-5">
-        <HistoryItem data={localComic}/>
-      </div>
+        <Container data={localComic}/>
     </div>
     )
 }
