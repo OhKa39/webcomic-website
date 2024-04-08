@@ -8,12 +8,28 @@ export async function GET(req: NextRequest) {
 
         const countQuery = prisma.comics.count({
             where: {
-                events: {
-                    some:{
-                        eventType:"FOLLOW"
-                    }
-                },
-            }
+                AND: [
+                    {
+                        events: {
+                            some: {
+                                eventType: "FOLLOW",
+                            }
+                        },
+                    },
+                    {
+                        NOT: {
+                            events: {
+                                some: {
+                                    eventType: "UNFOLLOW",
+                                }
+                            },
+                        },
+                    },
+                ],
+            },
+            orderBy: {
+                createdAt: "desc"
+            },
         });
 
         const comicsQuery = prisma.comics.findMany({
@@ -22,22 +38,38 @@ export async function GET(req: NextRequest) {
                 comicName: true,
                 updatedAt: true,
                 comicImageLink: true,
-                events:{
-                    select:{
-                        eventType:true,
+                events: {
+                    select: {
+                        eventType: true,
                     },
-                    orderBy:{
-                        createdAt:"desc"
+                    orderBy: {
+                        createdAt: "desc"
                     },
-                    take:1,
+                    take: 1,
                 }
             },
             where: {
-                events: {
-                    some:{
-                        eventType:"FOLLOW"
-                    }
-                },
+                AND: [
+                    {
+                        events: {
+                            some: {
+                                eventType: "FOLLOW"
+                            }
+                        },
+                    },
+                    {
+                        NOT: {
+                            events: {
+                                some: {
+                                    eventType: "UNFOLLOW"
+                                }
+                            },
+                        },
+                    },
+                ],
+            },
+            orderBy: {
+                updatedAt: "desc"
             },
             skip: (pageNumber - 1) * offset,
             take: offset
@@ -46,18 +78,18 @@ export async function GET(req: NextRequest) {
         const [totalComicsCount, comics] = await prisma.$transaction([
             countQuery,
             comicsQuery,
-          ]);
-      
+        ]);
+
         const response = {
             totalComicsCount,
             comics,
         };
 
-        console.log("comicsQuery",comicsQuery)
+        console.log("comicsQuery", comicsQuery)
 
 
         return NextResponse.json(response, { status: 200 });
-    } 
+    }
     catch (error) {
         return NextResponse.json(
             { message: `Something went wrong: ${error}` },
