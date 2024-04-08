@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { notFound } from "next/navigation";
 import Container from "@/components/Container";
 import PaginationControl from "@/components/PaginationControl";
