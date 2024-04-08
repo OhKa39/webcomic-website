@@ -39,6 +39,7 @@
     "react-icons": "^5.0.1",
     "react-input-emoji": "^5.7.1",
     "react-router-dom": "^6.22.3",
+    "react-toastify": "^10.0.5",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.22.4"

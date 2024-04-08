@@ -12,7 +12,9 @@ export async function GET(req:NextRequest) {
                 id: { in: IdArray} 
             },
             select: {
+                id: true,
                 comicName: true,
+                comicImageLink: true,
             }
         })
         return NextResponse.json(allComics, { status: 200 })
