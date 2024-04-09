@@ -20,6 +20,7 @@ const Comments = ({
   user: any;
   depth: number;
 }) => {
+  console.log(initialData)
   const [inComingComments, setInComingComments] = useState<any[]>([
     ...initialData,
   ]);

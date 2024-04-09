@@ -19,6 +19,7 @@ const PaginationControls: FC<PaginationControlsProps> = ({
   const pathName = usePathname();
   const urlPage = process.env.NEXT_PUBLIC_URL;
   const categoryIds = searchParams.get("categoryIds");
+  const sValue = searchParams.get("sValue");
   if (count == 0) {
     return (
       <h1 className="font-bold justìy-center text-center">KHÔNG TÌM THẤY TRUYỆN YÊU CẦU</h1>
@@ -61,10 +62,12 @@ const PaginationControls: FC<PaginationControlsProps> = ({
               type typeParam = {
                 page: string;
                 categoryIds?: string;
+                sValue?: any;
               };
               const paramObj: typeParam = {
                 page: page.toString(),
                 categoryIds: categoryIds ?? "delete",
+                sValue: sValue?.toString()
               };
               if (paramObj.categoryIds === "delete") delete paramObj.categoryIds;
               router.push(
