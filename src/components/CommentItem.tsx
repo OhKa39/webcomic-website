@@ -83,14 +83,14 @@ const CommentItem = ({
           </div>
 
           {comment.user.id === user?.id && (
-            <div className="header-button flex items-center space-x-1">
+            <div className="header-button flex space-x-1">
               <div
-                className="edit-button cursor-grab hover:text-blue-600 dark:hover:text-yellow-400"
+                className="edit-button cursor-pointer hover:text-blue-600 dark:hover:text-yellow-400"
                 onClick={() => setIsEdit(!isEdit)}
               >
                 <IoCreateOutline />
               </div>
-              <div className="delete-button cursor-grab hover:text-blue-600 dark:hover:text-yellow-400">
+              <div className="delete-button cursor-pointer hover:text-blue-600 dark:hover:text-yellow-400">
                 <DeleteCommentButton
                   comment={comment}
                   parentId={parentID ?? (comicID || chapterID)}
@@ -116,11 +116,11 @@ const CommentItem = ({
 
         <div className="button-controls flex space-x-4 item-center">
           <div className="like-button items-center space-x-1 flex">
-            <AiOutlineLike className="cursor-grab hover:text-blue-500 dark:hover:text-yellow-400" />
+            <AiOutlineLike className="cursor-pointer hover:text-blue-500 dark:hover:text-yellow-400" />
             <p>{comment.likes.toString()}</p>
           </div>
           <div
-            className="reply-button items-center space-x-1 flex cursor-grab hover:text-blue-500 dark:hover:text-yellow-400"
+            className="reply-button items-center space-x-1 flex cursor-pointer hover:text-blue-500 dark:hover:text-yellow-400"
             onClick={() => setIsReply(!isReply)}
           >
             <FaRegMessage />

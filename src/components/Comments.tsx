@@ -55,7 +55,7 @@ const Comments = ({
     <div>
       {inComingComments.length > 0 && commentID !== undefined && (
         <div
-          className="mt-1 cursor-grab hover:text-blue-600 dark:hover:text-yellow-400"
+          className="mt-1 cursor-pointer hover:text-blue-600 dark:hover:text-yellow-400"
           onClick={() => setIsOpen(!isOpen)}
         >
           {!isOpen ? (
