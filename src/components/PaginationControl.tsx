@@ -13,7 +13,6 @@ const PaginationControls: FC<PaginationControlsProps> = ({
   count,
   perPage,
 }) => {
-
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathName = usePathname();
@@ -21,12 +20,12 @@ const PaginationControls: FC<PaginationControlsProps> = ({
   const categoryIds = searchParams.get("categoryIds");
   if (count == 0) {
     return (
-      <h1 className="font-bold justìy-center text-center">KHÔNG TÌM THẤY TRUYỆN YÊU CẦU</h1>
+      <h1 className="font-bold justìy-center text-center">
+        KHÔNG TÌM THẤY TRUYỆN YÊU CẦU
+      </h1>
     );
-  }
-  else {
-
-    console.log(searchParams);
+  } else {
+    // console.log(searchParams);
     const categoryIds = searchParams.get("categoryIds");
     const urlPage = process.env.NEXT_PUBLIC_URL;
 
@@ -52,7 +51,8 @@ const PaginationControls: FC<PaginationControlsProps> = ({
             initialPage={page}
             color={`danger`}
             classNames={{
-              wrapper: "gap-1 overflow-visible h-8 rounded border border-divider",
+              wrapper:
+                "gap-1 overflow-visible h-8 rounded border border-divider",
               item: "w-8 h-8 text-small rounded-none bg-transparent",
               cursor:
                 "bg-amber-400 shadow-lg from-default-500 to-default-800 text-white font-bold",
@@ -66,7 +66,8 @@ const PaginationControls: FC<PaginationControlsProps> = ({
                 page: page.toString(),
                 categoryIds: categoryIds ?? "delete",
               };
-              if (paramObj.categoryIds === "delete") delete paramObj.categoryIds;
+              if (paramObj.categoryIds === "delete")
+                delete paramObj.categoryIds;
               router.push(
                 `${urlPage}${pathName}?${new URLSearchParams(paramObj)}`
               );
