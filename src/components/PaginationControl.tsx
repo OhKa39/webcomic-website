@@ -17,18 +17,23 @@ const PaginationControls: FC<PaginationControlsProps> = ({
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathName = usePathname();
-  const urlPage = process.env.NEXT_PUBLIC_URL;
-  const categoryIds = searchParams.get("categoryIds");
-  const sValue = searchParams.get("sValue");
+  // const urlPage = process.env.NEXT_PUBLIC_URL;
+  // const categoryIds = searchParams.get("categoryIds");
+  // const sValue = searchParams.get("sValue");
+
   if (count == 0) {
     return (
       <h1 className="font-bold justìy-center text-center">KHÔNG TÌM THẤY TRUYỆN YÊU CẦU</h1>
     );
   }
   else {
-
     console.log(searchParams);
     const categoryIds = searchParams.get("categoryIds");
+    const sValue = encodeURIComponent(searchParams.get("sValue") || "");
+
+    // const sValue = searchParams.get("sValue");
+    console.log(sValue)
+
     const urlPage = process.env.NEXT_PUBLIC_URL;
 
     let Page = searchParams.get("page") ?? "1";
@@ -62,14 +67,16 @@ const PaginationControls: FC<PaginationControlsProps> = ({
               type typeParam = {
                 page: string;
                 categoryIds?: string;
-                sValue?: any;
+                sValue?: string;
               };
               const paramObj: typeParam = {
                 page: page.toString(),
                 categoryIds: categoryIds ?? "delete",
-                sValue: sValue?.toString()
+                sValue: sValue ?? "delete",
               };
               if (paramObj.categoryIds === "delete") delete paramObj.categoryIds;
+              if (paramObj.sValue === "delete" || paramObj.sValue==="") delete paramObj.sValue;
+              
               router.push(
                 `${urlPage}${pathName}?${new URLSearchParams(paramObj)}`
               );
