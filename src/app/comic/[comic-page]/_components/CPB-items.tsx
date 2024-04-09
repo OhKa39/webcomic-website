@@ -23,10 +23,11 @@ export default function ButtonForComicPage({
   id: User;
   comicId: string;
 }) {
-  console.log("state", state);
+
+  // console.log("state", state);
+  const [isFollowed, setIsFollowed] = useState(state);
   const urlPage = process.env.NEXT_PUBLIC_URL;
   const { toast } = useToast();
-  const [isFollowed, setIsFollowed] = useState(state);
 
   async function handleClick() {
     try {
@@ -42,6 +43,7 @@ export default function ButtonForComicPage({
           eventType: isFollowed ? "UNFOLLOW" : "FOLLOW",
           comicsId: comicId,
         };
+
         const data = fetch(`${urlPage}/api/events`, {
           method: "POST",
           headers: {
@@ -59,6 +61,7 @@ export default function ButtonForComicPage({
       console.error("Error updating event:", error);
     }
   }
+
   return (
     <div className="inline">
       <Button

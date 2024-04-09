@@ -9,8 +9,8 @@ export default function SearchBar() {
 
     const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log('Searching for:', searchValue);
-        router.push(`/search?query=${encodeURIComponent(searchValue)}`);
+        if (searchValue == '') return 
+        router.push(`/searchbyname?sValue=${encodeURI(searchValue)}`);
     };
 
     return (

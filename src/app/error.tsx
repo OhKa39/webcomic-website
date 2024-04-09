@@ -1,6 +1,6 @@
 "use client"
 
-export default function Error() 
+export default function Error({error}: {error: Error}) 
 {
     function handleOnClick(){
         window.location.href = '/'
