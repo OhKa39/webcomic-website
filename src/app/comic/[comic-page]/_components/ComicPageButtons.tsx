@@ -1,15 +1,18 @@
 import { FaHeart } from "react-icons/fa6";
 import { FaHeartBroken } from "react-icons/fa";
 import ButtonForComicPage from "@/app/comic/[comic-page]/_components/CPB-items";
-import { User, Events } from "@prisma/client"
-
+import { User, Events } from "@prisma/client";
 
 type props = {
-  profileFetch: User,
-  comicId: string,
-  currentEvent: Events
-}
-export default function ComicPageButton({ profileFetch, comicId, currentEvent }: props) {
+  profileFetch: User;
+  comicId: string;
+  currentEvent: Events;
+};
+export default function ComicPageButton({
+  profileFetch,
+  comicId,
+  currentEvent,
+}: props) {
   const listButton = [
     {
       //True: eventTypes == "FOLLOW"
@@ -20,7 +23,8 @@ export default function ComicPageButton({ profileFetch, comicId, currentEvent }:
       iconTrue: <FaHeartBroken />,
       id: profileFetch,
       comicId,
-      CurrentFollow: ((currentEvent?.eventType === "FOLLOW" ? true : false) ?? false)
+      CurrentFollow:
+        (currentEvent?.eventType === "FOLLOW" ? true : false) ?? false,
     },
   ];
   // console.log("State check", currentEvent?.eventType)
@@ -30,10 +34,11 @@ export default function ComicPageButton({ profileFetch, comicId, currentEvent }:
       color={i.color}
       textFalse={i.textFalse}
       textTrue={i.textTrue}
-      state={i.CurrentFollow} // if miss undefined ????? 
+      state={i.CurrentFollow} // if miss undefined ?????
       iconFalse={i.iconFalse}
       iconTrue={i.iconTrue}
       id={profileFetch}
-      comicId={comicId} />
-  ),);
+      comicId={comicId}
+    />
+  ));
 }

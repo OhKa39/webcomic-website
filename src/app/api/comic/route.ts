@@ -6,10 +6,14 @@ export async function GET(req: NextRequest) {
     const pageNumber = Number(req.nextUrl.searchParams.get('page'));
     const offset = Number(req.nextUrl.searchParams.get('offset'));
     const categoryID = req.nextUrl.searchParams.get('categoryIds');
+    const sValue = req.nextUrl.searchParams.get('sValue');
 
     const whereClause = {
       comicTypesIDs: {
         hasEvery: !!categoryID ? categoryID.split(",") : [],
+      },
+      comicName: {
+        contains: !!sValue ? sValue : "",
       }
     };
 
