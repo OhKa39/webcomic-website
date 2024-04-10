@@ -1,9 +1,10 @@
 "use client";
 import { pusherClient } from "@/lib/pusher";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, memo } from "react";
 import CommentItem from "./CommentItem";
 import { FaAngleDown } from "react-icons/fa";
-import { Pagination } from "@nextui-org/react";
+// import { Pagination } from "@nextui-org/react"
+import { FaAngleUp } from "react-icons/fa";
 
 const Comments = ({
   initialData,
@@ -38,9 +39,16 @@ const Comments = ({
       setInComingComments(stateHandler);
     });
 
+    pusherClient.bind(`commentMessageDelete: ${id}`, (data: any) => {
+      setInComingComments((prev: any) => [
+        ...prev.filter((ele: any) => ele.id != data),
+      ]);
+    });
+
     return () => {
       pusherClient.unsubscribe(id!);
       pusherClient.unbind(`commentMessage: ${id}`);
+      pusherClient.unbind(`commentMessageDelete: ${id}`);
     };
   }, []);
 
@@ -48,13 +56,20 @@ const Comments = ({
     <div>
       {inComingComments.length > 0 && commentID !== undefined && (
         <div
-          className="mt-1 cursor-grab flex space-x-1 items-center hover:text-blue-600"
+          className="mt-1 cursor-pointer hover:text-blue-600 dark:hover:text-yellow-400"
           onClick={() => setIsOpen(!isOpen)}
         >
-          <FaAngleDown />
-          {!isOpen
-            ? `Hiển thị ${inComingComments.length} câu trả lời`
-            : "Ẩn tất cả"}
+          {!isOpen ? (
+            <div className="flex space-x-1 items-center">
+              <FaAngleDown />
+              {`Hiển thị ${inComingComments.length} câu trả lời`}
+            </div>
+          ) : (
+            <div className="flex space-x-1 items-center">
+              <FaAngleUp />
+              {`Ẩn tất cả`}
+            </div>
+          )}
         </div>
       )}
 
@@ -62,18 +77,11 @@ const Comments = ({
         inComingComments.map((attr: any) => (
           <CommentItem
             key={attr.id}
-            id={attr.id}
-            avatarURL={attr.user.imageUrl}
-            fullName={attr.user.name}
-            likeNumber={attr.likes}
-            role={attr.user.role}
-            content={attr.content}
-            updatedTime={attr.updateAt}
+            commentSent={attr}
             user={user}
             comicID={comicID}
             chapterID={chapterID}
             depth={depth} //level nested
-            commentReplies={attr.commentReplies}
             parentID={commentID ?? undefined}
           />
         ))}
@@ -81,4 +89,4 @@ const Comments = ({
   );
 };
 
-export default Comments;
+export default memo(Comments);

@@ -18,6 +18,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 // import EmojiPicker from "emoji-picker-react";
 import EmojiPicker from "@/components/Emoji-picker";
 import Image from "next/image";
+import { useToast } from "@/components/ui/use-toast";
 
 const formSchema = z.object({
   content: z.string().min(1, {
@@ -30,21 +31,24 @@ const CommentInput = ({
   comicsID,
   chapterID,
   commentID,
+  content,
 }: {
   user: any;
   chapterID?: string;
   comicsID?: string;
   commentID?: string;
+  content?: string;
 }) => {
-  // console.log(user);
+  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      content: "",
+      content: content ?? "",
     },
   });
 
-  function onHandler(values: z.infer<typeof formSchema>) {
+  async function onHandler(values: z.infer<typeof formSchema>) {
     const urlPage = process.env.NEXT_PUBLIC_URL;
     const query = {
       content: values.content,
@@ -53,13 +57,26 @@ const CommentInput = ({
       commentID: commentID,
     };
     const url = `${urlPage}/api/comment`;
-    const data = fetch(url, {
-      method: "POST",
+    const dataFetch = await fetch(url, {
+      method: `${content ? "PUT" : "POST"}`,
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ query }),
-    }).then((data) => data.json());
+    });
+    const data = await dataFetch.json();
+    if (dataFetch.status === 200)
+      toast({
+        variant: "success",
+        title: `Thành công`,
+        description: `${!content ? "Gửi" : "Sửa"} bình luận thành công`,
+      });
+    else
+      toast({
+        variant: "warning",
+        title: `Đã có lỗi xảy ra`,
+        description: `Gửi bình luận thất bại: ${data.message}`,
+      });
     // console.log(data);
     // console.log(values);
     form.reset();
@@ -80,7 +97,7 @@ const CommentInput = ({
                 <FormLabel>Nội dung</FormLabel>
                 <FormControl>
                   <div className="relative flex space-x-2">
-                    {user && (
+                    {user && !content && (
                       <div className="avatar">
                         <Image
                           src={user.imageUrl}
