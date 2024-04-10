@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Container from "@/components/Container";
 import PaginationControl from "@/components/PaginationControl";
 import initialUser from "@/lib/initial-user";
-import { useToast } from "@/components/ui/use-toast";
+// import { useToast } from "@/components/ui/use-toast";
 
 const getComicData = async (page: any, offset: any) => {
   const query = {
@@ -27,12 +27,12 @@ export default async function SearchType({ searchParams, }
 
   const profile = await initialUser();
   if (!profile) {
-    const { toast } = useToast();
-    toast({
-      variant: "warning",
-      title: "Đã có lỗi xảy ra",
-      description: "Vui lòng đăng nhập để sử dụng tính năng này",
-    });
+    // const { toast } = useToast();
+    // toast({
+    //   variant: "warning",
+    //   title: "Đã có lỗi xảy ra",
+    //   description: "Vui lòng đăng nhập để sử dụng tính năng này",
+    // });
     return (
       <div className="container mx-auto">
         <h1 className="mx-auto mt-5 font-bold text-center text-2xl text-red">VUI LÒNG ĐĂNG NHẬP ĐỂ SỬ DỤNG TÍNH NĂNG NÀY</h1>
@@ -40,7 +40,6 @@ export default async function SearchType({ searchParams, }
     )
   }
   const Page = searchParams["page"] ?? "1";
-  const categoryIDs = searchParams["categoryIds"];
   let page = Number(Page);
   if (page <= 0 || isNaN(page)) notFound();
   const perPage = 40;

@@ -24,10 +24,10 @@ export default function ButtonForComicPage({
   comicId: string;
 }) {
   console.log("state", state);
+  // console.log("state", state);
+  const [isFollowed, setIsFollowed] = useState(state);
   const urlPage = process.env.NEXT_PUBLIC_URL;
   const { toast } = useToast();
-  const [isFollowed, setIsFollowed] = useState(state);
-  // console.log("state", state);
 
   async function handleClick() {
     try {
