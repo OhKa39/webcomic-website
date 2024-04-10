@@ -7,13 +7,14 @@ export async function GET(req: NextRequest) {
     const offset = Number(req.nextUrl.searchParams.get('offset'));
     const categoryID = req.nextUrl.searchParams.get('categoryIds');
     const sValue = req.nextUrl.searchParams.get('sValue');
+    var value = sValue?.replace(/\?/g, "\\?")
 
     const whereClause = {
       comicTypesIDs: {
         hasEvery: !!categoryID ? categoryID.split(",") : [],
       },
       comicName: {
-        contains: !!sValue ? sValue : "",
+        contains: !!value ? value : "",
       }
     };
 
