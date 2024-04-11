@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, memo } from "react";
+import React, { useState, useEffect, memo, useRef } from "react";
 import Image from "next/image";
 
 import { AiOutlineLike } from "react-icons/ai";
@@ -10,6 +10,7 @@ import Comments from "./Comments";
 import DeleteCommentButton from "./DeleteCommentButton";
 import { MdCreate } from "react-icons/md";
 import { pusherClient } from "@/lib/pusher";
+import { ZodString } from "zod";
 
 type CommentItemType = {
   depth: number;
@@ -18,6 +19,7 @@ type CommentItemType = {
   chapterID?: string;
   parentID?: string;
   commentSent: any;
+  query?: string;
 };
 
 const CommentItem = ({
@@ -27,11 +29,13 @@ const CommentItem = ({
   chapterID,
   parentID,
   commentSent,
+  query,
 }: CommentItemType) => {
   const MAX_DEPTH = 2;
   const [isReply, setIsReply] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [comment, setComment] = useState(commentSent);
+  const myRef = useRef<HTMLDivElement | null>(null);
   const [time, setTime] = useState<string>(
     moment(comment.updateAt).fromNow().toString()
   );
@@ -52,6 +56,10 @@ const CommentItem = ({
       setIsEdit(false);
     });
 
+    if (query === commentSent.id)
+      myRef.current?.scrollIntoView({
+        behavior: "smooth",
+      });
     return () => {
       pusherClient.unsubscribe(id!);
       pusherClient.unbind(`commentMessageEdit: ${id}`);
@@ -62,6 +70,7 @@ const CommentItem = ({
     <div
       id={commentSent.id}
       className="flex space-x-2 w-full rounded-md pb-2 mt-3"
+      ref={myRef}
     >
       <div className="mt-2 mx-2">
         <Image

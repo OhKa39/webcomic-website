@@ -27,7 +27,7 @@ const NotificationDropDown = () => {
         <DropdownMenuLabel>Các thông báo đã lưu trữ</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="hover:opacity-80 cursor-pointer">
-          <Link href="/comic/65f90375ba609768fc30cfdb/#660c381c98c4f0c096c502a3">
+          <Link href="/comic/65f90375ba609768fc30cfdb?commentID=660c381c98c4f0c096c502a3">
             <div className="container flex items-center justify-center space-x-2">
               <div>
                 <Image

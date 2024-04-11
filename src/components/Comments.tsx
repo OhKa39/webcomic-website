@@ -13,6 +13,7 @@ const Comments = ({
   commentID,
   user,
   depth,
+  query,
 }: {
   initialData: any;
   comicID?: string;
@@ -20,8 +21,9 @@ const Comments = ({
   commentID?: string;
   user: any;
   depth: number;
+  query?: string;
 }) => {
-  console.log(initialData)
+  console.log(initialData);
   const [inComingComments, setInComingComments] = useState<any[]>([
     ...initialData,
   ]);
@@ -83,6 +85,7 @@ const Comments = ({
             chapterID={chapterID}
             depth={depth} //level nested
             parentID={commentID ?? undefined}
+            query={query}
           />
         ))}
     </div>

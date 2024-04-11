@@ -14,7 +14,6 @@ const getComicData = async (page: any, offset: any, searchValue: any) => {
   Object.entries(query).forEach(([key, value], index) => {
     if (value !== undefined) url += key + "=" + value + "&";
   });
-  // console.log(url)
   const data = await fetch(url, { cache: "no-store" });
   return data.json();
 };
@@ -26,7 +25,6 @@ export default async function SearchByName({
 }) {
   const Page = searchParams["page"] ?? "1";
   const Name = searchParams["sValue"];
-  // console.log(Name)
   let page = Number(Page);
   if (page <= 0 || isNaN(page)) notFound();
   const perPage = 40;

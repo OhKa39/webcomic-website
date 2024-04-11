@@ -22,10 +22,12 @@ const CommentContainer = async ({
   comicID,
   chapterID,
   user,
+  query,
 }: {
   comicID?: string;
   chapterID?: string;
   user: any;
+  query?: string;
 }) => {
   const data = await getData({ comicID, chapterID });
   return (
@@ -36,6 +38,7 @@ const CommentContainer = async ({
         comicID={comicID}
         chapterID={chapterID}
         user={user}
+        query={query}
       />
     </div>
   );
