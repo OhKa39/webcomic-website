@@ -23,7 +23,7 @@ export default function ButtonForComicPage({
   id: User;
   comicId: string;
 }) {
-
+  console.log("state", state);
   // console.log("state", state);
   const [isFollowed, setIsFollowed] = useState(state);
   const urlPage = process.env.NEXT_PUBLIC_URL;
