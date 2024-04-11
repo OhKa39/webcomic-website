@@ -21,9 +21,6 @@ export default async function HistoryItems({data}:{data:any}) {
     localComic.forEach((obj : any, index : any) => {
         obj.chapterNumber = chapterNumberString[index];
       });
-
-    console.log("Local comic", localComic)
-
     return (
     <div>
         <Container data={localComic}/>
