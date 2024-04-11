@@ -26,6 +26,7 @@ const PaginationControls: FC<PaginationControlsProps> = ({
         KHÔNG TÌM THẤY TRUYỆN YÊU CẦU
       </h1>
     );
+  }
   else {
     console.log(searchParams);
     const categoryIds = searchParams.get("categoryIds");
@@ -76,8 +77,8 @@ const PaginationControls: FC<PaginationControlsProps> = ({
                 sValue: sValue ?? "delete",
               };
               if (paramObj.categoryIds === "delete") delete paramObj.categoryIds;
-              if (paramObj.sValue === "delete" || paramObj.sValue==="") delete paramObj.sValue;
-              
+              if (paramObj.sValue === "delete" || paramObj.sValue === "") delete paramObj.sValue;
+
               router.push(
                 `${urlPage}${pathName}?${new URLSearchParams(paramObj)}`
               );
