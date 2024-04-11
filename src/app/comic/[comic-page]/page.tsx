@@ -18,16 +18,21 @@ import initialUser from "@/lib/initial-user";
 const getComic = async (comicID: any) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
   const data = await fetch(`${urlPage}/api/comic/${comicID}`, {
-    next: { revalidate: 5 },
+    cache: "no-store",
   });
   return data.json();
 };
 
 const getCurrentEvents = async (comicID: any, userID: string | undefined) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
-  const data = await fetch(`${urlPage}/api/events/${comicID}?userID=${userID}`);
+  const data = await fetch(
+    `${urlPage}/api/events/${comicID}?userID=${userID}`,
+    {
+      cache: "no-store",
+    }
+  );
   // console.log(`${urlPage}/api/events/${comicID}?${userID}`);
-  return await data.json();
+  return data.json();
 };
 
 export default async function comicPage({ params }: { params: any }) {

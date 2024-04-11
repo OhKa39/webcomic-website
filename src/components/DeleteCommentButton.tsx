@@ -30,7 +30,7 @@ export default function DeleteCommentButton({
       comment,
       parentId,
     };
-    console.log(query);
+    // console.log(query);
     const url = `${urlPage}/api/comment`;
     const dataFetch = await fetch(url, {
       method: `DELETE`,
@@ -57,7 +57,9 @@ export default function DeleteCommentButton({
   return (
     <Dialog>
       <DialogTrigger>
-        <MdDeleteOutline />
+        <div className="hover:text-blue-600 dark:hover:text-yellow-400">
+          <MdDeleteOutline size={20} />
+        </div>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

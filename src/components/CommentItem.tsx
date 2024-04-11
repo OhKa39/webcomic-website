@@ -8,8 +8,7 @@ import moment from "moment";
 import CommentInput from "./CommentInput";
 import Comments from "./Comments";
 import DeleteCommentButton from "./DeleteCommentButton";
-import { IoCreateOutline } from "react-icons/io5";
-import { MdDeleteOutline } from "react-icons/md";
+import { MdCreate } from "react-icons/md";
 import { pusherClient } from "@/lib/pusher";
 
 type CommentItemType = {
@@ -29,7 +28,7 @@ const CommentItem = ({
   parentID,
   commentSent,
 }: CommentItemType) => {
-  const MAX_DEPTH = 6;
+  const MAX_DEPTH = 2;
   const [isReply, setIsReply] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [comment, setComment] = useState(commentSent);
@@ -60,7 +59,10 @@ const CommentItem = ({
   }, []);
 
   return (
-    <div className="flex space-x-2 w-full rounded-md pb-2 mt-3">
+    <div
+      id={commentSent.id}
+      className="flex space-x-2 w-full rounded-md pb-2 mt-3"
+    >
       <div className="mt-2 mx-2">
         <Image
           src={comment.user.imageUrl}
@@ -83,25 +85,24 @@ const CommentItem = ({
           </div>
 
           {comment.user.id === user?.id && (
-            <div className="header-button flex space-x-1">
+            <div className="header-button flex items-center space-x-1">
               <div
                 className="edit-button cursor-pointer hover:text-blue-600 dark:hover:text-yellow-400"
                 onClick={() => setIsEdit(!isEdit)}
               >
-                <IoCreateOutline />
+                <MdCreate size={20} />
               </div>
-              <div className="delete-button cursor-pointer hover:text-blue-600 dark:hover:text-yellow-400">
-                <DeleteCommentButton
-                  comment={comment}
-                  parentId={parentID ?? (comicID || chapterID)}
-                />
-              </div>
+
+              <DeleteCommentButton
+                comment={comment}
+                parentId={parentID ?? (comicID || chapterID)}
+              />
             </div>
           )}
         </div>
 
         {!isEdit ? (
-          <div className="comment-content mt-1 text-pretty md:w-fit overflow-y-auto">
+          <div className="comment-content mt-1 text-pretty">
             <p>{comment.content}</p>
           </div>
         ) : (

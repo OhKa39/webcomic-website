@@ -79,7 +79,7 @@ export async function GET(req: NextRequest)
           updateAt: "desc"
         },
         include:{
-          commentReplies: recursive(6),
+          commentReplies: recursive(2),
           user: true
         }
       })
