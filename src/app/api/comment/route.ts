@@ -11,11 +11,15 @@ export async function POST(req: NextRequest, context : any) {
           return NextResponse.json({message: `Unauthorized`},{status: 401})
         
         const data  = await req.json()  
+
+        if((data.query.chapterID && data.query.commentID) || data.query.content.trim === "")
+          return NextResponse.json({message: `Bad Request`},{status: 400})
+
         
         // console.log(data)
         const dataOut = await prisma.comments.create({
           data:{
-              content: data.query.content,
+              content: data.query.content.trim,
               userID: profile.id,
               comicsId: data.query.comicsID,
               comicChaptersId: data.query.chapterID,
@@ -99,6 +103,9 @@ export async function PUT(req: NextRequest, context : any) {
         return NextResponse.json({message: `Unauthorized`},{status: 401})
       
       const data  = await req.json()  
+
+      if(data.query.content.trim === "")
+        return NextResponse.json({message: `Bad Request`},{status: 400})
       
       // console.log(data)
       const dataOut = await prisma.comments.update({
@@ -160,8 +167,6 @@ export async function DELETE(req: NextRequest, context : any) {
       
       // console.log(data)
       await deleteCommentWithChildren(data.query.comment)
-      
-
       
       const id = data.query.parentId
       await pusherServer.trigger(id, `commentMessageDelete: ${id}`, data.query.comment.id)

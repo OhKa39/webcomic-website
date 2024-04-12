@@ -20,6 +20,7 @@ type CommentItemType = {
   parentID?: string;
   commentSent: any;
   query?: string;
+  queryCommentChain: string[];
 };
 
 const CommentItem = ({
@@ -30,6 +31,7 @@ const CommentItem = ({
   parentID,
   commentSent,
   query,
+  queryCommentChain,
 }: CommentItemType) => {
   const MAX_DEPTH = 2;
   const [isReply, setIsReply] = useState(false);
@@ -39,6 +41,7 @@ const CommentItem = ({
   const [time, setTime] = useState<string>(
     moment(comment.updateAt).fromNow().toString()
   );
+  const [isHighlight, setIsHighLight] = useState(query === commentSent.id);
 
   useEffect(() => {
     const id = setTimeout(() => {
@@ -56,10 +59,15 @@ const CommentItem = ({
       setIsEdit(false);
     });
 
-    if (query === commentSent.id)
+    if (isHighlight) {
       myRef.current?.scrollIntoView({
         behavior: "smooth",
       });
+      setTimeout(() => {
+        setIsHighLight(!isHighlight);
+      }, 10000);
+    }
+
     return () => {
       pusherClient.unsubscribe(id!);
       pusherClient.unbind(`commentMessageEdit: ${id}`);
@@ -69,7 +77,9 @@ const CommentItem = ({
   return (
     <div
       id={commentSent.id}
-      className="flex space-x-2 w-full rounded-md pb-2 mt-3"
+      className={`flex space-x-2 w-full rounded-md pb-2 mt-3 ${
+        isHighlight ? "bg-sky-200 dark:bg-slate-500" : ""
+      }`}
       ref={myRef}
     >
       <div className="mt-2 mx-2">
@@ -160,6 +170,8 @@ const CommentItem = ({
             comicID={comicID}
             chapterID={chapterID}
             commentID={comment.id}
+            query={query}
+            queryCommentChain={queryCommentChain}
           />
         )}
       </div>

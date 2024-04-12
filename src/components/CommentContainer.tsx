@@ -15,7 +15,15 @@ async function getData({
       method: "GET",
     }
   );
-  return await response.json();
+  return response.json();
+}
+
+async function getCommentRootID({ query }: { query: string | undefined }) {
+  const urlPage = process.env.NEXT_PUBLIC_URL;
+  const response = await fetch(`${urlPage}/api/comment/${query}`, {
+    method: "GET",
+  });
+  return response.json();
 }
 
 const CommentContainer = async ({
@@ -27,9 +35,14 @@ const CommentContainer = async ({
   comicID?: string;
   chapterID?: string;
   user: any;
-  query?: string;
+  query: string | undefined;
 }) => {
-  const data = await getData({ comicID, chapterID });
+  const dataFetch = getData({ comicID, chapterID });
+  const commentRootFetch = getCommentRootID({ query });
+  const [data, commentRootID] = await Promise.all([
+    dataFetch,
+    commentRootFetch,
+  ]);
   return (
     <div className="mt-5">
       <Comments
@@ -39,6 +52,7 @@ const CommentContainer = async ({
         chapterID={chapterID}
         user={user}
         query={query}
+        queryCommentChain={commentRootID.rootComment.reverse()}
       />
     </div>
   );
