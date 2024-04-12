@@ -26,6 +26,7 @@ const PaginationControls: FC<PaginationControlsProps> = ({
         KHÔNG TÌM THẤY TRUYỆN YÊU CẦU
       </h1>
     );
+  }
   else {
     console.log(searchParams);
     const categoryIds = searchParams.get("categoryIds");
