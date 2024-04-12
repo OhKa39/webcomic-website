@@ -25,7 +25,7 @@ const getComic = async (comicID: any) => {
 
 const getCurrentEvents = async (comicID: any, userID: string | undefined) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
-  const data = await fetch(`${urlPage}/api/events/${comicID}?userID=${userID}`);
+  const data = await fetch(`${urlPage}/api/follow/${comicID}?userID=${userID}`);
   // console.log(`${urlPage}/api/events/${comicID}?${userID}`);
   return await data.json();
 };

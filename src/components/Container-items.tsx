@@ -28,8 +28,8 @@ export default function Containeritems({ data, setcomicIdToDelete }: { data: any
         height={1000}
         alt="Picture of comic"
         className="hover:opacity-80 transition-opacity duration-300"
-        blurDataURL={result.comicImageLink}
-        placeholder="blur"
+        // blurDataURL={result.comicImageLink}
+        // placeholder="blur"
       />
     </Link>
       <p className="text-center font-bold truncate">{result.comicName}</p>

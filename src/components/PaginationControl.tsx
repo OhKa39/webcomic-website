@@ -77,8 +77,8 @@ const PaginationControls: FC<PaginationControlsProps> = ({
                 sValue: sValue ?? "delete",
               };
               if (paramObj.categoryIds === "delete") delete paramObj.categoryIds;
-              if (paramObj.sValue === "delete" || paramObj.sValue==="") delete paramObj.sValue;
-              
+              if (paramObj.sValue === "delete" || paramObj.sValue === "") delete paramObj.sValue;
+
               router.push(
                 `${urlPage}${pathName}?${new URLSearchParams(paramObj)}`
               );
