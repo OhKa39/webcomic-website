@@ -24,7 +24,7 @@ export default function ComicPageButton({
       id: profileFetch,
       comicId,
       CurrentFollow:
-        (currentEvent?.eventType === "FOLLOW" ? true : false) ?? false,
+        (currentEvent?.isTurnOn ? true : false) ?? false,
     },
   ];
   // console.log("State check", currentEvent?.eventType)
