@@ -13,7 +13,7 @@ const getComicData = async (page: any, offset: any, id: string) => {
   };
 
   const urlPage = process.env.NEXT_PUBLIC_URL;
-  let url = `${urlPage}/api/events?`;
+  let url = `${urlPage}/api/follow?`;
   Object.entries(query).forEach(([key, value]) => {
     if (value !== undefined) url += key + "=" + value + "&";
   });
