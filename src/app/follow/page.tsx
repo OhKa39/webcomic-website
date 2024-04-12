@@ -5,14 +5,15 @@ import PaginationControl from "@/components/PaginationControl";
 import initialUser from "@/lib/initial-user";
 // import { useToast } from "@/components/ui/use-toast";
 
-const getComicData = async (page: any, offset: any) => {
+const getComicData = async (page: any, offset: any, id: string) => {
   const query = {
-    page: page,
-    offset: offset,
+    id,
+    page,
+    offset
   };
 
   const urlPage = process.env.NEXT_PUBLIC_URL;
-  let url = `${urlPage}/api/following?`;
+  let url = `${urlPage}/api/events?`;
   Object.entries(query).forEach(([key, value]) => {
     if (value !== undefined) url += key + "=" + value + "&";
   });
@@ -43,17 +44,12 @@ export default async function SearchType({ searchParams, }
   let page = Number(Page);
   if (page <= 0 || isNaN(page)) notFound();
   const perPage = 40;
-  const comicFetch = getComicData(page, perPage);
-  const [comicsData,] = await Promise.all([
-    comicFetch,
-  ]);
-  const { totalComicsCount, comics } = comicsData;
-
+  const {totalComicsCount, comics} = await getComicData(page, perPage, profile.id);
 
   return (
     <div className="container mx-auto">
       <h1 className="mx-auto mt-5 font-bold text-center text-2xl w-max">Truyện đang theo dõi</h1>
-      <Container data={comics} />
+      <Container data={comics.map((comic: any)=> comic.comics)} />
       <PaginationControl count={totalComicsCount} perPage={perPage} />
     </div>
   );

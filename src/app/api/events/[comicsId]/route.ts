@@ -10,13 +10,7 @@ export async function GET(req: NextRequest, context: any) {
 
         const data = await prisma.events.findFirst({
             select: {
-                eventType: true,
-                id: true,
-                user: true,
-                comicsId: true,
-            },
-            orderBy: {
-                createdAt: "desc"
+                isTurnOn: true
             },
             where: {
                 userID: userID!,
