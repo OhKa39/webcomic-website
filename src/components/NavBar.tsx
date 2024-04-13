@@ -29,7 +29,6 @@ const NavBar: React.FC<{ data?: any[] }> = ({ data }) => {
     { title: "Theo Dõi", address: "/follow", icon: <FaEye /> },
     { title: "Lịch Sử Đọc Truyện", address: "/history", icon: <FaHistory /> },
     { title: "Rank", address: "/rank", icon: <FaTrophy /> },
-    ,
     {
       title: "Fanpage",
       address: "https://facebook.com/",
