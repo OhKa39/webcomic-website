@@ -82,7 +82,7 @@ export default async function comicPage({ params }: { params: any }) {
             </li>
           </ul>
           <div className="flex gap-5 mt-6">
-            <Link href={"/comic/" + comic.id + "/" + "1"}>
+            <Link hidden={comic.comicChapters.length < 1} href={"/comic/" + comic.id + "/" + "1"}>
               <Button className="font-bold" color="warning">
                 Đọc từ đầu
               </Button>{" "}
