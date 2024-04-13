@@ -4,16 +4,22 @@ import Image from "next/image";
 import Link from "next/link";
 import { TiDelete } from "react-icons/ti";
 
-export default function Containeritems({ data }: { data: any }) {
-  const handleClick = (comicIdToDelete: string) => {
+export default function Containeritems({
+  data,
+  setcomicIdToDelete,
+}: {
+  data: any;
+  setcomicIdToDelete: any;
+}) {
+  const handleClick = (newComicIdToDelete: string) => {
     const localStorageComics = JSON.parse(
       localStorage.getItem("visited-comics") || "[]"
     );
     let comics = localStorageComics.filter(
-      (u: any) => u.comicId !== comicIdToDelete
+      (u: any) => u.comicId !== newComicIdToDelete
     );
     localStorage.setItem("visited-comics", JSON.stringify(comics));
-    location.reload();
+    setcomicIdToDelete(newComicIdToDelete);
   };
 
   return data.map((result: any) => (
@@ -31,14 +37,10 @@ export default function Containeritems({ data }: { data: any }) {
           src={result.comicImageLink}
           width={1000}
           height={1000}
-          // style={{
-          //   width: "100%",
-          //   height: "100%",
-          // }}
           alt="Picture of comic"
           className="hover:opacity-80 transition-opacity duration-300"
-          blurDataURL={result.comicImageLink}
-          placeholder="blur"
+          // blurDataURL={result.comicImageLink}
+          // placeholder="blur"
         />
       </Link>
       <p className="text-center font-bold truncate">{result.comicName}</p>

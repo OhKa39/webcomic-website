@@ -22,6 +22,7 @@ export async function GET(req: NextRequest, context : any) {
                         chapterNumber: true,
                     }
                 },
+                viewCount: true
             },
         })
         return NextResponse.json(comic,{status: 200})

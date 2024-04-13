@@ -24,8 +24,9 @@ model Comics {
 
   comicChapters   ComicChapters[]
   events          Events[]
-  comicViewCounts ComicViewCounts[]
+  // history         History[]
   commentsComic   Comments[]
+  viewCount       ViewCount[]
 
   comicTypesIDs String[]     @db.ObjectId
   comicTypes    ComicTypes[] @relation(fields: [comicTypesIDs], references: [id])
@@ -44,6 +45,8 @@ model ComicChapters {
   comicsId      String          @db.ObjectId
 
   commentsChapter Comments[]
+  history History[]
+
   // CommentsChapter CommentsChapter[]
 }
 
@@ -98,13 +101,22 @@ enum EventLogType {
   UNFOLLOW
 }
 
-model ComicViewCounts {
+model History {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  // comicsId  String   @db.ObjectId
+  comicChapterId  String   @db.ObjectId
+  userID    String   @db.ObjectId
+  user      User     @relation(fields: [userID], references: [id], onDelete: Cascade)
+  // Comics    Comics   @relation(fields: [comicsId], references: [id], onDelete: Cascade)
+  ComicChapters   ComicChapters @relation(fields: [comicChapterId], references: [id], onDelete: Cascade)
+}
+
+model ViewCount {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   createdAt DateTime @default(now())
   comics    Comics   @relation(fields: [comicsId], references: [id], onDelete: Cascade)
   comicsId  String   @db.ObjectId
-  userID    String   @db.ObjectId
-  user      User     @relation(fields: [userID], references: [id], onDelete: Cascade)
 }
 
 model Comments {
@@ -146,7 +158,7 @@ model User {
 
   comments        Comments[]
   events          Events[]
-  comicViewCounts ComicViewCounts[]
+  history         History[]
 }
 
 model Notifications {

@@ -3,6 +3,7 @@ import { Select, SelectItem } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { TbPlayerTrackNextFilled } from "react-icons/tb";
 import { TbPlayerTrackPrevFilled } from "react-icons/tb";
+import visitedComics from "./Visited-Comics"
 
 function checkButton(ListChapter: Number, comicChapter: Number) {
     let checkPrev = true;
@@ -26,6 +27,8 @@ function checkButton(ListChapter: Number, comicChapter: Number) {
 export default function ChapterListBar({listChapter, comicChapter ,comicId} : {listChapter:any, comicChapter:any ,comicId:any}) 
 {
     const router = useRouter()
+    visitedComics(comicChapter, comicId)
+
     const nOfChapter = listChapter.length; // lay so phan tu cua mang tren
     const [hasNext, hasPrev] = checkButton(nOfChapter, comicChapter); // check button next, prev
 
