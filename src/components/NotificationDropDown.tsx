@@ -1,4 +1,3 @@
-// "use client";
 import React from "react";
 import {
   DropdownMenu,
@@ -17,38 +16,18 @@ import {
 import { IoIosNotifications } from "react-icons/io";
 import Image from "next/image";
 import Link from "next/link";
+import NotificationContainer from "./NotificationContainer";
+import initialUser from "@/lib/initial-user";
 
-const NotificationDropDown = () => {
+const NotificationDropDown = async () => {
+  const user = await initialUser();
+  // console.log(user);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <IoIosNotifications size={32} className="cursor-pointer" />
+        <IoIosNotifications size={32} className="cursor-pointer relative" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-90 bg-slate-300 dark:bg-black relative -left-32">
-        <DropdownMenuLabel>Các thông báo đã lưu trữ</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem className="hover:opacity-80 cursor-pointer">
-          <Link href="/comic/65f90375ba609768fc30cfdb?commentID=661030167ed87215a1678eb0">
-            <div className="container flex items-center justify-center space-x-2">
-              <div>
-                <Image
-                  src={
-                    "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvb2F1dGhfZ29vZ2xlL2ltZ18yZU5DN0NldERNVU5RNHZYYmRaYThDTGJRM0sifQ?width=80"
-                  }
-                  width={40}
-                  height={40}
-                  alt="Avatar"
-                  className="rounded-full"
-                />
-              </div>
-              <div className="text-base">
-                người dùng abc đã comment vào bình luận
-              </div>
-            </div>
-          </Link>
-        </DropdownMenuItem>
-        {/* <div>hello</div> */}
-      </DropdownMenuContent>
+      <NotificationContainer user={user} />
     </DropdownMenu>
   );
 };

@@ -25,7 +25,7 @@ const Comments = ({
   query?: string;
   queryCommentChain: string[];
 }) => {
-  console.log(initialData);
+  // console.log(initialData);
   const [inComingComments, setInComingComments] = useState<any[]>([
     ...initialData,
   ]);

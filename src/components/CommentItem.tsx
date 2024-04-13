@@ -46,7 +46,7 @@ const CommentItem = ({
   useEffect(() => {
     const id = setTimeout(() => {
       setTime(moment(comment.updateAt).fromNow().toString());
-    }, 60000);
+    }, 1000);
     return () => clearTimeout(id);
   }, [time]);
 
@@ -57,6 +57,7 @@ const CommentItem = ({
       // console.log(data);
       setComment(data);
       setIsEdit(false);
+      setTime(moment(data.updateAt).fromNow().toString());
     });
 
     if (isHighlight) {
@@ -78,7 +79,7 @@ const CommentItem = ({
     <div
       id={commentSent.id}
       className={`flex space-x-2 w-full rounded-md pb-2 mt-3 ${
-        isHighlight ? "bg-sky-200 dark:bg-slate-500" : ""
+        isHighlight ? "bg-yellow-200 dark:bg-slate-600" : ""
       }`}
       ref={myRef}
     >
