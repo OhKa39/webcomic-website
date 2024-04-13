@@ -37,11 +37,11 @@ model ComicChapters {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   chapterNumber Int
-  createAt      DateTime @default(now())
+  createdAt      DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
   chapterImages ChapterImages[]
-  Comics        Comics          @relation(fields: [comicsId], references: [id], onDelete: Cascade)
+  comics        Comics          @relation(fields: [comicsId], references: [id], onDelete: Cascade)
   comicsId      String          @db.ObjectId
 
   commentsChapter Comments[]
@@ -189,7 +189,7 @@ model NotificationObjects {
   id                  String                @id @default(auto()) @map("_id") @db.ObjectId
   entityTypes         EntityTypes
   entityID            String
-  createAt            DateTime              @default(now())
+  createdAt            DateTime              @default(now())
   notifications       Notifications[]
   notificationChanges NotificationChanges[]
 }

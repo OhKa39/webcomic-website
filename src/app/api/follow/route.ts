@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
                 userID: profile.id,
             }
         });
-        console.log(event)
+        // console.log(event)
         if(!!event)
         {
             const updateEvent = prisma.events.update({
