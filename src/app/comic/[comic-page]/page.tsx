@@ -78,7 +78,7 @@ export default async function comicPage({ params }: { params: any }) {
             <li>
               {" "}
               <FaRegEye className="inline" /> Lượt xem:{" "}
-              {comic.isCompleted ? "Hoàn thành" : "Chưa hoàn thành"}
+              {comic.viewCount ? comic.viewCount.length : 0}
             </li>
           </ul>
           <div className="flex gap-5 mt-6">
