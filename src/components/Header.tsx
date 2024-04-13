@@ -4,7 +4,6 @@ import { IoLogoOctocat } from "react-icons/io5";
 import DarkModeSwitch from "./DarkModeSwitch";
 import SearchBar from "./SearchBar";
 import {
-  ClerkProvider,
   SignedIn,
   SignedOut,
   SignInButton,
@@ -14,7 +13,7 @@ import {
   ClerkLoading,
 } from "@clerk/nextjs";
 import { Loader } from "lucide-react";
-
+import NotificationDropDown from "./NotificationDropDown";
 export default function Header() {
   return (
     <div className="flex bg-slate-200 dark:bg-gray-700 item-center justify-between p-3 pl-10">
@@ -29,12 +28,13 @@ export default function Header() {
         <SearchBar />
       </div>
 
-      <div className="flex gap-5 items-center">
+      <div className="flex space-x-4 items-center">
         <ClerkLoading>
           <Loader className="h-5 w-5 text-muted-foreground animate-spin" />
         </ClerkLoading>
         <ClerkLoaded>
           <SignedIn>
+            <NotificationDropDown />
             <UserButton afterSignOutUrl="/" />
           </SignedIn>
           <SignedOut>

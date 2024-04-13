@@ -18,7 +18,7 @@ import initialUser from "@/lib/initial-user";
 const getComic = async (comicID: any) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
   const data = await fetch(`${urlPage}/api/comic/${comicID}`, {
-    next: { revalidate: 5 },
+    cache: "no-store",
   });
   return data.json();
 };
@@ -27,15 +27,22 @@ const getCurrentEvents = async (comicID: any, userID: string | undefined) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
   const data = await fetch(`${urlPage}/api/follow/${comicID}?userID=${userID}`);
   // console.log(`${urlPage}/api/events/${comicID}?${userID}`);
-  return await data.json();
+  return data.json();
 };
 
-export default async function comicPage({ params }: { params: any }) {
+export default async function comicPage({
+  params,
+  searchParams,
+}: {
+  params: any;
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   const path = params["comic-page"];
   const comicFetch = getComic(path);
   const profileFetch = initialUser();
   const [comic, profile] = await Promise.all([comicFetch, profileFetch]);
   const currentEvent = await getCurrentEvents(path, profile?.id);
+  const query = searchParams["commentID"];
 
   return (
     // <Suspense>
@@ -114,7 +121,11 @@ export default async function comicPage({ params }: { params: any }) {
         <p className="font-bold">Bình luận</p>
       </div>
       <CommentInput user={profile} comicsID={path} />
-      <CommentContainer comicID={path} user={profile} />
+      <CommentContainer
+        comicID={path}
+        user={profile}
+        query={query as string | undefined}
+      />
     </div>
     // </Suspense>
   );

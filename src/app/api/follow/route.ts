@@ -9,14 +9,14 @@ export async function POST(req: NextRequest) {
             return NextResponse.json(null, { status: 401 });
         }
         const data = await req.json();
-        console.log(data)
+        // console.log(data)
         const event = await prisma.events.findFirst({
             where:{
                 comicsId: data.query.comicsId,
                 userID: profile.id,
             }
         });
-        console.log(event)
+        // console.log(event)
         if(!!event)
         {
             const updateEvent = prisma.events.update({

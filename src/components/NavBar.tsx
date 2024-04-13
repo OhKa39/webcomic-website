@@ -29,7 +29,7 @@ const NavBar: React.FC<{ data?: any[] }> = ({ data }) => {
     { title: "Theo Dõi", address: "/follow", icon: <FaEye /> },
     { title: "Lịch Sử Đọc Truyện", address: "/history", icon: <FaHistory /> },
     { title: "Rank", address: "/rank", icon: <FaTrophy /> },
-    { title: "Thông Báo", address: "/notification", icon: <FaBell /> },
+    ,
     {
       title: "Fanpage",
       address: "https://facebook.com/",
@@ -45,7 +45,7 @@ const NavBar: React.FC<{ data?: any[] }> = ({ data }) => {
             key={title}
             className="nav-links cursor-pointer capitalize font-medium text-gray-500 hover:scale-105 hover:text-white duration-200"
             onMouseEnter={() => setHoveredCategory(title)}
-          // onMouseLeave={() => setHoveredCategory(null)}
+            // onMouseLeave={() => setHoveredCategory(null)}
           >
             <div className="relative w-30">
               <Link href={address}>
@@ -78,8 +78,9 @@ const NavBar: React.FC<{ data?: any[] }> = ({ data }) => {
       )}
 
       <ul
-        className={`md:hidden flex flex-col justify-center items-center absolute top-0 left-0 w-full h-screen bg-gradient-to-b from-black to-gray-800 text-gray-500 transform transition-transform duration-300 ${navOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
+        className={`md:hidden flex flex-col justify-center items-center absolute top-0 left-0 w-full h-screen bg-gradient-to-b from-black to-gray-800 text-gray-500 transform transition-transform duration-300 ${
+          navOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
       >
         {navItems.map(({ title, address }) => (
           <li

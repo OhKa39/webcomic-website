@@ -13,6 +13,8 @@ const Comments = ({
   commentID,
   user,
   depth,
+  query,
+  queryCommentChain,
 }: {
   initialData: any;
   comicID?: string;
@@ -20,12 +22,17 @@ const Comments = ({
   commentID?: string;
   user: any;
   depth: number;
+  query?: string;
+  queryCommentChain: string[];
 }) => {
-  console.log(initialData)
+  // console.log(initialData);
   const [inComingComments, setInComingComments] = useState<any[]>([
     ...initialData,
   ]);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const expression: boolean =
+    depth <= queryCommentChain.length - 1 &&
+    queryCommentChain[Math.min(0, depth - 1)] === commentID;
+  const [isOpen, setIsOpen] = useState<boolean>(expression);
   // console.log(id!);
 
   useEffect(() => {
@@ -83,6 +90,8 @@ const Comments = ({
             chapterID={chapterID}
             depth={depth} //level nested
             parentID={commentID ?? undefined}
+            query={query}
+            queryCommentChain={queryCommentChain}
           />
         ))}
     </div>

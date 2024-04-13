@@ -18,7 +18,6 @@ const getComicData = async (page: any, offset: any, searchValue: any) => {
   return data.json();
 };
 
-
 export default async function SearchByName({
   searchParams,
 }: {
@@ -30,18 +29,18 @@ export default async function SearchByName({
   if (page <= 0 || isNaN(page)) notFound();
   const perPage = 40;
   const comicFetch = await getComicData(page, perPage, Name);
-  
-  const {totalComicsCount, comics} = comicFetch
-  if (totalComicsCount == 0){
-    return(
-        <div>Tìm thấy: {totalComicsCount} kết quả!</div>
-    )
+
+  const { totalComicsCount, comics } = comicFetch;
+  if (totalComicsCount == 0) {
+    return <div>Tìm thấy: {totalComicsCount} kết quả!</div>;
   }
   return (
     <div className="container mx-auto">
-        <div className="pt-5 font-bold text-lg">Tìm thấy: {totalComicsCount} kết quả!</div>
-        <Container data={comics} />
-        <PaginationControl count={totalComicsCount} perPage={perPage} />
+      <div className="pt-5 font-bold text-lg">
+        Tìm thấy: {totalComicsCount} kết quả!
+      </div>
+      <Container data={comics} />
+      <PaginationControl count={totalComicsCount} perPage={perPage} />
     </div>
   );
 }
