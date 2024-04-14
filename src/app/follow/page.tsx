@@ -9,7 +9,7 @@ const getComicData = async (page: any, offset: any, id: string) => {
   const query = {
     id,
     page,
-    offset
+    offset,
   };
 
   const urlPage = process.env.NEXT_PUBLIC_URL;
@@ -21,11 +21,11 @@ const getComicData = async (page: any, offset: any, id: string) => {
   return data.json();
 };
 
-export default async function SearchType({ searchParams, }
-  : {
-    searchParams: { [key: string]: string | string[] | undefined };
-  }) {
-
+export default async function SearchType({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   const profile = await initialUser();
   if (!profile) {
     // const { toast } = useToast();
@@ -36,20 +36,28 @@ export default async function SearchType({ searchParams, }
     // });
     return (
       <div className="container mx-auto">
-        <h1 className="mx-auto mt-5 font-bold text-center text-2xl text-red">VUI LÒNG ĐĂNG NHẬP ĐỂ SỬ DỤNG TÍNH NĂNG NÀY</h1>
+        <h1 className="mx-auto mt-5 font-bold text-center text-2xl text-red">
+          VUI LÒNG ĐĂNG NHẬP ĐỂ SỬ DỤNG TÍNH NĂNG NÀY
+        </h1>
       </div>
-    )
+    );
   }
   const Page = searchParams["page"] ?? "1";
   let page = Number(Page);
   if (page <= 0 || isNaN(page)) notFound();
   const perPage = 40;
-  const {totalComicsCount, comics} = await getComicData(page, perPage, profile.id);
+  const { totalComicsCount, comics } = await getComicData(
+    page,
+    perPage,
+    profile.id
+  );
 
   return (
     <div className="container mx-auto">
-      <h1 className="mx-auto mt-5 font-bold text-center text-2xl w-max">Truyện đang theo dõi</h1>
-      <Container data={comics.map((comic: any)=> comic.comics)} />
+      <h1 className="mx-auto mt-5 font-bold text-center text-2xl w-max">
+        Truyện đang theo dõi
+      </h1>
+      <Container data={comics.map((comic: any) => comic.comics)} />
       <PaginationControl count={totalComicsCount} perPage={perPage} />
     </div>
   );

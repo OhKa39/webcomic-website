@@ -42,6 +42,7 @@ function literal(data: any, user: any) {
 }
 
 async function clickHandler(id: string, isRead: boolean, userID: string) {
+  if (isRead) return;
   const urlPage = process.env.NEXT_PUBLIC_URL;
   const query = {
     id,

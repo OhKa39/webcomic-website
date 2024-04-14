@@ -4,6 +4,7 @@ export async function GET(req: NextRequest, context : any) {
     try{
         const {params} = context
         const comicID = params.comicID
+        const userID = req.nextUrl.searchParams.get('userID')
 
         const comic = await prisma.comics.findUniqueOrThrow({
             where: {
@@ -22,7 +23,15 @@ export async function GET(req: NextRequest, context : any) {
                         chapterNumber: true,
                     }
                 },
-                viewCount: true
+                viewCount: true,
+                events:{
+                    select:{
+                        isTurnOn: true
+                    },
+                    where:{
+                        userID: userID!
+                    }
+                }
             },
         })
         return NextResponse.json(comic,{status: 200})
