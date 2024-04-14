@@ -23,7 +23,7 @@ export default function ButtonForComicPage({
   id: User;
   comicId: string;
 }) {
-  console.log("state", state);
+  // console.log("state", state);
   // console.log("state", state);
   const [isFollowed, setIsFollowed] = useState(state);
   const urlPage = process.env.NEXT_PUBLIC_URL;
@@ -37,14 +37,13 @@ export default function ButtonForComicPage({
           title: "Đã có lỗi xảy ra",
           description: "Vui lòng đăng nhập để sử dụng tính năng này",
         });
-      }
-      else {
+      } else {
         const query = {
           eventType: isFollowed ? "UNFOLLOW" : "FOLLOW",
           comicsId: comicId,
         };
 
-        const data = fetch(`${urlPage}/api/events`, {
+        const data = fetch(`${urlPage}/api/follow`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

@@ -16,28 +16,44 @@ import CommentInput from "@/components/CommentInput";
 import CommentContainer from "@/components/CommentContainer";
 import initialUser from "@/lib/initial-user";
 import ComicTags from "./_components/ComicTags";
+import { Suspense } from "react";
 
 const getComic = async (comicID: any) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
   const data = await fetch(`${urlPage}/api/comic/${comicID}`, {
-    next: { revalidate: 5 },
+    cache: "no-store",
   });
   return data.json();
 };
 
 const getCurrentEvents = async (comicID: any, userID: string | undefined) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
-  const data = await fetch(`${urlPage}/api/follow/${comicID}?userID=${userID}`);
+  const data = await fetch(
+    `${urlPage}/api/follow/${comicID}?userID=${userID}`,
+    {
+      cache: "no-store",
+    }
+  );
   // console.log(`${urlPage}/api/events/${comicID}?${userID}`);
-  return await data.json();
+  return data.json();
 };
 
-export default async function comicPage({ params }: { params: any }) {
+export default async function comicPage({
+  params,
+  searchParams,
+}: {
+  params: any;
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   const path = params["comic-page"];
   const comicFetch = getComic(path);
   const profileFetch = initialUser();
   const [comic, profile] = await Promise.all([comicFetch, profileFetch]);
   const currentEvent = await getCurrentEvents(path, profile?.id);
+  // const profile = await initialUser();
+  // const comic = await getComic(path, profile?.id);
+  const query = searchParams["commentID"];
+  // console.log(comic);
 
   return (
     // <Suspense>
@@ -89,16 +105,21 @@ export default async function comicPage({ params }: { params: any }) {
             </li>
           </ul>
           <div className="flex gap-5 mt-6">
-            <Link hidden={comic.comicChapters.length < 1} href={"/comic/" + comic.id + "/" + "1"}>
+            <Link
+              hidden={comic.comicChapters.length < 1}
+              href={"/comic/" + comic.id + "/" + "1"}
+            >
               <Button className="font-bold" color="warning">
                 Đọc từ đầu
               </Button>{" "}
             </Link>
-            <ComicPageButton
-              profileFetch={profile!}
-              comicId={path}
-              currentEvent={currentEvent}
-            />
+            <Suspense>
+              <ComicPageButton
+                profileFetch={profile!}
+                comicId={path}
+                currentEvent={currentEvent}
+              />
+            </Suspense>
           </div>
         </div>
       </div>
@@ -121,7 +142,13 @@ export default async function comicPage({ params }: { params: any }) {
         <p className="font-bold">Bình luận</p>
       </div>
       <CommentInput user={profile} comicsID={path} />
-      <CommentContainer comicID={path} user={profile} />
+      <Suspense>
+        <CommentContainer
+          comicID={path}
+          user={profile}
+          query={query as string | undefined}
+        />
+      </Suspense>
     </div>
     // </Suspense>
   );

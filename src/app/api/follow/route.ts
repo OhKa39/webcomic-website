@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json(null, { status: 401 });
         }
         const data = await req.json();
-        console.log(data)
+        // console.log(data)
         const event = await prisma.events.findFirst({
             where:{
                 comicsId: data.query.comicsId,
