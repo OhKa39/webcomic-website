@@ -16,9 +16,9 @@ const getData = async (comicID: any) => {
   return data.json();
 };
 
-const increaseViewCount = async (comicID: any, comicChapter: any) => {
+const increaseViewCount = async (comicID: any, comicChapter: any, chapterId: any) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
-  const data = await fetch(`${urlPage}/api/comic/${comicID}/${comicChapter}`, {
+  const data = await fetch(`${urlPage}/api/comic/${comicID}/${comicChapter}?chapterId=${chapterId}`, {
     method:'POST',
     headers:{'Content-Type': 'application/json'}
   });
@@ -32,7 +32,9 @@ export default async function ReadComicPage({ params }: { params: any }) {
   const pagesData = getPages(comicId, comicChapter); // lay trang trong chapter do
   const ListData = getData(comicId);
   const [pages, data] = await Promise.all([pagesData, ListData]);
-  increaseViewCount(comicId, comicChapter)
+  const chapterId = pages["id"];
+
+  increaseViewCount(comicId, comicChapter, chapterId)
   const ListChapter = data.comicChapters; // lay mang gom cac chapter
   return (
     <div className="p-8 w-full bg-gray-400 relative justify-center">
