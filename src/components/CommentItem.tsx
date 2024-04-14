@@ -115,7 +115,7 @@ const CommentItem = ({
 
               <DeleteCommentButton
                 comment={comment}
-                parentId={parentID ?? (comicID || chapterID)}
+                parentId={parentID ?? (comicID || chapterID)} //Nếu parent ko tồn tại thì reference tới root
               />
             </div>
           )}

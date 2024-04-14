@@ -93,20 +93,22 @@ export async function POST(req: NextRequest){
         
     const data = await req.json()
 
+    // console.log(data)
+
     const subscribeEvent = await prisma.events.create({
       data:{
         eventType: "COMMENT",
         userID: profile!.id,
-        commentsId: data.currentComment.id
+        commentsId: data.queryNotification.currentComment.id
       }
     })
     
-    if(!!data.query.commentID)
+    if(!!data.queryNotification.commentID)
     {
       const followerComment = await prisma.events.findMany({
         where:
         {
-          commentsId: data.query.commentID,
+          commentsId: data.queryNotification.commentID,
           userID: {
             not: profile.id
           },
@@ -117,7 +119,7 @@ export async function POST(req: NextRequest){
       for(const ele of followerComment){
         const dataNotificationOut = await prisma.notifications.create({
           data:{
-            commentsActorId: data.currentComment.id,
+            commentsActorId: data.queryNotification.currentComment.id,
             entityNotificationId: "661962f9da0105ab37470cb9",
             eventsId: ele.id
           },
@@ -145,7 +147,7 @@ export async function POST(req: NextRequest){
         where:{
           eventType: "COMMENT",
           userID: profile.id,
-          commentsId: data.query.commentID 
+          commentsId: data.queryNotification.commentID 
         }
       })
 
@@ -155,7 +157,7 @@ export async function POST(req: NextRequest){
           data: {
             eventType: "COMMENT",
             userID: profile.id,
-            commentsId: data.query.commentID 
+            commentsId: data.queryNotification.commentID 
           }
         })
       }

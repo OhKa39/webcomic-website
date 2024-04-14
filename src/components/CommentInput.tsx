@@ -83,7 +83,7 @@ const CommentInput = ({
           commentID,
           currentComment: data,
         };
-        const notificationFetch = await fetch(url, {
+        const notificationFetch = await fetch(urlNotification, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
