@@ -85,7 +85,7 @@ export default async function comicPage({ params }: { params: any }) {
             <li>
               {" "}
               <IoPricetags className="inline" /> Tags:{" "}
-              <ComicTags data={comic.comicTypes}/>
+              {comic.comicTypes.length > 0 && <ComicTags data={comic.comicTypes}/>}
             </li>
           </ul>
           <div className="flex gap-5 mt-6">
