@@ -6,7 +6,7 @@ import ChapterListBar from "./_components/ChapterListBar";
 const getPages = async (comicID: any, comicChapter: any) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
 
-  const data = await fetch(`${urlPage}/api/comic/${comicID}/${comicChapter}`);
+  const data = await fetch(`${urlPage}/api/comic/${comicID}/${comicChapter}`, {cache:"no-cache"}); // xoa 
   return data.json();
 };
 

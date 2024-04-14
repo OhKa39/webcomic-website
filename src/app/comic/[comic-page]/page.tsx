@@ -7,6 +7,7 @@ import { FaRegCommentDots } from "react-icons/fa6";
 import { AiFillLike } from "react-icons/ai";
 import { FaHeart } from "react-icons/fa";
 import { FaRegEye } from "react-icons/fa";
+import { IoPricetags } from "react-icons/io5";
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
 import ComicMenu from "@/app/comic/[comic-page]/_components/ComicMenu";
@@ -14,6 +15,7 @@ import ComicPageButton from "@/app/comic/[comic-page]/_components/ComicPageButto
 import CommentInput from "@/components/CommentInput";
 import CommentContainer from "@/components/CommentContainer";
 import initialUser from "@/lib/initial-user";
+import ComicTags from "./_components/ComicTags";
 
 const getComic = async (comicID: any) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
@@ -73,12 +75,17 @@ export default async function comicPage({ params }: { params: any }) {
             <li>
               {" "}
               <FaHeart className="inline" /> Lượt theo dõi:{" "}
-              {comic.isCompleted ? "Hoàn thành" : "Chưa hoàn thành"}
+              {comic.events ? comic.events.length : 0}
             </li>
             <li>
               {" "}
               <FaRegEye className="inline" /> Lượt xem:{" "}
               {comic.viewCount ? comic.viewCount.length : 0}
+            </li>
+            <li>
+              {" "}
+              <IoPricetags className="inline" /> Tags:{" "}
+              <ComicTags data={comic.comicTypes}/>
             </li>
           </ul>
           <div className="flex gap-5 mt-6">
