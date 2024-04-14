@@ -46,7 +46,7 @@ export default async function comicPage({
   const profile = await initialUser();
   const comic = await getComic(path, profile?.id);
   const query = searchParams["commentID"];
-  // console.log(comic);
+  console.log(comic);
 
   return (
     // <Suspense>
@@ -104,7 +104,9 @@ export default async function comicPage({
             <ComicPageButton
               profileFetch={profile!}
               comicId={path}
-              currentEvent={comic.events.length === 0 ? null : comic.events[0]}
+              currentEvent={
+                comic.events.length === 0 || !profile ? null : comic.events[0]
+              }
             />
           </div>
         </div>

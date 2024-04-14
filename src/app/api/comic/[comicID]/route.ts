@@ -4,7 +4,7 @@ export async function GET(req: NextRequest, context : any) {
     try{
         const {params} = context
         const comicID = params.comicID
-        const userID = req.nextUrl.searchParams.get('userID')
+        const userID = req.nextUrl.searchParams.get('userID') === 'undefined' ? undefined : req.nextUrl.searchParams.get('userID')
 
         const comic = await prisma.comics.findUniqueOrThrow({
             where: {
