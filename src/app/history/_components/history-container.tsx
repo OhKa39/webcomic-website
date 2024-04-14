@@ -14,7 +14,6 @@ export default function HistoryContainer() {
         setLocalComics(JSON.parse(localStorage.getItem("visited-comics") || "[]"))
     }, [comicIdToDelete])
 
-
     return (
         <HistoryItems data={localComics!} comicIdToDelete={comicIdToDelete} setcomicIdToDelete={handleChangeComicIdToD}/>
         

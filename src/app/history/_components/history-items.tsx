@@ -22,16 +22,24 @@ export default async function HistoryItems({
     (i: any) => i.comicId !== comicIdToDelete
   ); //xoa thg co id can xoa
 
-  const comicIdString = comicIdAfterDelete.map((i: any) => i.comicId); // map ra mang id
-  const chapterNumberString = data.map((i: any) => i.comicChapter); // map ra mang chapter
+export default async function HistoryItems({data, comicIdToDelete, setcomicIdToDelete}:{data:any, comicIdToDelete:any,setcomicIdToDelete:any}) {
+    if (data.length == 0) return(<h1>không tìm thấy truyện!</h1>)
+    const comicAfterDelete = data.filter((i:any)=>i.comicId !== comicIdToDelete) //xoa thg co id can xoa
 
-  const comicIdArray = comicIdString.join(",");
-  if (comicIdArray.length < 1) return <h1>không tìm thấy truyện!</h1>;
-  let localComic = await getData(comicIdArray);
-  localComic.forEach((obj: any, index: any) => {
-    obj.chapterNumber = chapterNumberString[index];
-  });
-  return (
+    const comicIdString = comicAfterDelete.map((i:any) => i.comicId) // map ra mang id 
+    
+    const comicIdArray = comicIdString.join(',')
+    if(comicIdArray.length < 1) return(<h1>không tìm thấy truyện!</h1>)
+    let localComic = await getData(comicIdArray)
+
+    localComic.forEach((i : any) => {
+        comicAfterDelete.forEach((j:any) => {
+            if (i.id === j.comicId)
+                i.chapterNumber = j.comicChapter;
+        });
+    });
+
+    return (
     <div>
       <Container
         data={localComic}

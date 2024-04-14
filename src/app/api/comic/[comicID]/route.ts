@@ -22,7 +22,18 @@ export async function GET(req: NextRequest, context : any) {
                         chapterNumber: true,
                     }
                 },
-                viewCount: true
+                viewCount: true,
+                events:{
+                 where:{
+                    isTurnOn: true
+                 }
+                },
+                comicTypes: {
+                    select:{
+                        id:true,
+                        comicTypeName: true
+                    }
+                }
             },
         })
         return NextResponse.json(comic,{status: 200})

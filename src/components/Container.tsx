@@ -11,7 +11,7 @@ export default function Container({
 }) {
   return (
     <div>
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 mx-auto max-w-6xl w-auto gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 mx-auto max-w-6xl w-auto gap-5 pt-4">
         <ContainerItems data={data} setcomicIdToDelete={setcomicIdToDelete} />
       </div>
     </div>
