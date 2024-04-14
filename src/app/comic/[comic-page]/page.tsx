@@ -16,9 +16,9 @@ import CommentContainer from "@/components/CommentContainer";
 import initialUser from "@/lib/initial-user";
 import { Suspense } from "react";
 
-const getComic = async (comicID: any, userID: string | undefined) => {
+const getComic = async (comicID: any) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
-  const data = await fetch(`${urlPage}/api/comic/${comicID}?userID=${userID}`, {
+  const data = await fetch(`${urlPage}/api/comic/${comicID}`, {
     cache: "no-store",
   });
   return data.json();
@@ -26,7 +26,12 @@ const getComic = async (comicID: any, userID: string | undefined) => {
 
 const getCurrentEvents = async (comicID: any, userID: string | undefined) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
-  const data = await fetch(`${urlPage}/api/follow/${comicID}?userID=${userID}`);
+  const data = await fetch(
+    `${urlPage}/api/follow/${comicID}?userID=${userID}`,
+    {
+      cache: "no-store",
+    }
+  );
   // console.log(`${urlPage}/api/events/${comicID}?${userID}`);
   return data.json();
 };
@@ -39,14 +44,14 @@ export default async function comicPage({
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
   const path = params["comic-page"];
-  // const comicFetch = getComic(path);
-  // const profileFetch = initialUser();
-  // const [comic, profile] = await Promise.all([comicFetch, profileFetch]);
-  // const currentEvent = await getCurrentEvents(path, profile?.id);
-  const profile = await initialUser();
-  const comic = await getComic(path, profile?.id);
+  const comicFetch = getComic(path);
+  const profileFetch = initialUser();
+  const [comic, profile] = await Promise.all([comicFetch, profileFetch]);
+  const currentEvent = await getCurrentEvents(path, profile?.id);
+  // const profile = await initialUser();
+  // const comic = await getComic(path, profile?.id);
   const query = searchParams["commentID"];
-  console.log(comic);
+  // console.log(comic);
 
   return (
     // <Suspense>
@@ -101,13 +106,13 @@ export default async function comicPage({
                 Đọc từ đầu
               </Button>{" "}
             </Link>
-            <ComicPageButton
-              profileFetch={profile!}
-              comicId={path}
-              currentEvent={
-                comic.events.length === 0 || !profile ? null : comic.events[0]
-              }
-            />
+            <Suspense>
+              <ComicPageButton
+                profileFetch={profile!}
+                comicId={path}
+                currentEvent={currentEvent}
+              />
+            </Suspense>
           </div>
         </div>
       </div>
