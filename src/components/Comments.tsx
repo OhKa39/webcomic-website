@@ -30,8 +30,8 @@ const Comments = ({
     ...initialData,
   ]);
   const expression: boolean =
-    depth <= queryCommentChain.length - 1 &&
-    queryCommentChain[Math.min(0, depth - 1)] === commentID;
+    depth <= queryCommentChain.length &&
+    queryCommentChain[Math.max(0, depth - 1)] === commentID; //Kiểm tra node cha có nằm trong cấu trúc cây của query hay ko
   const [isOpen, setIsOpen] = useState<boolean>(expression);
   // console.log(id!);
 

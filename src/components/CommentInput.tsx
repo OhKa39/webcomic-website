@@ -52,11 +52,13 @@ const CommentInput = ({
     const urlPage = process.env.NEXT_PUBLIC_URL;
     const query = {
       content: values.content,
-      comicsID: comicsID,
-      chapterID: chapterID,
-      commentID: commentID,
+      comicsID,
+      chapterID,
+      commentID,
     };
     const url = `${urlPage}/api/comment`;
+    form.reset();
+
     const dataFetch = await fetch(url, {
       method: `${content ? "PUT" : "POST"}`,
       headers: {
@@ -65,21 +67,39 @@ const CommentInput = ({
       body: JSON.stringify({ query }),
     });
     const data = await dataFetch.json();
-    if (dataFetch.status === 200)
+
+    // Notification for user
+    if (dataFetch.status === 200) {
       toast({
         variant: "success",
         title: `Thành công`,
         description: `${!content ? "Gửi" : "Sửa"} bình luận thành công`,
       });
-    else
+
+      //If post sent notification to every follower
+      if (!content) {
+        const urlNotification = `${urlPage}/api/notification`;
+        const queryNotification = {
+          commentID,
+          currentComment: data,
+        };
+        const notificationFetch = await fetch(urlNotification, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ queryNotification }),
+        });
+      }
+    } else
       toast({
         variant: "warning",
         title: `Đã có lỗi xảy ra`,
         description: `Gửi bình luận thất bại: ${data.message}`,
       });
+
     // console.log(data);
     // console.log(values);
-    form.reset();
   }
 
   return (

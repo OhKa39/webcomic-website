@@ -22,11 +22,11 @@ model Comics {
   userID           String
   comicDescription String
 
-  comicChapters   ComicChapters[]
-  events          Events[]
+  comicChapters ComicChapters[]
+  events        Events[]
   // history         History[]
-  commentsComic   Comments[]
-  viewCount       ViewCount[]
+  commentsComic Comments[]
+  viewCount     ViewCount[]
 
   comicTypesIDs String[]     @db.ObjectId
   comicTypes    ComicTypes[] @relation(fields: [comicTypesIDs], references: [id])
@@ -45,7 +45,7 @@ model ComicChapters {
   comicsId      String          @db.ObjectId
 
   commentsChapter Comments[]
-  history History[]
+  history         History[]
 
   // CommentsChapter CommentsChapter[]
 }
@@ -102,14 +102,14 @@ enum EventLogType {
 }
 
 model History {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime @default(now())
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt      DateTime      @default(now())
   // comicsId  String   @db.ObjectId
-  comicChapterId  String   @db.ObjectId
-  userID    String   @db.ObjectId
-  user      User     @relation(fields: [userID], references: [id], onDelete: Cascade)
+  comicChapterId String        @db.ObjectId
+  userID         String        @db.ObjectId
+  user           User          @relation(fields: [userID], references: [id], onDelete: Cascade)
   // Comics    Comics   @relation(fields: [comicsId], references: [id], onDelete: Cascade)
-  ComicChapters   ComicChapters @relation(fields: [comicChapterId], references: [id], onDelete: Cascade)
+  ComicChapters  ComicChapters @relation(fields: [comicChapterId], references: [id], onDelete: Cascade)
 }
 
 model ViewCount {
@@ -131,9 +131,9 @@ model Comments {
   updateAt       DateTime   @updatedAt
   likes          Int        @default(0)
 
-  comics          Comics?        @relation(fields: [comicsId], references: [id])
+  comics          Comics?        @relation(fields: [comicsId], references: [id], onDelete: Cascade)
   comicsId        String?        @db.ObjectId
-  comicChapters   ComicChapters? @relation(fields: [comicChaptersId], references: [id])
+  comicChapters   ComicChapters? @relation(fields: [comicChaptersId], references: [id], onDelete: Cascade)
   comicChaptersId String?        @db.ObjectId
 
   events             Events[]
@@ -156,18 +156,18 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  comments        Comments[]
-  events          Events[]
-  history         History[]
+  comments Comments[]
+  events   Events[]
+  history  History[]
 }
 
 model Notifications {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   isRead               Boolean            @default(false)
-  commentActor         Comments?          @relation(fields: [commentsActorId], references: [id])
+  commentActor         Comments?          @relation(fields: [commentsActorId], references: [id], onDelete: Cascade)
   commentsActorId      String?            @db.ObjectId
-  events               Events             @relation(fields: [eventsId], references: [id])
+  events               Events             @relation(fields: [eventsId], references: [id], onDelete: Cascade)
   eventsId             String             @db.ObjectId
   entityNotification   EntityNotification @relation(fields: [entityNotificationId], references: [id])
   entityNotificationId String             @db.ObjectId
