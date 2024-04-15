@@ -37,7 +37,7 @@ const Comments = ({
     const fetchData = async () => {
       const urlPage = process.env.NEXT_PUBLIC_URL;
       // console.log(`${urlPage}/api/notification?userID=${user.id}`);
-      console.log(`${urlPage}/api/comment/${commentID}?isGetRootChain=false`);
+      // console.log(`${urlPage}/api/comment/${commentID}?isGetRootChain=false`);
       const response = await fetch(
         `${urlPage}/api/comment/${commentID}?isGetRootChain=false`,
         {

@@ -56,7 +56,7 @@ export default async function ReadComicPage({
     profileData,
   ]);
   const chapterId = pages.id;
-  console.log(chapterId);
+  // console.log(chapterId);
   const query = searchParams["commentID"];
 
   const viewCount = await increaseViewCount(comicId, comicChapter, chapterId);
@@ -67,7 +67,7 @@ export default async function ReadComicPage({
       <ComicPage data={pages["chapterImages"]} />
       {/* </Suspense> */}
 
-      <div className="mt-2 bg-white h-max px-12 sm:px-42 py-5 rounded-md">
+      <div className="mt-2 bg-white dark:bg-gray-400 h-max px-12 sm:px-42 py-5 rounded-md">
         <div className="flex gap-3 items-center text-lg">
           <FaRegCommentDots />
           <p className="font-bold">Bình luận</p>

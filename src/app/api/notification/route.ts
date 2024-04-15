@@ -72,7 +72,11 @@ export async function PUT(req: NextRequest)
           include:{
             user:true,
             comics: true,
-            comicChapters: true
+            comicChapters: {
+              include:{
+                comics:true
+              }
+            }
           }
         },
         entityNotification: true
@@ -138,7 +142,11 @@ export async function POST(req: NextRequest){
               include:{
                 user:true,
                 comics: true,
-                comicChapters: true
+                comicChapters: {
+                  include:{
+                    comics:true
+                  }
+                }
               }
             },
             entityNotification: true
