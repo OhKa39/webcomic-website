@@ -23,12 +23,31 @@ export async function GET(req: NextRequest, context : any)
 
   try{
       const commentID = context.params.commentID
+      const isGetRootChain = req.nextUrl.searchParams.get("isGetRootChain")
 
       if(commentID === "undefined")
-        return NextResponse.json({rootComment: []},{status: 200})
-      
-      const data =  await recursive(commentID)
-      return NextResponse.json({rootComment: data},{status: 200})
+          return NextResponse.json({rootComment: []},{status: 200})
+
+      if(isGetRootChain === "true") //Lấy chuỗi root query
+      {
+        const data =  await recursive(commentID)
+        return NextResponse.json({rootComment: data},{status: 200})
+      }
+
+      //Lấy thông tin của comment có id là commentID
+      const data = await prisma.comments.findMany({  
+        where:{
+          commentReplyId: commentID
+        },
+        orderBy:{
+          updateAt: "asc"
+        },
+        include:{
+          // commentReplies: recursive(2),
+          user: true
+        }
+      })
+      return NextResponse.json(data,{status: 200})
     }
   catch(error)
   {

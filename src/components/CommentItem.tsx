@@ -166,7 +166,6 @@ const CommentItem = ({
         {depth < MAX_DEPTH && (
           <Comments
             depth={depth + 1}
-            initialData={comment.commentReplies}
             user={user}
             comicID={comicID}
             chapterID={chapterID}
