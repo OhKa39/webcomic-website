@@ -15,7 +15,6 @@ export async function POST(req: NextRequest, context : any) {
         if((data.query.chapterID && data.query.comicID) || data.query.content.trim() === "")
           return NextResponse.json({message: `Bad Request`},{status: 400})
 
-        
         // console.log(data)
         const dataOut = await prisma.comments.create({
           data:{
@@ -73,7 +72,7 @@ export async function GET(req: NextRequest) //Lấy tất cả các root của c
   }
 }
 
-export async function PUT(req: NextRequest, context : any) {
+export async function PUT(req: NextRequest, context : any) { //chỉnh sửa nội dung comment
   try{
       const profile = await initialUser()
       

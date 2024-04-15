@@ -179,6 +179,6 @@ export async function POST(req: NextRequest){
   }
   catch(error)
   {
-    NextResponse.json({ message: `Something is error:${error}`},{status: 500})
+    return NextResponse.json({ message: `Something is error:${error}`},{status: 500})
   }
 }

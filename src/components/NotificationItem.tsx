@@ -76,7 +76,7 @@ const NotificationItem = ({ data, user }: { data: any; user: any }) => {
   useEffect(() => {
     const id = setTimeout(() => {
       setTime(moment(timeCreatedAt).fromNow().toString());
-    }, 1000);
+    }, 60000);
     return () => clearTimeout(id);
   }, [time]);
 
