@@ -8,9 +8,10 @@ async function getData(localComic: any) {
   return data.json();
 }
 export default async function HistoryItems({data, comicIdToDelete, setcomicIdToDelete}:{data:any, comicIdToDelete:any,setcomicIdToDelete:any}) {
-    if (data.length == 0) return(<h1>không tìm thấy truyện!</h1>)
-    const comicAfterDelete = data.filter((i:any)=>i.comicId !== comicIdToDelete) //xoa thg co id can xoa
-
+  if (data.length == 0) return(<h1>không tìm thấy truyện!</h1>)
+  const comicAfterDelete = data.filter((i:any)=>i.comicId !== comicIdToDelete) //xoa thg co id can xoa
+  
+  const comicIdString = comicAfterDelete.map((i: any) => i.comicId);
   const comicIdArray = comicIdString.join(",");
   if (comicIdArray.length < 1) return <h1>không tìm thấy truyện!</h1>;
   let localComic = await getData(comicIdArray);
