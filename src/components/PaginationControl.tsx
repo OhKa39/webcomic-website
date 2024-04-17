@@ -50,7 +50,7 @@ const PaginationControls: FC<PaginationControlsProps> = ({
     // console.log(pathName);
     // console.log(params);
     return (
-      <div className="flex gap-5 justify-center ">
+      <div className="flex gap-5 mt-3 justify-center ">
         <div>
           <Pagination
             boundaries={2}
