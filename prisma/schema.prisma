@@ -24,7 +24,7 @@ model Comics {
 
   comicChapters ComicChapters[]
   events        Events[]
-  // history         History[]
+  history         History[]
   commentsComic Comments[]
   viewCount     ViewCount[]
 
@@ -104,11 +104,11 @@ enum EventLogType {
 model History {
   id             String        @id @default(auto()) @map("_id") @db.ObjectId
   createdAt      DateTime      @default(now())
-  // comicsId  String   @db.ObjectId
+  comicsId       String        @db.ObjectId @unique
   comicChapterId String        @db.ObjectId
-  userID         String        @db.ObjectId
+  userID         String        @db.ObjectId @unique
   user           User          @relation(fields: [userID], references: [id], onDelete: Cascade)
-  // Comics    Comics   @relation(fields: [comicsId], references: [id], onDelete: Cascade)
+  Comics    Comics   @relation(fields: [comicsId], references: [id], onDelete: Cascade)
   ComicChapters  ComicChapters @relation(fields: [comicChapterId], references: [id], onDelete: Cascade)
 }
 

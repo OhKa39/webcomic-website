@@ -1,7 +1,7 @@
 import ComicPage from "@/app/comic/[comic-page]/[read-comic-page]/_components/ComicPage";
 import { Suspense } from "react";
-// import visitedComics from "./_components/Visited-Comics"
 import ChapterListBar from "./_components/ChapterListBar";
+import initialUser from '@/lib/initial-user'
 
 const getPages = async (comicID: any, comicChapter: any) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
@@ -16,11 +16,12 @@ const getData = async (comicID: any) => {
   return data.json();
 };
 
-const increaseViewCount = async (comicID: any, comicChapter: any, chapterId: any) => {
+const userHistory = async (comicID: any, comicChapter: any, chapterId: any, profile: any) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
-  const data = await fetch(`${urlPage}/api/comic/${comicID}/${comicChapter}?chapterId=${chapterId}`, {
+  const data = await fetch(`${urlPage}/api/comic/${comicID}/${comicChapter}?`, {
     method:'POST',
-    headers:{'Content-Type': 'application/json'}
+    headers:{'Content-Type': 'application/json'},
+    body: JSON.stringify({ profile, chapterId, comicID}),
   });
   return data.json();
 };
@@ -32,9 +33,15 @@ export default async function ReadComicPage({ params }: { params: any }) {
   const pagesData = getPages(comicId, comicChapter); // lay trang trong chapter do
   const ListData = getData(comicId);
   const [pages, data] = await Promise.all([pagesData, ListData]);
+  const profile = await initialUser()
   const chapterId = pages["id"];
+  
+  userHistory(comicId, comicChapter, chapterId, profile)
+  if (profile) {
+    console.log("Login")
+  }
 
-  increaseViewCount(comicId, comicChapter, chapterId)
+
   const ListChapter = data.comicChapters; // lay mang gom cac chapter
   return (
     <div className="p-8 w-full bg-gray-400 relative justify-center">

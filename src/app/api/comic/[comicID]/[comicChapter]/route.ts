@@ -1,37 +1,39 @@
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/lib/db'
 
-
 export async function POST(req: NextRequest, context : any) {
     try{
         const {params} = context
         const comicID = params.comicID
         // const comicChapter = params.comicChapter
-        const chapterId = req.nextUrl.searchParams.get('chapterId')
-        
-
+        const data = await req.json() 
+        console.log(data)        
         const increaseViewCount = await prisma.viewCount.create({
            data:{
             comicsId: comicID,
            }, 
         });
-        
-        // if (profile) {
-        //     const addHistory = await prisma.history.create({
-        //         data: {
-        //            comicChapterId: chapterId!,
-        //            userID: profile.userId
-        //         }, 
-        //      }); 
-        //     console.log("Im here")
-        //     const response = {
-        //         increaseViewCount,
-        //         addHistory
-        //     };
-        //     return NextResponse.json(response,{status: 200}) 
-        // }
+        if (data.profile) {
+            const user = {
+                comicChapterId: data.chapterId,
+                userID: data.profile.id,
+                comicsId: data.comicID
+            }
+            const history = await prisma.history.upsert(
+                {
+                  where: {
+                    comicsId: user.comicsId,
+                    userID: user.userID
+                  },
+                  update: {
+                    comicChapterId: user.comicChapterId,
+                  },
+                  create: user
+                }); 
+            const response = {increaseViewCount, history}
+            return NextResponse.json(response,{status: 200})
+        }
         return NextResponse.json(increaseViewCount,{status: 200})
-        
     }
     catch(error)
     {
