@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-export default async function ComicPage({ data }: { data: any }) {
+export default function ComicPage({ data }: { data: any }) {
   return data.map((result: any) => (
     <Image
       className="block m-auto w-screen h-screen md:w-1/2 md:h-1/2"

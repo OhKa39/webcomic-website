@@ -12,10 +12,9 @@ export async function POST(req: NextRequest, context : any) {
         
         const data  = await req.json()  
 
-        if((data.query.chapterID && data.query.commentID) || data.query.content.trim() === "")
+        if((data.query.chapterID && data.query.comicID) || data.query.content.trim() === "")
           return NextResponse.json({message: `Bad Request`},{status: 400})
 
-        
         // console.log(data)
         const dataOut = await prisma.comments.create({
           data:{
@@ -47,29 +46,8 @@ export async function POST(req: NextRequest, context : any) {
     }
 }
 
-export async function GET(req: NextRequest)
+export async function GET(req: NextRequest) //Lấy tất cả các root của comment
 {
-  type RecursiveInclude = {
-    include: any
-  };
-
-  const recursive = (level: number): RecursiveInclude => {
-    if (level === 0) {
-      return {
-        include: {
-          commentReplies: true,
-          user: true
-        }
-      };
-    }
-    return {
-      include: {
-        commentReplies: recursive(level - 1),
-        user: true
-      }
-    };
-  }
-
   try{
       const comicId = req.nextUrl.searchParams.get('ComicId') === "undefined" ? undefined : req.nextUrl.searchParams.get('ComicId')
       const chapterId = req.nextUrl.searchParams.get('chapterId') === "undefined" ? undefined : req.nextUrl.searchParams.get('chapterId')
@@ -83,7 +61,6 @@ export async function GET(req: NextRequest)
           updateAt: "desc"
         },
         include:{
-          commentReplies: recursive(2),
           user: true
         }
       })
@@ -95,7 +72,7 @@ export async function GET(req: NextRequest)
   }
 }
 
-export async function PUT(req: NextRequest, context : any) {
+export async function PUT(req: NextRequest, context : any) { //chỉnh sửa nội dung comment
   try{
       const profile = await initialUser()
       

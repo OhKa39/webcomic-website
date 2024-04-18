@@ -21,20 +21,8 @@ import { Suspense } from "react";
 const getComic = async (comicID: any) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
   const data = await fetch(`${urlPage}/api/comic/${comicID}`, {
-    cache: "no-store",
+    next: { revalidate: 5 },
   });
-  return data.json();
-};
-
-const getCurrentEvents = async (comicID: any, userID: string | undefined) => {
-  const urlPage = process.env.NEXT_PUBLIC_URL;
-  const data = await fetch(
-    `${urlPage}/api/follow/${comicID}?userID=${userID}`,
-    {
-      cache: "no-store",
-    }
-  );
-  // console.log(`${urlPage}/api/events/${comicID}?${userID}`);
   return data.json();
 };
 
@@ -49,7 +37,7 @@ export default async function comicPage({
   const comicFetch = getComic(path);
   const profileFetch = initialUser();
   const [comic, profile] = await Promise.all([comicFetch, profileFetch]);
-  const currentEvent = await getCurrentEvents(path, profile?.id);
+  // const currentEvent = await getCurrentEvents(path, profile?.id);
   // const profile = await initialUser();
   // const comic = await getComic(path, profile?.id);
   const query = searchParams["commentID"];
@@ -85,11 +73,6 @@ export default async function comicPage({
             </li>
             <li>
               {" "}
-              <AiFillLike className="inline" /> Lượt thích:{" "}
-              {comic.isCompleted ? "Hoàn thành" : "Chưa hoàn thành"}
-            </li>
-            <li>
-              {" "}
               <FaHeart className="inline" /> Lượt theo dõi:{" "}
               {comic.events ? comic.events.length : 0}
             </li>
@@ -101,7 +84,9 @@ export default async function comicPage({
             <li>
               {" "}
               <IoPricetags className="inline" /> Tags:{" "}
-              {comic.comicTypes.length > 0 && <ComicTags data={comic.comicTypes}/>}
+              {comic.comicTypes.length > 0 && (
+                <ComicTags data={comic.comicTypes} />
+              )}
             </li>
           </ul>
           <div className="flex gap-5 mt-6">
@@ -113,12 +98,8 @@ export default async function comicPage({
                 Đọc từ đầu
               </Button>{" "}
             </Link>
-            <Suspense>
-              <ComicPageButton
-                profileFetch={profile!}
-                comicId={path}
-                currentEvent={currentEvent}
-              />
+            <Suspense fallback={<p>loading...</p>}>
+              <ComicPageButton profileFetch={profile!} comicId={path} />
             </Suspense>
           </div>
         </div>

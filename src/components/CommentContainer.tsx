@@ -20,9 +20,12 @@ async function getData({
 
 async function getCommentRootID({ query }: { query: string | undefined }) {
   const urlPage = process.env.NEXT_PUBLIC_URL;
-  const response = await fetch(`${urlPage}/api/comment/${query}`, {
-    method: "GET",
-  });
+  const response = await fetch(
+    `${urlPage}/api/comment/${query}?isGetRootChain=true`,
+    {
+      method: "GET",
+    }
+  );
   return response.json();
 }
 
@@ -43,6 +46,8 @@ const CommentContainer = async ({
     dataFetch,
     commentRootFetch,
   ]);
+
+  // console.log(data);
   return (
     <div className="mt-5">
       <Comments

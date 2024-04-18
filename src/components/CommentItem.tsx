@@ -46,7 +46,7 @@ const CommentItem = ({
   useEffect(() => {
     const id = setTimeout(() => {
       setTime(moment(comment.updateAt).fromNow().toString());
-    }, 1000);
+    }, 60000);
     return () => clearTimeout(id);
   }, [time]);
 
@@ -66,7 +66,7 @@ const CommentItem = ({
       });
       setTimeout(() => {
         setIsHighLight(!isHighlight);
-      }, 10000);
+      }, 5000);
     }
 
     return () => {
@@ -166,7 +166,6 @@ const CommentItem = ({
         {depth < MAX_DEPTH && (
           <Comments
             depth={depth + 1}
-            initialData={comment.commentReplies}
             user={user}
             comicID={comicID}
             chapterID={chapterID}

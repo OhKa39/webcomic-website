@@ -6,13 +6,9 @@ import { User, Events } from "@prisma/client";
 type props = {
   profileFetch: User;
   comicId: string;
-  currentEvent: Events;
 };
-export default function ComicPageButton({
-  profileFetch,
-  comicId,
-  currentEvent,
-}: props) {
+
+export default function ComicPageButton({ profileFetch, comicId }: props) {
   const listButton = [
     {
       //True: eventTypes == "FOLLOW"
@@ -21,10 +17,6 @@ export default function ComicPageButton({
       textTrue: "Bỏ theo dõi",
       iconFalse: <FaHeart />,
       iconTrue: <FaHeartBroken />,
-      id: profileFetch,
-      comicId,
-      CurrentFollow:
-        (currentEvent?.isTurnOn ? true : false) ?? false,
     },
   ];
   // console.log("State check", currentEvent?.eventType)
@@ -34,10 +26,9 @@ export default function ComicPageButton({
       color={i.color}
       textFalse={i.textFalse}
       textTrue={i.textTrue}
-      state={i.CurrentFollow} // if miss undefined ?????
       iconFalse={i.iconFalse}
       iconTrue={i.iconTrue}
-      id={profileFetch}
+      profile={profileFetch}
       comicId={comicId}
     />
   ));
