@@ -15,7 +15,7 @@ export async function POST(req: NextRequest, context : any) {
         });
         if (data.profile) {
             const user = {
-                comicChapterId: data.chapterId,
+                chapterNumber: parseInt(data.chapterNumber),
                 userID: data.profile.id,
                 comicsId: data.comicID
             }
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest, context : any) {
                     userID: user.userID
                   },
                   update: {
-                    comicChapterId: user.comicChapterId,
+                    chapterNumber: user.chapterNumber,
                   },
                   create: user
                 }); 

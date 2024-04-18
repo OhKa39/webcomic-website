@@ -1,11 +1,17 @@
-import { useEffect, useState } from "react"
 import HistoryContainer from "./_components/history-container"
+import SignedInContainer from "./_components/SignedIn-container"
 
-export default function page() {        
+import initialUser from "@/lib/initial-user"
+
+export default async function page() {        
+    const profile = await initialUser()
+  
+    
     return (
         <div className="container mx-auto min-h-screen h-auto w-screen">
             <h1 className="pt-5 pb-8 font-bold text-lg">Lịch sử đọc truyện:</h1> 
-            <HistoryContainer/>
+            {profile && <SignedInContainer profile={profile}/>}
+            {!profile && <HistoryContainer/>}
         </div>
     )
 }

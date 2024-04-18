@@ -45,7 +45,7 @@ model ComicChapters {
   comicsId      String          @db.ObjectId
 
   commentsChapter Comments[]
-  history         History[]
+  // history         History[]
 
   // CommentsChapter CommentsChapter[]
 }
@@ -105,11 +105,12 @@ model History {
   id             String        @id @default(auto()) @map("_id") @db.ObjectId
   createdAt      DateTime      @default(now())
   comicsId       String        @db.ObjectId @unique
-  comicChapterId String        @db.ObjectId
+  // comicChapterId String        @db.ObjectId
+  chapterNumber  Int
   userID         String        @db.ObjectId @unique
   user           User          @relation(fields: [userID], references: [id], onDelete: Cascade)
   Comics    Comics   @relation(fields: [comicsId], references: [id], onDelete: Cascade)
-  ComicChapters  ComicChapters @relation(fields: [comicChapterId], references: [id], onDelete: Cascade)
+  // ComicChapters  ComicChapters @relation(fields: [comicChapterId], references: [id], onDelete: Cascade)
 }
 
 model ViewCount {

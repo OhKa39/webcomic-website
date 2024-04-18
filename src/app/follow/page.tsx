@@ -53,7 +53,7 @@ export default async function SearchType({
   );
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto min-h-screen h-auto">
       <h1 className="mx-auto mt-5 font-bold text-center text-2xl w-max">
         Truyện đang theo dõi
       </h1>

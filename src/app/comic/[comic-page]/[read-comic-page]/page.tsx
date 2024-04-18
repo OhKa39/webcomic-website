@@ -16,12 +16,12 @@ const getData = async (comicID: any) => {
   return data.json();
 };
 
-const userHistory = async (comicID: any, comicChapter: any, chapterId: any, profile: any) => {
+const userHistory = async (comicID: any, chapterNumber: any, chapterId: any, profile: any) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
-  const data = await fetch(`${urlPage}/api/comic/${comicID}/${comicChapter}?`, {
+  const data = await fetch(`${urlPage}/api/comic/${comicID}/${chapterNumber}?`, {
     method:'POST',
     headers:{'Content-Type': 'application/json'},
-    body: JSON.stringify({ profile, chapterId, comicID}),
+    body: JSON.stringify({ profile, comicID, chapterNumber}),
   });
   return data.json();
 };

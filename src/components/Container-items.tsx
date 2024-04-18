@@ -4,22 +4,37 @@ import Image from "next/image";
 import Link from "next/link";
 import { TiDelete } from "react-icons/ti";
 
-export default function Containeritems({
+
+const deleteComic = async (userId: string, newComicIdToDelete: string) => {
+  const urlPage = process.env.NEXT_PUBLIC_URL;
+  const data = await fetch(`${urlPage}/api/SignedinHistory?userId=${userId}&comicId=${newComicIdToDelete}`, {
+    method:'DELETE',
+    headers:{'Content-Type': 'application/json'},
+  });
+  return data.json();
+};
+
+export default async function Containeritems({
   data,
   setcomicIdToDelete,
 }: {
   data: any;
   setcomicIdToDelete: any;
 }) {
-  const handleClick = (newComicIdToDelete: string) => {
-    const localStorageComics = JSON.parse(
-      localStorage.getItem("visited-comics") || "[]"
-    );
-    let comics = localStorageComics.filter(
-      (u: any) => u.comicId !== newComicIdToDelete
-    );
-    localStorage.setItem("visited-comics", JSON.stringify(comics));
-    setcomicIdToDelete(newComicIdToDelete);
+  const handleClick = async (newComicIdToDelete: string, userId: string) => {
+    if (userId){
+      const data = await deleteComic(userId, newComicIdToDelete)
+    }
+    else {
+      const localStorageComics = JSON.parse(
+        localStorage.getItem("visited-comics") || "[]"
+      );
+      let comics = localStorageComics.filter(
+        (u: any) => u.comicId !== newComicIdToDelete
+      );
+      localStorage.setItem("visited-comics", JSON.stringify(comics));
+      setcomicIdToDelete(newComicIdToDelete);
+    }
   };
 
   return data.map((result: any) => (
@@ -28,7 +43,7 @@ export default function Containeritems({
       className="rounded border-amber-400 bg-slate-200 dark:bg-amber-400 border-5 "
     >
       {result.chapterNumber && (
-        <button onClick={() => handleClick(result.id)}>
+        <button onClick={() => handleClick(result.id, result.userID)}>
           <TiDelete />
         </button>
       )}
