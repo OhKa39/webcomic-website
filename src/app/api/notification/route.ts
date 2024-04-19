@@ -173,9 +173,8 @@ export async function POST(req: NextRequest){
           }
         })
       }
-
-      return NextResponse.json({ message: `Push notification successfully`},{status: 200})
     }
+    return NextResponse.json({ message: `Push notification successfully`},{status: 200})
   }
   catch(error)
   {

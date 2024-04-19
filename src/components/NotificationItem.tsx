@@ -31,7 +31,10 @@ function literal(data: any, user: any) {
     const stringTemplate = `${actor} ${entityAction} comment của 
       ${user.id === data.events.user.id ? "bạn" : data.events.user.name} 
       trong ${!!chapter ? `chapter ${chapter.chapterNumber} của` : ""} 
-      truyện ${comics.comicName}: "${data.commentActor.content}"`;
+      truyện ${comics.comicName}: "${
+      data.commentActor.content.substring(0, 40) +
+      (data.commentActor.content.length > 40 ? "..." : "")
+    }"`;
     /*template: {actor} {entityAction} comment của {bạn | người bạn follow}  
                   trong {chapter? "của"} {comicName}: "{comment}"
       */

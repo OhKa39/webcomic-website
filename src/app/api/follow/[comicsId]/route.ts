@@ -6,7 +6,7 @@ export async function GET(req: NextRequest, context: any) {
     //const userID = context.params["userID"]
     try {
         const comicsId = context.params.comicsId
-        const userID = req.nextUrl.searchParams.get('userID')
+        const userID = req.nextUrl.searchParams.get('userID') === "undefined" ? undefined : req.nextUrl.searchParams.get('userID')
 
         const data = await prisma.events.findFirst({
             select: {

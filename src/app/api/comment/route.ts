@@ -24,13 +24,13 @@ export async function POST(req: NextRequest, context : any) {
               comicChaptersId: data.query.chapterID,
               commentReplyId: data.query.commentID
           },
-          select:{
-            id: true,
+          include:{
             user: true,
-            content: true,
-            updateAt: true,
-            commentReplies: true,
-            likes: true
+            userLikes: {
+              select:{
+                _count: true,
+              }
+            }
           }
         })
          
@@ -61,7 +61,12 @@ export async function GET(req: NextRequest) //Lấy tất cả các root của c
           updateAt: "desc"
         },
         include:{
-          user: true
+          user: true,
+          userLikes: {
+            select:{
+              _count: true,
+            }
+          }
         }
       })
       return NextResponse.json(data,{status: 200})
@@ -92,13 +97,13 @@ export async function PUT(req: NextRequest, context : any) { //chỉnh sửa n�
         data:{
             content: data.query.content.trim(),
         },
-        select:{
-          id: true,
+        include:{
           user: true,
-          content: true,
-          updateAt: true,
-          commentReplies: true,
-          likes: true
+          userLikes: {
+            select:{
+              _count: true,
+            }
+          }
         }
       })
       
@@ -114,24 +119,27 @@ export async function PUT(req: NextRequest, context : any) { //chỉnh sửa n�
 }
 
 export async function DELETE(req: NextRequest, context : any) {
+
   async function deleteCommentWithChildren(node: Comments) {
-    const children = await prisma.comments.findMany({
-      where: {
-        commentReply: {
+    return prisma.$transaction(async (tx)=>{
+      const children = await tx.comments.findMany({
+        where: {
+          commentReply: {
+            id: node.id,
+          },
+        },
+      });
+    
+      for (const child of children) {
+        await deleteCommentWithChildren(child);
+      }
+    
+      await prisma.comments.delete({
+        where: {
           id: node.id,
         },
-      },
-    });
-  
-    for (const child of children) {
-      await deleteCommentWithChildren(child);
-    }
-  
-    await prisma.comments.delete({
-      where: {
-        id: node.id,
-      },
-    });
+      });
+    })
   }
 
   try{
