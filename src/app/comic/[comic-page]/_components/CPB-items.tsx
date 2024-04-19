@@ -31,7 +31,7 @@ export default function ButtonForComicPage({
     const getCurrentEvents = async () => {
       const urlPage = process.env.NEXT_PUBLIC_URL;
       const data = await fetch(
-        `${urlPage}/api/follow/${comicId}?userID=${profile.id}`,
+        `${urlPage}/api/follow/${comicId}?userID=${profile?.id}`,
         {
           cache: "no-cache",
         }
