@@ -7,7 +7,6 @@ export async function POST(req: NextRequest, context : any) {
         const comicID = params.comicID
         // const comicChapter = params.comicChapter
         const data = await req.json() 
-        console.log(data)        
         const increaseViewCount = await prisma.viewCount.create({
            data:{
             comicsId: comicID,
