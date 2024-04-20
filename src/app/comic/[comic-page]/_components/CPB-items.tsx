@@ -43,7 +43,7 @@ export default function ButtonForComicPage({
       );
       // console.log(`${urlPage}/api/events/${comicID}?${userID}`);
       const dataFetch = await data.json();
-      setIsFollowed(dataFetch!.isTurnOn);
+      setIsFollowed(dataFetch?.isTurnOn ?? false);
     };
     getCurrentEvents();
   }, []);
