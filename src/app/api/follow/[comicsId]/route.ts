@@ -6,7 +6,8 @@ export async function GET(req: NextRequest, context: any) {
     //const userID = context.params["userID"]
     try {
         const comicsId = context.params.comicsId
-        const userID = req.nextUrl.searchParams.get('userID') === "undefined" ? undefined : req.nextUrl.searchParams.get('userID')
+
+        const userID = req.nextUrl.searchParams.get('userID')
 
         const data = await prisma.events.findFirst({
             select: {
@@ -22,6 +23,6 @@ export async function GET(req: NextRequest, context: any) {
 
         return NextResponse.json(data, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ message: `Something went wrong: ${error}` }, { status: 500 });
+        return NextResponse.json({ message: `Something went wrong` }, { status: 500 });
     }
 }
