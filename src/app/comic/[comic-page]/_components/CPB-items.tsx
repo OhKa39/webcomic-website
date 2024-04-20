@@ -29,16 +29,21 @@ export default function ButtonForComicPage({
 
   useEffect(() => {
     const getCurrentEvents = async () => {
+      if (!profile) {
+        setIsFollowed(false);
+        return;
+      }
+
       const urlPage = process.env.NEXT_PUBLIC_URL;
       const data = await fetch(
-        `${urlPage}/api/follow/${comicId}?userID=${profile?.id}`,
+        `${urlPage}/api/follow/${comicId}?userID=${profile.id}`,
         {
           cache: "no-cache",
         }
       );
       // console.log(`${urlPage}/api/events/${comicID}?${userID}`);
       const dataFetch = await data.json();
-      setIsFollowed(dataFetch?.isTurnOn ?? false);
+      setIsFollowed(dataFetch!.isTurnOn);
     };
     getCurrentEvents();
   }, []);

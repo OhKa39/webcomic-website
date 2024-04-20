@@ -21,7 +21,7 @@ import { Suspense } from "react";
 const getComic = async (comicID: any) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
   const data = await fetch(`${urlPage}/api/comic/${comicID}`, {
-    next: { revalidate: 5 },
+    cache: "no-cache",
   });
   return data.json();
 };
@@ -98,7 +98,7 @@ export default async function comicPage({
                 Đọc từ đầu
               </Button>{" "}
             </Link>
-            <Suspense fallback={<p>loading...</p>}>
+            <Suspense>
               <ComicPageButton profileFetch={profile!} comicId={path} />
             </Suspense>
           </div>

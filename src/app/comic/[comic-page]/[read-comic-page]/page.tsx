@@ -1,7 +1,7 @@
 import ComicPage from "@/app/comic/[comic-page]/[read-comic-page]/_components/ComicPage";
 import { Suspense } from "react";
 import ChapterListBar from "./_components/ChapterListBar";
-import initialUser from '@/lib/initial-user'
+import initialUser from "@/lib/initial-user";
 import { FaRegCommentDots } from "react-icons/fa6";
 import CommentInput from "@/components/CommentInput";
 import CommentContainer from "@/components/CommentContainer";
@@ -19,13 +19,21 @@ const getData = async (comicID: any) => {
   return data.json();
 };
 
-const userHistory = async (comicID: any, chapterNumber: any, chapterId: any, profile: any) => {
+const userHistory = async (
+  comicID: any,
+  chapterNumber: any,
+  chapterId: any,
+  profile: any
+) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
-  const data = await fetch(`${urlPage}/api/comic/${comicID}/${chapterNumber}?`, {
-    method:'POST',
-    headers:{'Content-Type': 'application/json'},
-    body: JSON.stringify({ profile, comicID, chapterNumber}),
-  });
+  const data = await fetch(
+    `${urlPage}/api/comic/${comicID}/${chapterNumber}?`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ profile, comicID, chapterNumber }),
+    }
+  );
   return data.json();
 };
 
@@ -41,11 +49,11 @@ export default async function ReadComicPage({
   const pagesData = getPages(comicId, comicChapter); // lay trang trong chapter do
   const ListData = getData(comicId);
   const [pages, data] = await Promise.all([pagesData, ListData]);
-  const profile = await initialUser()
+  const profile = await initialUser();
   const chapterId = pages["id"];
   const query = searchParams["commentID"];
-  
-  userHistory(comicId, comicChapter, chapterId, profile)
+
+  userHistory(comicId, comicChapter, chapterId, profile);
 
   const ListChapter = data.comicChapters; // lay mang gom cac chapter
   return (
