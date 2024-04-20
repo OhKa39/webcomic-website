@@ -43,6 +43,7 @@ export default async function ReadComicPage({
   const [pages, data] = await Promise.all([pagesData, ListData]);
   const profile = await initialUser()
   const chapterId = pages["id"];
+  const query = searchParams["commentID"];
   
   userHistory(comicId, comicChapter, chapterId, profile)
 
