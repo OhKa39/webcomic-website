@@ -16,7 +16,7 @@ const Comments = ({
   query,
   queryCommentChain,
 }: {
-  initialData: any;
+  initialData?: any[];
   comicID?: string;
   chapterID?: string;
   commentID?: string;
@@ -26,9 +26,7 @@ const Comments = ({
   queryCommentChain: string[];
 }) => {
   // console.log(initialData);
-  const [inComingComments, setInComingComments] = useState<any[]>([
-    ...initialData,
-  ]);
+  const [inComingComments, setInComingComments] = useState<any[]>([]);
   const expression: boolean =
     depth <= queryCommentChain.length &&
     queryCommentChain[Math.max(0, depth - 1)] === commentID; //Kiểm tra node cha có nằm trong cấu trúc cây của query hay ko
@@ -36,9 +34,28 @@ const Comments = ({
   // console.log(id!);
 
   useEffect(() => {
+    const fetchData = async () => {
+      const urlPage = process.env.NEXT_PUBLIC_URL;
+      // console.log(`${urlPage}/api/notification?userID=${user.id}`);
+      // console.log(`${urlPage}/api/comment/${commentID}?isGetRootChain=false`);
+      const response = await fetch(
+        `${urlPage}/api/comment/${commentID}?isGetRootChain=false`,
+        {
+          method: "GET",
+        }
+      );
+      const dataFetch = await response.json();
+      setInComingComments(dataFetch);
+    };
+
+    if (depth !== 0) fetchData();
+    else setInComingComments([...initialData!]);
+  }, []);
+
+  useEffect(() => {
     const id = commentID || comicID || chapterID;
     pusherClient.subscribe(id!);
-    pusherClient.bind(`commentMessage: ${id}`, (data: any) => {
+    pusherClient.bind(`commentMessage: ${id!}`, (data: any) => {
       // console.log(data);
       const stateHandler = !commentID
         ? (prev: any[]) => [data, ...prev]
@@ -46,7 +63,7 @@ const Comments = ({
       setInComingComments(stateHandler);
     });
 
-    pusherClient.bind(`commentMessageDelete: ${id}`, (data: any) => {
+    pusherClient.bind(`commentMessageDelete: ${id!}`, (data: any) => {
       setInComingComments((prev: any) => [
         ...prev.filter((ele: any) => ele.id != data),
       ]);
@@ -54,11 +71,11 @@ const Comments = ({
 
     return () => {
       pusherClient.unsubscribe(id!);
-      pusherClient.unbind(`commentMessage: ${id}`);
-      pusherClient.unbind(`commentMessageDelete: ${id}`);
+      pusherClient.unbind(`commentMessage: ${id!}`);
+      pusherClient.unbind(`commentMessageDelete: ${id!}`);
     };
   }, []);
-
+  // console.log(inComingComments);
   return (
     <div>
       {inComingComments.length > 0 && commentID !== undefined && (

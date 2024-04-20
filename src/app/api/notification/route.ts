@@ -26,7 +26,11 @@ export async function GET(req: NextRequest)
           include:{
             user:true,
             comics: true,
-            comicChapters: true
+            comicChapters: {
+              include: {
+                comics: true
+              }
+            }
           }
         },
         entityNotification: true
@@ -68,7 +72,11 @@ export async function PUT(req: NextRequest)
           include:{
             user:true,
             comics: true,
-            comicChapters: true
+            comicChapters: {
+              include:{
+                comics:true
+              }
+            }
           }
         },
         entityNotification: true
@@ -89,7 +97,7 @@ export async function POST(req: NextRequest){
     const profile = await initialUser()
 
     if(!profile)
-          return NextResponse.json({message: `Unauthorized`},{status: 401})
+      return NextResponse.json({message: `Unauthorized`},{status: 401})
         
     const data = await req.json()
 
@@ -134,7 +142,11 @@ export async function POST(req: NextRequest){
               include:{
                 user:true,
                 comics: true,
-                comicChapters: true
+                comicChapters: {
+                  include:{
+                    comics:true
+                  }
+                }
               }
             },
             entityNotification: true
@@ -161,12 +173,11 @@ export async function POST(req: NextRequest){
           }
         })
       }
-
-      return NextResponse.json({ message: `Push notification successfully`},{status: 200})
     }
+    return NextResponse.json({ message: `Push notification successfully`},{status: 200})
   }
   catch(error)
   {
-    NextResponse.json({ message: `Something is error:${error}`},{status: 500})
+    return NextResponse.json({ message: `Something is error:${error}`},{status: 500})
   }
 }

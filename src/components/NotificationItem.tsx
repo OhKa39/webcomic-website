@@ -21,23 +21,31 @@ import moment from "moment";
 import { pusherClient } from "@/lib/pusher";
 
 function literal(data: any, user: any) {
+  //Người dùng đã bình luận...
   if (data.entityNotification.id === "661962f9da0105ab37470cb9") {
-    //Người dùng đã bình luận...
-    if (!!data.commentActor.comicsId) {
-      const stringTemplate = `${data.commentActor.user.name} ${
-        data.entityNotification.entityContent
-      } comment của ${
-        user.id === data.events.user.id ? "bạn" : `${data.events.user.name}`
-      } trong truyện ${data.commentActor.comics.comicName}: "${
-        data.commentActor.content
-      }"`;
+    const chapter = data.commentActor.comicChapters;
+    const comics = !!chapter ? chapter.comics : data.commentActor.comics;
+    const actor = data.commentActor.user.name;
+    const entityAction = data.entityNotification.entityContent;
 
-      const linkString = `/comic/${data.commentActor.comicsId}?commentID=${data.commentActor.id}`;
-      const avatarLink = data.commentActor.user.imageUrl;
-      const isRead = data.isRead;
-      const timeCreatedAt = data.commentActor.createdAt;
-      return { stringTemplate, linkString, avatarLink, isRead, timeCreatedAt };
-    }
+    const stringTemplate = `${actor} ${entityAction} comment của 
+      ${user.id === data.events.user.id ? "bạn" : data.events.user.name} 
+      trong ${!!chapter ? `chapter ${chapter.chapterNumber} của` : ""} 
+      truyện ${comics.comicName}: "${
+      data.commentActor.content.substring(0, 40) +
+      (data.commentActor.content.length > 40 ? "..." : "")
+    }"`;
+    /*template: {actor} {entityAction} comment của {bạn | người bạn follow}  
+                  trong {chapter? "của"} {comicName}: "{comment}"
+      */
+    const linkString = `/comic/${comics.id}${
+      !!chapter ? `/${chapter.chapterNumber}` : ""
+    }?commentID=${data.commentActor.id}`;
+
+    const avatarLink = data.commentActor.user.imageUrl;
+    const isRead = data.isRead;
+    const timeCreatedAt = data.commentActor.createdAt;
+    return { stringTemplate, linkString, avatarLink, isRead, timeCreatedAt };
   }
 }
 
@@ -71,7 +79,7 @@ const NotificationItem = ({ data, user }: { data: any; user: any }) => {
   useEffect(() => {
     const id = setTimeout(() => {
       setTime(moment(timeCreatedAt).fromNow().toString());
-    }, 1000);
+    }, 60000);
     return () => clearTimeout(id);
   }, [time]);
 

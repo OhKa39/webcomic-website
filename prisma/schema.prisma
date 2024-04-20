@@ -127,7 +127,7 @@ model Comments {
   commentReplyId String?    @db.ObjectId
   commentReply   Comments?  @relation("CommentCommentReplies", fields: [commentReplyId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   userID         String     @db.ObjectId
-  user           User       @relation(fields: [userID], references: [id], onDelete: Cascade)
+  user           User       @relation("UserComment", fields: [userID], references: [id], onDelete: Cascade)
   createdAt      DateTime   @default(now())
   updateAt       DateTime   @updatedAt
   likes          Int        @default(0)
@@ -139,6 +139,8 @@ model Comments {
 
   events             Events[]
   notificationsActor Notifications[]
+  userLikes          User[]          @relation("UserLike", fields: [userLikesId], references: [id])
+  userLikesId        String[]        @db.ObjectId
 }
 
 enum Role {
@@ -157,9 +159,11 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  comments Comments[]
-  events   Events[]
-  history  History[]
+  comments       Comments[] @relation("UserComment")
+  events         Events[]
+  history        History[]
+  likeCommentsId String[]   @db.ObjectId
+  likeComments   Comments[] @relation("UserLike", fields: [likeCommentsId], references: [id])
 }
 
 model Notifications {
@@ -184,33 +188,3 @@ model EntityNotification {
 enum EntityNotificationTypes {
   COMMENT
 }
-
-// model NotificationChanges {
-//   id                    String              @id @default(auto()) @map("_id") @db.ObjectId
-//   NotificationObjects   NotificationObjects @relation(fields: [notificationObjectsId], references: [id])
-//   notificationObjectsId String              @db.ObjectId
-//   receiverID            String
-//   isRead                Boolean             @default(false)
-// }
-
-// enum EntityTypes {
-//   COMMENT
-//   COMIC
-// }
-
-// model NotificationObjects {
-//   id                  String                @id @default(auto()) @map("_id") @db.ObjectId
-//   entityTypes         EntityTypes
-//   entityID            String
-//   createAt            DateTime              @default(now())
-//   notifications       Notifications[]
-//   notificationChanges NotificationChanges[]
-// }
-
-// model Notifications {
-//   id                    String              @id @default(auto()) @map("_id") @db.ObjectId
-//   NotificationObjects   NotificationObjects @relation(fields: [notificationObjectsId], references: [id])
-//   notificationObjectsId String              @db.ObjectId
-//   actorID               String
-//   notificationMessage   String
-// }

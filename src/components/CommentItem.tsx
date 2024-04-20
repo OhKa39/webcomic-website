@@ -10,7 +10,42 @@ import Comments from "./Comments";
 import DeleteCommentButton from "./DeleteCommentButton";
 import { MdCreate } from "react-icons/md";
 import { pusherClient } from "@/lib/pusher";
-import { ZodString } from "zod";
+import { useToast } from "@/components/ui/use-toast";
+
+async function likeHandler(
+  commentID: string,
+  isLike: boolean,
+  userID: string,
+  toast: any
+) {
+  if (!userID) {
+    toast({
+      variant: "warning",
+      title: `Đã có lỗi xảy ra`,
+      description: `Bạn phải đăng nhập để sử dụng chức năng này`,
+    });
+    return;
+  }
+
+  const url = process.env.NEXT_PUBLIC_URL;
+
+  const dataFetch = await fetch(`${url}/api/comment/${commentID}`, {
+    method: `POST`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ isLike }),
+  });
+
+  const data = await dataFetch.json();
+  if (dataFetch.status !== 200) {
+    toast({
+      variant: "warning",
+      title: `Đã có lỗi xảy ra`,
+      description: `Like bình luận thất bại: ${data.message}`,
+    });
+  }
+}
 
 type CommentItemType = {
   depth: number;
@@ -41,12 +76,13 @@ const CommentItem = ({
   const [time, setTime] = useState<string>(
     moment(comment.updateAt).fromNow().toString()
   );
-  const [isHighlight, setIsHighLight] = useState(query === commentSent.id);
+  const [isHighlight, setIsHighLight] = useState(query === comment.id);
+  const { toast } = useToast();
 
   useEffect(() => {
     const id = setTimeout(() => {
       setTime(moment(comment.updateAt).fromNow().toString());
-    }, 1000);
+    }, 60000);
     return () => clearTimeout(id);
   }, [time]);
 
@@ -66,7 +102,7 @@ const CommentItem = ({
       });
       setTimeout(() => {
         setIsHighLight(!isHighlight);
-      }, 10000);
+      }, 5000);
     }
 
     return () => {
@@ -74,10 +110,10 @@ const CommentItem = ({
       pusherClient.unbind(`commentMessageEdit: ${id}`);
     };
   }, []);
-
+  // console.log(commentSent);
   return (
     <div
-      id={commentSent.id}
+      id={comment.id}
       className={`flex space-x-2 w-full rounded-md pb-2 mt-3 ${
         isHighlight ? "bg-yellow-200 dark:bg-slate-600" : ""
       }`}
@@ -122,7 +158,7 @@ const CommentItem = ({
         </div>
 
         {!isEdit ? (
-          <div className="comment-content mt-1 text-pretty">
+          <div className="comment-content mt-1 text-pretty break-all">
             <p>{comment.content}</p>
           </div>
         ) : (
@@ -136,9 +172,25 @@ const CommentItem = ({
         )}
 
         <div className="button-controls flex space-x-4 item-center">
-          <div className="like-button items-center space-x-1 flex">
-            <AiOutlineLike className="cursor-pointer hover:text-blue-500 dark:hover:text-yellow-400" />
-            <p>{comment.likes.toString()}</p>
+          <div
+            className="like-button items-center space-x-1 flex"
+            onClick={() =>
+              likeHandler(
+                comment.id,
+                comment.userLikesId.includes(user?.id),
+                user?.id,
+                toast
+              )
+            }
+          >
+            <AiOutlineLike
+              className={`cursor-pointer ${
+                comment.userLikesId.includes(user?.id)
+                  ? "text-blue-500 dark:text-yellow-400"
+                  : ""
+              } hover:text-blue-500 dark:hover:text-yellow-400`}
+            />
+            <p>{comment.userLikesId.length.toString()}</p>
           </div>
           <div
             className="reply-button items-center space-x-1 flex cursor-pointer hover:text-blue-500 dark:hover:text-yellow-400"
@@ -166,7 +218,6 @@ const CommentItem = ({
         {depth < MAX_DEPTH && (
           <Comments
             depth={depth + 1}
-            initialData={comment.commentReplies}
             user={user}
             comicID={comicID}
             chapterID={chapterID}

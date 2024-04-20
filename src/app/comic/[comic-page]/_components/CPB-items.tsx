@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@nextui-org/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { User } from "@prisma/client";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -8,30 +8,44 @@ export default function ButtonForComicPage({
   color,
   textFalse,
   textTrue,
-  state,
   iconFalse,
   iconTrue,
-  id,
+  profile,
   comicId,
 }: {
   color: any;
   textFalse: string;
   textTrue: string;
-  state: boolean;
   iconFalse: any;
   iconTrue: any;
-  id: User;
+  profile: User;
   comicId: string;
 }) {
   // console.log("state", state);
   // console.log("state", state);
-  const [isFollowed, setIsFollowed] = useState(state);
+  const [isFollowed, setIsFollowed] = useState(false);
   const urlPage = process.env.NEXT_PUBLIC_URL;
   const { toast } = useToast();
 
+  useEffect(() => {
+    const getCurrentEvents = async () => {
+      const urlPage = process.env.NEXT_PUBLIC_URL;
+      const data = await fetch(
+        `${urlPage}/api/follow/${comicId}?userID=${profile?.id}`,
+        {
+          cache: "no-cache",
+        }
+      );
+      // console.log(`${urlPage}/api/events/${comicID}?${userID}`);
+      const dataFetch = await data.json();
+      setIsFollowed(dataFetch?.isTurnOn ?? false);
+    };
+    getCurrentEvents();
+  }, []);
+
   async function handleClick() {
     try {
-      if (!id) {
+      if (!profile) {
         toast({
           variant: "warning",
           title: "Đã có lỗi xảy ra",
@@ -52,7 +66,10 @@ export default function ButtonForComicPage({
         }).then((data) => data.json());
         toast({
           variant: "success",
-          title: `${!isFollowed ? "Theo dõi" : "Hủy theo dõi"} thành công`,
+          title: "Thành công",
+          description: `${
+            !isFollowed ? "Theo dõi" : "Hủy theo dõi"
+          } thành công`,
         });
         setIsFollowed(!isFollowed);
       }

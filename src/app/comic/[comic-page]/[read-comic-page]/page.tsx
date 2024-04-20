@@ -6,7 +6,9 @@ import initialUser from '@/lib/initial-user'
 const getPages = async (comicID: any, comicChapter: any) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
 
-  const data = await fetch(`${urlPage}/api/comic/${comicID}/${comicChapter}`, {cache:"no-cache"}); // xoa 
+  const data = await fetch(`${urlPage}/api/comic/${comicID}/${comicChapter}`, {
+    cache: "no-cache",
+  }); // xoa
   return data.json();
 };
 
@@ -26,8 +28,13 @@ const userHistory = async (comicID: any, chapterNumber: any, chapterId: any, pro
   return data.json();
 };
 
-
-export default async function ReadComicPage({ params }: { params: any }) {  
+export default async function ReadComicPage({
+  params,
+  searchParams,
+}: {
+  params: any;
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   const comicChapter = params["read-comic-page"]; // chapter cua thg comic do
   const comicId = params["comic-page"]; // id cua thg comic
   const pagesData = getPages(comicId, comicChapter); // lay trang trong chapter do
@@ -41,15 +48,33 @@ export default async function ReadComicPage({ params }: { params: any }) {
     console.log("Login")
   }
 
-
   const ListChapter = data.comicChapters; // lay mang gom cac chapter
   return (
     <div className="p-8 w-full bg-gray-400 relative justify-center">
-      <Suspense>
-        <ComicPage data={pages["chapterImages"]} />
-      </Suspense>
+      {/* <Suspense> */}
+      <ComicPage data={pages["chapterImages"]} />
+      {/* </Suspense> */}
 
-    <ChapterListBar listChapter={ListChapter} comicChapter={comicChapter} comicId={comicId}/>
+      <div className="mt-2 bg-white dark:bg-gray-400 h-max px-12 sm:px-42 py-5 rounded-md">
+        <div className="flex gap-3 items-center text-lg">
+          <FaRegCommentDots />
+          <p className="font-bold">Bình luận</p>
+        </div>
+        <CommentInput user={profile} chapterID={chapterId} />
+        <Suspense>
+          <CommentContainer
+            chapterID={chapterId}
+            user={profile}
+            query={query as string | undefined}
+          />
+        </Suspense>
+      </div>
+
+      <ChapterListBar
+        listChapter={ListChapter}
+        comicChapter={comicChapter}
+        comicId={comicId}
+      />
     </div>
   );
 }
