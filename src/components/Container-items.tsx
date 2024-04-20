@@ -2,37 +2,23 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { TiDelete } from "react-icons/ti";
+import DeleteHistoryButton from "./DeleteHistoryButton";
 
-export default function Containeritems({
+export default async function Containeritems({
   data,
   setcomicIdToDelete,
 }: {
   data: any;
   setcomicIdToDelete: any;
 }) {
-  const handleClick = (newComicIdToDelete: string) => {
-    const localStorageComics = JSON.parse(
-      localStorage.getItem("visited-comics") || "[]"
-    );
-    let comics = localStorageComics.filter(
-      (u: any) => u.comicId !== newComicIdToDelete
-    );
-    localStorage.setItem("visited-comics", JSON.stringify(comics));
-    setcomicIdToDelete(newComicIdToDelete);
-  };
-
+  
   return data.map((result: any) => (
     <div
       key={result.id}
       className="rounded border-amber-400 bg-slate-200 dark:bg-amber-400 border-5 "
     >
-      {result.chapterNumber && (
-        <button onClick={() => handleClick(result.id)}>
-          <TiDelete />
-        </button>
-      )}
-      <Link href={`/comic/${result.id}`} key={result.id}>
+      {result.chapterNumber && <DeleteHistoryButton result={result} setcomicIdToDelete={setcomicIdToDelete}/>}
+      <Link href={result.chapterNumber ? `/comic/${result.id}/${result.chapterNumber}`: `/comic/${result.id}`} key={result.id}>
         <Image
           src={result.comicImageLink}
           width={1000}
