@@ -95,7 +95,7 @@ export async function PUT(req: NextRequest, context : any) { //chỉnh sửa n�
           id: data.query.commentID,
         },
         data:{
-            content: data.query.content.trim(),
+            content: data.query.content.trim()
         },
         include:{
           user: true,

@@ -11,6 +11,7 @@ import DeleteCommentButton from "./DeleteCommentButton";
 import { MdCreate } from "react-icons/md";
 import { pusherClient } from "@/lib/pusher";
 import { useToast } from "@/components/ui/use-toast";
+import { Button } from "@nextui-org/react";
 
 async function likeHandler(
   commentID: string,
@@ -69,10 +70,14 @@ const CommentItem = ({
   queryCommentChain,
 }: CommentItemType) => {
   const MAX_DEPTH = 2;
+  const LIMIT_DIV = 12;
   const [isReply, setIsReply] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [comment, setComment] = useState(commentSent);
+  const [height, setHeight] = useState<number>(0);
+  const [isExpend, setIsExpend] = useState(false);
   const myRef = useRef<HTMLDivElement | null>(null);
+  const heightRef = useRef<HTMLDivElement | null>(null);
   const [time, setTime] = useState<string>(
     moment(comment.updateAt).fromNow().toString()
   );
@@ -96,9 +101,11 @@ const CommentItem = ({
       setTime(moment(data.updateAt).fromNow().toString());
     });
 
+    setHeight(heightRef.current?.clientHeight!);
+
     if (isHighlight) {
       myRef.current?.scrollIntoView({
-        behavior: "smooth",
+        block: "center",
       });
       setTimeout(() => {
         setIsHighLight(!isHighlight);
@@ -111,6 +118,7 @@ const CommentItem = ({
     };
   }, []);
   // console.log(commentSent);
+  console.log(height);
   return (
     <div
       id={comment.id}
@@ -129,7 +137,7 @@ const CommentItem = ({
         />
       </div>
 
-      <div className="content grow">
+      <div className="content grow w-full">
         <div className="w-full flex justify-between mt-1 header pb-1 border-b-2 border-yellow-600 dark:border-yellow-400">
           <div className="header-information flex space-x-2">
             <div className="text-yellow-600 dark:text-yellow-400">
@@ -158,8 +166,27 @@ const CommentItem = ({
         </div>
 
         {!isEdit ? (
-          <div className="comment-content mt-1 text-pretty break-all">
-            <p>{comment.content}</p>
+          <div>
+            <div
+              className={`comment-content mt-1 text-pretty whitespace-pre-line truncate ${
+                isExpend ? "max-h-full" : "max-h-12"
+              }`}
+              ref={heightRef}
+            >
+              {comment.content}
+            </div>
+            {height === 4 * LIMIT_DIV && (
+              <div className="mt-1 border-t-2 border-yellow-600 dark:border-yellow-400 flex justify-center">
+                <Button
+                  color="warning"
+                  size="sm"
+                  className="mt-1 text-white"
+                  onClick={() => setIsExpend(!isExpend)}
+                >
+                  {isExpend ? "Rút gọn" : "Xem thêm"}
+                </Button>
+              </div>
+            )}
           </div>
         ) : (
           <CommentInput
@@ -203,7 +230,6 @@ const CommentItem = ({
             <p>{time}</p>
           </div>
         </div>
-
         {isReply && (
           <div>
             <CommentInput
@@ -214,7 +240,6 @@ const CommentItem = ({
             />
           </div>
         )}
-
         {depth < MAX_DEPTH && (
           <Comments
             depth={depth + 1}

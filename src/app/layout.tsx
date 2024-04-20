@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
+import ScrollToTop from "@/components/ScrollToTop";
 import Provider from "./Provider";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/toaster";
@@ -31,6 +32,7 @@ export default function RootLayout({
             {children}
             <SpeedInsights />
             <Toaster />
+            <ScrollToTop />
             <Footer />
           </Provider>
         </body>

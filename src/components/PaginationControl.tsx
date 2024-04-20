@@ -26,14 +26,13 @@ const PaginationControls: FC<PaginationControlsProps> = ({
         KHÔNG TÌM THẤY TRUYỆN YÊU CẦU
       </h1>
     );
-  }
-  else {
-    console.log(searchParams);
+  } else {
+    // console.log(searchParams);
     const categoryIds = searchParams.get("categoryIds");
     const sValue = encodeURIComponent(searchParams.get("sValue") || "");
 
     // const sValue = searchParams.get("sValue");
-    console.log(sValue)
+    // console.log(sValue);
 
     const urlPage = process.env.NEXT_PUBLIC_URL;
 
@@ -55,6 +54,8 @@ const PaginationControls: FC<PaginationControlsProps> = ({
           <Pagination
             boundaries={2}
             loop
+            showControls
+            showShadow
             total={Math.ceil(Number(count) / Number(perPage))}
             initialPage={page}
             color={`danger`}
@@ -64,6 +65,8 @@ const PaginationControls: FC<PaginationControlsProps> = ({
               item: "w-8 h-8 text-small rounded-none bg-transparent",
               cursor:
                 "bg-amber-400 shadow-lg from-default-500 to-default-800 text-white font-bold",
+              prev: "dark:text-white dark:bg-gray-500",
+              next: "dark:text-white dark:bg-gray-500",
             }}
             onChange={(page: Number) => {
               type typeParam = {
@@ -76,8 +79,10 @@ const PaginationControls: FC<PaginationControlsProps> = ({
                 categoryIds: categoryIds ?? "delete",
                 sValue: sValue ?? "delete",
               };
-              if (paramObj.categoryIds === "delete") delete paramObj.categoryIds;
-              if (paramObj.sValue === "delete" || paramObj.sValue === "") delete paramObj.sValue;
+              if (paramObj.categoryIds === "delete")
+                delete paramObj.categoryIds;
+              if (paramObj.sValue === "delete" || paramObj.sValue === "")
+                delete paramObj.sValue;
 
               router.push(
                 `${urlPage}${pathName}?${new URLSearchParams(paramObj)}`
