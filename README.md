@@ -11,23 +11,21 @@
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#about-the-project">About The Project</a>
+      <a href="#about-the-project">🤖 About The Project</a>
       <ul>
-        <li><a href="#features">Features</a></li>
-        <li><a href="#built-with">Built With</a></li>
+        <li><a href="#features">📌 Features</a></li>
+        <li><a href="#built-with">⚙️ Built With</a></li>
       </ul>
     </li>
     <li>
-      <a href="#getting-started">Getting Started</a>
+      <a href="#getting-started">🔰 Getting Started</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="#prerequisites">✅ Prerequisites</a></li>
+        <li><a href="#installation">🏁 Installation</a></li>
       </ul>
     </li>
-    <li><a href="#database-scheme">Database Scheme</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
+    <li><a href="#database-scheme">💾 Database Scheme/a></li>
+    <li><a href="#license">⚖️ License</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
@@ -35,7 +33,7 @@
 
 
 
-## About The Project
+## <a name="about-the-project">🤖 About The Project</a>
 
 [![Product Name Screen Shot][product-screenshot]](https://webcomic-website.vercel.app/)
 
@@ -45,7 +43,7 @@ Our vision for the WebComic Website is to create a thriving community for everyo
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Features
+### <a name="features">📌 Features</a>
 - 🚀 **SignIn Account**: Users can sign in to their accounts by using Clerk provider and gain access to specify features and functionalities.
 - 🚀 **SignOut Account**: Users have to sign out their account, terminating their session and ensuring their privacy and security information.
 - 🚀 **View Comic Information And Read Comic**: Users can have the ability to view the comic information: view counts, followers, comments, comic chapter and read it.
@@ -56,7 +54,7 @@ Our vision for the WebComic Website is to create a thriving community for everyo
 - 🚀 **RealTime Notification**: Users will receive notification about comments or newest comic's chapters (ComingSoon) if they triggered event of these.
 - 🚀 **Stores story reading progress**: Users can continue reading the chapter they have viewed.
 
-### Built With
+### <a name="built-with">⚙️ Built With</a>
 
 These are all technology integrated in our project:
 
@@ -73,19 +71,19 @@ These are all technology integrated in our project:
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Getting Started
+## <a name="getting-started">🔰 Getting Started</a>
 
 This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
-### Prerequisites
+### <a name="prerequisites">✅ Prerequisites</a>
 Make sure that you have the following installed dependencies:
 
 - [Git](https://git-scm.com/)
 - [Node.js](https://nodejs.org/en) -> Required Node.js 18.17 or later.
 - [npm](https://www.npmjs.com/) (Node Package Manager)
 
-### Installation
+### <a name="installation">🏁 Installation</a>
 
 _Below is an example of how you can instruct your audience on installing and setting up your app.
 1. Clone the repo
@@ -118,19 +116,32 @@ npm run dev
   > Note:
   - If you want to get key `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY`, you should access the website [Clerk](https://clerk.com/)
   - If you want to get key `PUSHER_APP_ID`, `NEXT_PUBLIC_PUSHER_APP_KEY`, `PUSHER_SECRET` and `cluster`, you should access the website [Pusher](https://pusher.com/)
-  - To have `MONGODB_URI`, you can ask a private key from my mongodb database or use your own database(but must to crawl data have scheme belike in database structure below).
+  - To have `DATABASE_URL`, you can ask a private key from my mongodb database or use your own database(but must to crawl data have scheme belike in database structure below).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Database Scheme
+## <a name="database-scheme">💾 Database Scheme</a>
 [![Database Scheme Screen Shot][database-scheme-screenshot]](https://drive.google.com/file/d/1JYCQYjEgiigdF9Xc9qN9nHyyBgloEwm6/view?usp=drive_link)
 
-## License
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## <a name="license">⚖️ License</a>
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Contact
+
+Khoa Ly - [Facebook](https://facebook.com/khoaly12)
+
+An Vu - [Facebook](https://www.facebook.com/veryfii)
+
+Hung Nguyen - [Facebook](https://www.facebook.com/profile.php?id=100026656487897)
+
+Project Link: [https://github.com/ohka39/webcomic-website](https://github.com/ohka39/webcomic-website)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
@@ -166,4 +177,5 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 [NextUI-url]: https://nextjs.org/
 [ShadcnUI.com]: https://img.shields.io/badge/shadcn%2Fui-000?logo=shadcnui&logoColor=fff&style=for-the-badge
 [ShadcnUI-url]: https://ui.shadcn.com/
+[database-scheme-screenshot]: public/database-scheme-screenshot.jpg
 
