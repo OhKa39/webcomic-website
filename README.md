@@ -26,8 +26,7 @@
     </li>
     <li><a href="#database-scheme">💾 Database Scheme/a></li>
     <li><a href="#license">⚖️ License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li><a href="#contact">📱 Contact</a></li>
   </ol>
 </details>
 
@@ -131,7 +130,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Contact
+## <a name="contact">📱 Contact</a>
 
 Khoa Ly - [Facebook](https://facebook.com/khoaly12)
 
