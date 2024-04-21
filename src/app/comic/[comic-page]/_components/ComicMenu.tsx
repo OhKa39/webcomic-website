@@ -1,4 +1,3 @@
-import comic from "@/app/comic/page";
 import Link from "next/link";
 
 export default function ComicMenu({ data, path }: { data: any; path: any }) {

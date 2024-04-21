@@ -1,18 +1,15 @@
-"use client";
-import React from "react";
-import ComicPage from "@/components/ComicPage";
-
+import ComicPage from "@/app/comic/[comic-page]/[read-comic-page]/_components/ComicPage";
 import { Suspense } from "react";
-import { Select, SelectItem } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
-import { TbPlayerTrackNextFilled } from "react-icons/tb";
-import { TbPlayerTrackPrevFilled } from "react-icons/tb";
-import { useState } from "react";
+import ChapterListBar from "./_components/ChapterListBar";
+import initialUser from "@/lib/initial-user";
+import { FaRegCommentDots } from "react-icons/fa6";
+import CommentInput from "@/components/CommentInput";
+import CommentContainer from "@/components/CommentContainer";
 
 const getPages = async (comicID: any, comicChapter: any) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
 
-  const data = await fetch(`${urlPage}/api/comic/${comicID}/${comicChapter}`);
+  const data = await fetch(`${urlPage}/api/comic/${comicID}/${comicChapter}`); // xoa
   return data.json();
 };
 
@@ -22,86 +19,69 @@ const getData = async (comicID: any) => {
   return data.json();
 };
 
-function checkButton(ListChapter: Number, comicChapter: Number) {
-  let checkPrev = true;
-  let checkNext = true;
+const userHistory = async (
+  comicID: any,
+  chapterNumber: any,
+  chapterId: any,
+  profile: any
+) => {
+  const urlPage = process.env.NEXT_PUBLIC_URL;
+  const data = await fetch(
+    `${urlPage}/api/comic/${comicID}/${chapterNumber}?`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ profile, comicID, chapterNumber }),
+    }
+  );
+  return data.json();
+};
 
-  const curPage = Number(comicChapter);
-  const countChapter = Number(ListChapter);
-
-  if (isNaN(curPage) || curPage < 1 || curPage > countChapter) {
-    checkPrev = false;
-    checkNext = false;
-  } else if (curPage == countChapter) {
-    checkNext = false;
-  } else if (curPage == 1) {
-    checkPrev = false;
-  }
-  return [checkNext, checkPrev];
-}
-
-export default async function ReadComicPage({ params }: { params: any }) {
-  const router = useRouter();
+export default async function ReadComicPage({
+  params,
+  searchParams,
+}: {
+  params: any;
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   const comicChapter = params["read-comic-page"]; // chapter cua thg comic do
   const comicId = params["comic-page"]; // id cua thg comic
-
   const pagesData = getPages(comicId, comicChapter); // lay trang trong chapter do
   const ListData = getData(comicId);
-  const [[count1, pages], [count2, data]] = await Promise.all([
-    pagesData,
-    ListData,
-  ]);
+  const [pages, data] = await Promise.all([pagesData, ListData]);
+  const profile = await initialUser();
+  const chapterId = pages["id"];
+  const query = searchParams["commentID"];
+
+  userHistory(comicId, comicChapter, chapterId, profile);
+
   const ListChapter = data.comicChapters; // lay mang gom cac chapter
-
-  const nOfChapter = data.comicChapters.length; // lay so phan tu cua mang tren
-  const [hasNext, hasPrev] = checkButton(nOfChapter, comicChapter); // check button next, prev
-
-  const handleSelectionChange = (e: any) => {
-    const selectedChapter = e.target.value;
-    if (selectedChapter == "") return;
-    router.push(`/comic/${comicId}/${selectedChapter}`);
-  };
-
-  // console.log(ListChapter)
   return (
     <div className="p-8 w-full bg-gray-400 relative justify-center">
-      <Suspense fallback={"chờ xíu"}>
+      <Suspense>
         <ComicPage data={pages["chapterImages"]} />
       </Suspense>
 
-      <div className="p-1 flex w-full mx-auto gap-5 fixed bottom-0 bg-slate-200 dark:bg-gray-700 h-15 -ml-8 justify-center">
-        <button
-          onClick={() =>
-            router.push(`/comic/${comicId}/${Number(comicChapter) - 1}`)
-          }
-          disabled={!hasPrev}
-          className="p-3 rounded-full disabled:hidden bg-amber-400 flex gap-2 items-center hover:opacity-80 transition-opacity duration-300"
-        >
-          <TbPlayerTrackPrevFilled className="inline" />
-        </button>
-        <Select
-          className="w-1/2"
-          label="Chapter"
-          items={ListChapter}
-          defaultSelectedKeys={[comicChapter]}
-          onChange={handleSelectionChange}
-        >
-          {ListChapter.map((chap: any) => (
-            <SelectItem key={chap.chapterNumber} textValue={chap.chapterNumber}>
-              Chương {chap.chapterNumber}
-            </SelectItem>
-          ))}
-        </Select>
-        <button
-          onClick={() =>
-            router.push(`/comic/${comicId}/${Number(comicChapter) + 1}`)
-          }
-          disabled={!hasNext}
-          className="p-3 rounded-full disabled:hidden bg-amber-400 flex gap-2 items-center hover:opacity-80 transition-opacity duration-300"
-        >
-          <TbPlayerTrackNextFilled className="inline" />
-        </button>
+      <div className="mt-2 bg-white dark:bg-gray-400 h-max px-12 sm:px-42 py-5 rounded-md">
+        <div className="flex gap-3 items-center text-lg">
+          <FaRegCommentDots />
+          <p className="font-bold">Bình luận</p>
+        </div>
+        <CommentInput user={profile} chapterID={chapterId} />
+        <Suspense>
+          <CommentContainer
+            chapterID={chapterId}
+            user={profile}
+            query={query as string | undefined}
+          />
+        </Suspense>
       </div>
+
+      <ChapterListBar
+        listChapter={ListChapter}
+        comicChapter={comicChapter}
+        comicId={comicId}
+      />
     </div>
   );
 }

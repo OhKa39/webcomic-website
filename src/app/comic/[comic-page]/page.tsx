@@ -1,5 +1,4 @@
 import Image from "next/image";
-
 import { FaUserTie } from "react-icons/fa";
 import { RiCalendarCheckFill } from "react-icons/ri";
 import { ImPen } from "react-icons/im";
@@ -8,24 +7,44 @@ import { FaRegCommentDots } from "react-icons/fa6";
 import { AiFillLike } from "react-icons/ai";
 import { FaHeart } from "react-icons/fa";
 import { FaRegEye } from "react-icons/fa";
-
+import { IoPricetags } from "react-icons/io5";
 import { Button } from "@nextui-org/react";
-
 import Link from "next/link";
-import ComicMenu from "@/components/ComicMenu";
-import ComicPageButton from "@/components/ComicPageButtons";
+import ComicMenu from "@/app/comic/[comic-page]/_components/ComicMenu";
+import ComicPageButton from "@/app/comic/[comic-page]/_components/ComicPageButtons";
+import CommentInput from "@/components/CommentInput";
+import CommentContainer from "@/components/CommentContainer";
+import initialUser from "@/lib/initial-user";
+import ComicTags from "./_components/ComicTags";
+import { Suspense } from "react";
 
 const getComic = async (comicID: any) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
-  const data = await fetch(`${urlPage}/api/comic/${comicID}`);
+  const data = await fetch(`${urlPage}/api/comic/${comicID}`, {
+    cache: "no-cache",
+  });
   return data.json();
 };
 
-export default async function comicPage({ params }: { params: any }) {
+export default async function comicPage({
+  params,
+  searchParams,
+}: {
+  params: any;
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   const path = params["comic-page"];
-  const [count, comic] = await getComic(path);
+  const comicFetch = getComic(path);
+  const profileFetch = initialUser();
+  const [comic, profile] = await Promise.all([comicFetch, profileFetch]);
+  // const currentEvent = await getCurrentEvents(path, profile?.id);
+  // const profile = await initialUser();
+  // const comic = await getComic(path, profile?.id);
+  const query = searchParams["commentID"];
+  // console.log(comic);
 
   return (
+    // <Suspense>
     <div className="px-12 sm:px-42 py-5">
       <div className="gap-10 flex pb-8">
         <div className="rounded border-amber-400 border-4 w-60 hidden md:inline">
@@ -54,34 +73,34 @@ export default async function comicPage({ params }: { params: any }) {
             </li>
             <li>
               {" "}
-              <AiFillLike className="inline" /> Lượt thích:{" "}
-              {comic.isCompleted ? "Hoàn thành" : "Chưa hoàn thành"}
-            </li>
-            <li>
-              {" "}
               <FaHeart className="inline" /> Lượt theo dõi:{" "}
-              {comic.isCompleted ? "Hoàn thành" : "Chưa hoàn thành"}
+              {comic.events ? comic.events.length : 0}
             </li>
             <li>
               {" "}
               <FaRegEye className="inline" /> Lượt xem:{" "}
-              {comic.isCompleted ? "Hoàn thành" : "Chưa hoàn thành"}
+              {comic.viewCount ? comic.viewCount.length : 0}
+            </li>
+            <li>
+              {" "}
+              <IoPricetags className="inline" /> Tags:{" "}
+              {comic.comicTypes.length > 0 && (
+                <ComicTags data={comic.comicTypes} />
+              )}
             </li>
           </ul>
           <div className="flex gap-5 mt-6">
             <Link
-              href={
-                "/comic/" +
-                comic.id +
-                "/" +
-                comic.comicChapters[0].chapterNumber
-              }
+              hidden={comic.comicChapters.length < 1}
+              href={"/comic/" + comic.id + "/" + "1"}
             >
               <Button className="font-bold" color="warning">
                 Đọc từ đầu
               </Button>{" "}
             </Link>
-            <ComicPageButton />
+            <Suspense>
+              <ComicPageButton profileFetch={profile!} comicId={path} />
+            </Suspense>
           </div>
         </div>
       </div>
@@ -103,6 +122,15 @@ export default async function comicPage({ params }: { params: any }) {
         <FaRegCommentDots />
         <p className="font-bold">Bình luận</p>
       </div>
+      <CommentInput user={profile} comicsID={path} />
+      <Suspense>
+        <CommentContainer
+          comicID={path}
+          user={profile}
+          query={query as string | undefined}
+        />
+      </Suspense>
     </div>
+    // </Suspense>
   );
 }

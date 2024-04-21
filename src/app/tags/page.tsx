@@ -33,7 +33,7 @@ export default async function SearchType({
   if (page <= 0 || isNaN(page)) notFound();
   const { totalComicsCount, comics } = await getData(page, 40, categoryIDs);
   const category = await getCategory();
-  console.log(category);
+  // console.log(category);
   return (
     <div className="container mx-auto">
       {/* <ComicTag data={category}/> */}

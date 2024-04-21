@@ -27,12 +27,11 @@ const NavBar: React.FC<{ data?: any[] }> = ({ data }) => {
     { title: "Tìm Nâng Cao", address: "/search", icon: <FaElementor /> },
     { title: "Thể Loại", address: "/tags", icon: <FaTags /> },
     { title: "Theo Dõi", address: "/follow", icon: <FaEye /> },
-    { title: "Lịch Sử", address: "/history", icon: <FaHistory /> },
+    { title: "Lịch Sử Đọc Truyện", address: "/history", icon: <FaHistory /> },
     { title: "Rank", address: "/rank", icon: <FaTrophy /> },
-    { title: "Thông Báo", address: "/notification", icon: <FaBell /> },
     {
       title: "Fanpage",
-      address: "https://facebook.com/100026656487897",
+      address: "https://facebook.com/",
       icon: <FaFacebook />,
     },
   ];

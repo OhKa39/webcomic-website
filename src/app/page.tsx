@@ -2,17 +2,21 @@ import Container from "@/components/Container";
 import { PiBookOpenFill } from "react-icons/pi";
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
+import initialUser from "@/lib/initial-user";
 
 const getData = async (page: number, offset: number) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
   const data = await fetch(
     `${urlPage}/api/comic?page=${page}&offset=${offset}`,
-    { cache: "no-cache" }
+    {
+      next: { revalidate: 5 },
+    }
   );
   return data.json();
 };
 
 export default async function Home({}) {
+  const profile = await initialUser();
   const perPage = 20;
 
   const { totalComicsCount, comics } = await getData(1, perPage);

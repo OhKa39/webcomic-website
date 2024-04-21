@@ -10,14 +10,12 @@ export default function DropDownContainer({
   // const datafetch = await fetch("http://localhost:3000/api/comicTypes", {cache: "no-cache"})
   // const data = await datafetch.json()
   const [data, setData] = useState([]);
-  console.log("data");
+//   console.log("data");
   const urlPage = process.env.NEXT_PUBLIC_URL;
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${urlPage}/api/comicTypes`, {
-          cache: "no-store",
-        });
+        const response = await fetch(`${urlPage}/api/comicTypes`);
         if (!response.ok) {
           throw new Error("Failed to fetch comic types");
         }

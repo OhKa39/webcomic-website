@@ -15,34 +15,39 @@ model Comics {
 
   comicName        String   @unique
   createdAt        DateTime @default(now())
-  updatedAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
   comicImageLink   String
   isCompleted      Boolean  @default(false)
   authorName       String
   userID           String
   comicDescription String
 
-  comicChapters   ComicChapters[]
-  events          Events[]
-  comicViewCounts ComicViewCounts[]
-  commentsComic   CommentComics[]
+  comicChapters ComicChapters[]
+  events        Events[]
+  history         History[]
+  commentsComic Comments[]
+  viewCount     ViewCount[]
 
   comicTypesIDs String[]     @db.ObjectId
   comicTypes    ComicTypes[] @relation(fields: [comicTypesIDs], references: [id])
+  // CommentComics CommentComics[]
 }
 
 model ComicChapters {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   chapterNumber Int
-  createAt      DateTime @default(now())
-  updatedAt     DateTime @default(now())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   chapterImages ChapterImages[]
-  Comics        Comics          @relation(fields: [comicsId], references: [id], onDelete: Cascade)
+  comics        Comics          @relation(fields: [comicsId], references: [id], onDelete: Cascade)
   comicsId      String          @db.ObjectId
 
-  commentsChapter CommentsChapter[]
+  commentsChapter Comments[]
+  // history         History[]
+
+  // CommentsChapter CommentsChapter[]
 }
 
 model ChapterImages {
@@ -61,82 +66,125 @@ model ComicTypes {
 }
 
 model Events {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  eventType EventType
-  createdAt DateTime  @default(now())
-  updateAt  DateTime  @default(now())
-  isTurnOn  Boolean   @default(true)
-  userID    String
-  Comics    Comics    @relation(fields: [comicsId], references: [id], onDelete: Cascade)
-  comicsId  String    @db.ObjectId
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  eventType     EventType
+  createdAt     DateTime        @default(now())
+  updateAt      DateTime        @updatedAt
+  isTurnOn      Boolean         @default(true)
+  userID        String          @db.ObjectId
+  user          User            @relation(fields: [userID], references: [id], onDelete: Cascade)
+  comics        Comics?         @relation(fields: [comicsId], references: [id], onDelete: Cascade)
+  comicsId      String?         @db.ObjectId
+  followLog     FollowLog[]
+  comments      Comments?       @relation(fields: [commentsId], references: [id])
+  commentsId    String?         @db.ObjectId
+  notifications Notifications[]
+}
+
+model FollowLog {
+  id           String       @id @default(auto()) @map("_id") @db.ObjectId
+  eventLogType EventLogType
+  createdAt    DateTime     @default(now())
+  // updateAt  DateTime  @updatedAt
+  // isTurnOn  Boolean   @default(true)
+  eventID      String       @db.ObjectId
+  events       Events       @relation(fields: [eventID], references: [id], onDelete: Cascade)
 }
 
 enum EventType {
   FOLLOW
-  LIKE
+  COMMENT
 }
 
-model ComicViewCounts {
+enum EventLogType {
+  FOLLOW
+  UNFOLLOW
+}
+
+model History {
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt      DateTime      @default(now())
+  comicsId       String        @db.ObjectId @unique
+  // comicChapterId String        @db.ObjectId
+  chapterNumber  Int
+  userID         String        @db.ObjectId @unique
+  user           User          @relation(fields: [userID], references: [id], onDelete: Cascade)
+  Comics    Comics   @relation(fields: [comicsId], references: [id], onDelete: Cascade)
+  // ComicChapters  ComicChapters @relation(fields: [comicChapterId], references: [id], onDelete: Cascade)
+}
+
+model ViewCount {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   createdAt DateTime @default(now())
-  Comics    Comics   @relation(fields: [comicsId], references: [id], onDelete: Cascade)
+  comics    Comics   @relation(fields: [comicsId], references: [id], onDelete: Cascade)
   comicsId  String   @db.ObjectId
-  userID    String
 }
 
 model Comments {
-  id              String           @id @default(auto()) @map("_id") @db.ObjectId
-  commentDetail   String
-  commentReplyID  String?
-  userID          String
-  createdAt       DateTime         @default(now())
-  updateAt        DateTime         @default(now())
-  CommentComics   CommentComics?
-  CommentsChapter CommentsChapter?
+  id             String     @id @default(auto()) @map("_id") @db.ObjectId
+  content        String
+  commentReplies Comments[] @relation("CommentCommentReplies")
+  commentReplyId String?    @db.ObjectId
+  commentReply   Comments?  @relation("CommentCommentReplies", fields: [commentReplyId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  userID         String     @db.ObjectId
+  user           User       @relation("UserComment", fields: [userID], references: [id], onDelete: Cascade)
+  createdAt      DateTime   @default(now())
+  updateAt       DateTime   @updatedAt
+  likes          Int        @default(0)
+
+  comics          Comics?        @relation(fields: [comicsId], references: [id], onDelete: Cascade)
+  comicsId        String?        @db.ObjectId
+  comicChapters   ComicChapters? @relation(fields: [comicChaptersId], references: [id], onDelete: Cascade)
+  comicChaptersId String?        @db.ObjectId
+
+  events             Events[]
+  notificationsActor Notifications[]
+  userLikes          User[]          @relation("UserLike", fields: [userLikesId], references: [id])
+  userLikesId        String[]        @db.ObjectId
 }
 
-model CommentComics {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  comment   Comments @relation(fields: [commentID], references: [id])
-  commentID String   @unique @db.ObjectId
-  Comics    Comics   @relation(fields: [comicsId], references: [id])
-  comicsId  String   @db.ObjectId
+enum Role {
+  ADMIN
+  MEMBER
 }
 
-model CommentsChapter {
-  id              String        @id @default(auto()) @map("_id") @db.ObjectId
-  comment         Comments      @relation(fields: [commentID], references: [id])
-  commentID       String        @unique @db.ObjectId
-  ComicChapters   ComicChapters @relation(fields: [comicChaptersId], references: [id])
-  comicChaptersId String        @db.ObjectId
-}
+model User {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  role     Role   @default(MEMBER)
+  userId   String @unique
+  name     String
+  imageUrl String
+  email    String
 
-model NotificationChanges {
-  id                    String              @id @default(auto()) @map("_id") @db.ObjectId
-  NotificationObjects   NotificationObjects @relation(fields: [notificationObjectsId], references: [id])
-  notificationObjectsId String              @db.ObjectId
-  receiverID            String
-  isRead                Boolean             @default(false)
-}
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-enum EntityTypes {
-  COMMENT
-  COMIC
-}
-
-model NotificationObjects {
-  id                  String                @id @default(auto()) @map("_id") @db.ObjectId
-  entityTypes         EntityTypes
-  entityID            String
-  createAt            DateTime              @default(now())
-  notifications       Notifications[]
-  notificationChanges NotificationChanges[]
+  comments       Comments[] @relation("UserComment")
+  events         Events[]
+  history        History[]
+  likeCommentsId String[]   @db.ObjectId
+  likeComments   Comments[] @relation("UserLike", fields: [likeCommentsId], references: [id])
 }
 
 model Notifications {
-  id                    String              @id @default(auto()) @map("_id") @db.ObjectId
-  NotificationObjects   NotificationObjects @relation(fields: [notificationObjectsId], references: [id])
-  notificationObjectsId String              @db.ObjectId
-  actorID               String
-  notificationMessage   String
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  isRead               Boolean            @default(false)
+  commentActor         Comments?          @relation(fields: [commentsActorId], references: [id], onDelete: Cascade)
+  commentsActorId      String?            @db.ObjectId
+  events               Events             @relation(fields: [eventsId], references: [id], onDelete: Cascade)
+  eventsId             String             @db.ObjectId
+  entityNotification   EntityNotification @relation(fields: [entityNotificationId], references: [id])
+  entityNotificationId String             @db.ObjectId
+}
+
+model EntityNotification {
+  id            String                  @id @default(auto()) @map("_id") @db.ObjectId
+  entityTypes   EntityNotificationTypes
+  entityContent String
+  notifications Notifications[]
+}
+
+enum EntityNotificationTypes {
+  COMMENT
 }

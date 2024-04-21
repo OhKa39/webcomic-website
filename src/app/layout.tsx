@@ -1,14 +1,14 @@
 import React from "react";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header"
+import Header from "@/components/Header";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
+import ScrollToTop from "@/components/ScrollToTop";
 import Provider from "./Provider";
-import { ClerkProvider } from '@clerk/nextjs'
-
-
-
+import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "@/components/ui/toaster";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +20,7 @@ export const metadata = {
 export default function RootLayout({
   children, // will be a page or nested layout
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <ClerkProvider>
@@ -30,6 +30,9 @@ export default function RootLayout({
             <Header />
             <NavBar />
             {children}
+            <SpeedInsights />
+            <Toaster />
+            <ScrollToTop />
             <Footer />
           </Provider>
         </body>

@@ -1,15 +1,17 @@
-import React from 'react'
+import HistoryContainer from "./_components/history-container"
+import SignedInContainer from "./_components/SignedIn-container"
 
-export default function page() {
+import initialUser from "@/lib/initial-user"
+
+export default async function page() {        
+    const profile = await initialUser()
+  
+    
     return (
-        <div className='max-w-6xl mx-auto p-3 space-y-3'>
-            <h1 className='text-2xl font-medium text-amber-400'>About us!</h1>
-            <p>Three friends lam bai tap kiem thu phan mem</p>
-            <h1 className='text-2xl font-medium text-amber-400'>Authors</h1>
-            <p>Ly Thanh Khoa</p>
-            <p>Le Vu Duc An</p>
-            <p>Nguyen Le Minh Hung</p>
-
+        <div className="container mx-auto min-h-screen h-auto w-screen">
+            <h1 className="pt-5 pb-8 font-bold text-lg">Lịch sử đọc truyện:</h1> 
+            {profile && <SignedInContainer profile={profile}/>}
+            {!profile && <HistoryContainer/>}
         </div>
     )
 }

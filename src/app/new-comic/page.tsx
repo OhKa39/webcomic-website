@@ -24,9 +24,9 @@ export default async function page({
   const { totalComicsCount, comics } = await getData(page, perPage);
   return (
     <div className="container p-auto pt-4 text-center m-auto ">
-      <Suspense fallback={<p>Loading feed...</p>}>
-        <Container data={comics} />
-      </Suspense>
+      {/* <Suspense fallback={<p>Loading feed...</p>}> */}
+      <Container data={comics} />
+      {/* </Suspense> */}
 
       <PaginationControls count={totalComicsCount} perPage={perPage} />
     </div>
