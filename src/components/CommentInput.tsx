@@ -69,7 +69,7 @@ const CommentInput = ({
     const data = await dataFetch.json();
 
     // Notification for user
-    if (dataFetch.status === 200) {
+    if (dataFetch.ok) {
       toast({
         variant: "success",
         title: `Thành công`,

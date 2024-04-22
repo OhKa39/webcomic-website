@@ -39,7 +39,7 @@ async function likeHandler(
   });
 
   const data = await dataFetch.json();
-  if (dataFetch.status !== 200) {
+  if (!dataFetch.ok) {
     toast({
       variant: "warning",
       title: `Đã có lỗi xảy ra`,

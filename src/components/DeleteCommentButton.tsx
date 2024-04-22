@@ -40,7 +40,7 @@ export default function DeleteCommentButton({
       body: JSON.stringify({ query }),
     });
     const data = await dataFetch.json();
-    if (dataFetch.status === 200)
+    if (dataFetch.ok)
       toast({
         variant: "success",
         title: `Thành công`,
