@@ -30,9 +30,9 @@ export async function POST(req: NextRequest, context : any) {
                   create: user
                 }); 
             const response = {increaseViewCount, history}
-            return NextResponse.json(response,{status: 200})
+            return NextResponse.json(response,{status: 201})
         }
-        return NextResponse.json(increaseViewCount,{status: 200})
+        return NextResponse.json(increaseViewCount,{status: 201})
     }
     catch(error)
     {

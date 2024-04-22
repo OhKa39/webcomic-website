@@ -77,7 +77,7 @@ export async function POST(req: NextRequest, context : any)
   try{
     const profile = await initialUser()
     if(!profile)
-      return NextResponse.json({ message: `Unauthorized`},{status: 400})
+      return NextResponse.json({ message: `Unauthorized`},{status: 401})
 
     const data = await req.json()
     const commentID = context.params.commentID
@@ -104,7 +104,7 @@ export async function POST(req: NextRequest, context : any)
 
     // console.log(dataUpdate)
     await pusherServer.trigger(commentID, `commentMessageEdit: ${commentID}`, dataUpdate)
-    return NextResponse.json(dataUpdate,{status: 200})
+    return NextResponse.json(dataUpdate,{status: 201})
   }
   catch(error)
   {

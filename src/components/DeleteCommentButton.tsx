@@ -30,7 +30,7 @@ export default function DeleteCommentButton({
       comment,
       parentId,
     };
-    // console.log(query);
+
     const url = `${urlPage}/api/comment`;
     const dataFetch = await fetch(url, {
       method: `DELETE`,
@@ -39,19 +39,21 @@ export default function DeleteCommentButton({
       },
       body: JSON.stringify({ query }),
     });
-    const data = await dataFetch.json();
-    if (dataFetch.status === 200)
+
+    if (dataFetch.ok)
       toast({
         variant: "success",
         title: `Thành công`,
         description: `Xóa bình luận thành công`,
       });
-    else
+    else {
+      const data = await dataFetch.json();
       toast({
         variant: "warning",
         title: `Đã có lỗi xảy ra`,
         description: `Xóa bình luận thất bại: ${data.message}`,
       });
+    }
   }
 
   return (
