@@ -20,7 +20,7 @@ export async function GET(req:NextRequest) {
         return NextResponse.json(allComics, { status: 200 })
     }
     catch (error) {
-        return NextResponse.json({ message: 'Có lỗi xảy ra' }, { status: 405 })
+        return NextResponse.json({ message: 'Có lỗi xảy ra' }, { status: 500 })
     }
 
 }

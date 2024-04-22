@@ -38,7 +38,7 @@ export async function POST(req: NextRequest, context : any) {
           ||  data.query.comicsID || data.query.chapterID
         await pusherServer.trigger(id, `commentMessage: ${id}`, dataOut)
 
-        return NextResponse.json(dataOut,{status: 200})
+        return NextResponse.json(dataOut,{status: 201})
     }
     catch(error)
     {
@@ -77,7 +77,7 @@ export async function GET(req: NextRequest) //Lấy tất cả các root của c
   }
 }
 
-export async function PUT(req: NextRequest, context : any) { //chỉnh sửa nội dung comment
+export async function PATCH(req: NextRequest, context : any) { //chỉnh sửa nội dung comment
   try{
       const profile = await initialUser()
       
@@ -110,7 +110,7 @@ export async function PUT(req: NextRequest, context : any) { //chỉnh sửa n�
       const id = data.query.commentID 
       await pusherServer.trigger(id, `commentMessageEdit: ${id}`, dataOut)
 
-      return NextResponse.json(dataOut,{status: 200})
+      return NextResponse.json(dataOut,{status: 204})
   }
   catch(error)
   {
@@ -148,7 +148,10 @@ export async function DELETE(req: NextRequest, context : any) {
       if(!profile)
         return NextResponse.json({message: `Unauthorized`},{status: 401})
       
-      const data  = await req.json()  
+      const data  = await req.json()
+
+      if(profile.id !== data.query.comment.user.id)  
+        return NextResponse.json({message: `Forbidden`},{status: 403})
       
       // console.log(data)
       await deleteCommentWithChildren(data.query.comment)
@@ -156,7 +159,7 @@ export async function DELETE(req: NextRequest, context : any) {
       const id = data.query.parentId
       await pusherServer.trigger(id, `commentMessageDelete: ${id}`, data.query.comment.id)
 
-      return NextResponse.json({message:"Delete successfully"},{status: 200})
+      return NextResponse.json({message:"Delete successfully"},{status: 204})
   }
   catch(error)
   {

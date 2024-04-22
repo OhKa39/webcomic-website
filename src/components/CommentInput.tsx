@@ -60,7 +60,7 @@ const CommentInput = ({
     form.reset();
 
     const dataFetch = await fetch(url, {
-      method: `${content ? "PUT" : "POST"}`,
+      method: `${content ? "PATCH" : "POST"}`,
       headers: {
         "Content-Type": "application/json",
       },

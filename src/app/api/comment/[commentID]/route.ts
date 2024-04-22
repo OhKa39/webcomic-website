@@ -104,7 +104,7 @@ export async function POST(req: NextRequest, context : any)
 
     // console.log(dataUpdate)
     await pusherServer.trigger(commentID, `commentMessageEdit: ${commentID}`, dataUpdate)
-    return NextResponse.json(dataUpdate,{status: 200})
+    return NextResponse.json(dataUpdate,{status: 201})
   }
   catch(error)
   {
