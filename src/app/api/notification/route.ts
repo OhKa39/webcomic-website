@@ -49,7 +49,7 @@ export async function GET(req: NextRequest)
   }
 }
 
-export async function PUT(req: NextRequest)
+export async function PATCH(req: NextRequest)
 {
   try{
     const data = await req.json()
@@ -84,7 +84,7 @@ export async function PUT(req: NextRequest)
     })
 
     await pusherServer.trigger(data.query.userID, `NotificationUpdate: ${data.query.userID}`, updateData)
-    return NextResponse.json({ message: `Update notification successfully`},{status: 200})
+    return NextResponse.json(updateData,{status: 204})
   }
   catch(error)
   {
@@ -174,7 +174,7 @@ export async function POST(req: NextRequest){
         })
       }
     }
-    return NextResponse.json({ message: `Push notification successfully`},{status: 200})
+    return NextResponse.json({ message: `Push notification successfully`},{status: 201})
   }
   catch(error)
   {

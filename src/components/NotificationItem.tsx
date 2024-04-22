@@ -59,7 +59,7 @@ async function clickHandler(id: string, isRead: boolean, userID: string) {
   };
   const url = `${urlPage}/api/notification`;
   const dataFetch = await fetch(url, {
-    method: "PUT",
+    method: "PATCH",
     headers: {
       "Content-Type": "application/json",
     },

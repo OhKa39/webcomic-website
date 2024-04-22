@@ -5,18 +5,17 @@ import initialUser from '@/lib/initial-user';
 export async function POST(req: NextRequest) {
     try {
         const profile = await initialUser();
-        if (!profile) {
+        if (!profile)
             return NextResponse.json(null, { status: 401 });
-        }
+
         const data = await req.json();
-        // console.log(data)
         const event = await prisma.events.findFirst({
             where:{
                 comicsId: data.query.comicsId,
                 userID: profile.id,
             }
         });
-        // console.log(event)
+
         if(!!event)
         {
             const updateEvent = prisma.events.update({
@@ -27,18 +26,20 @@ export async function POST(req: NextRequest) {
                     id: event.id
                 },
             });
+
             const updateLog = prisma.followLog.create({
                 data:{
                     eventLogType: !event.isTurnOn == true ? "FOLLOW" : "UNFOLLOW",
                     eventID: event.id
                 }
             })
+
             const [currentEvent, currentFollowLog] = await prisma.$transaction([
                 updateEvent,
                 updateLog,
               ]);
-            return NextResponse.json(currentEvent, { status: 200 });
-                
+
+            return NextResponse.json(currentEvent, { status: 201 });        
         }
 
         const updateEvent = await prisma.events.create({
@@ -55,7 +56,8 @@ export async function POST(req: NextRequest) {
                     }
                 }
         })
-        return NextResponse.json(updateEvent, { status: 200 });
+        
+        return NextResponse.json(updateEvent, { status: 201 });
     }
     catch (error) {
         return NextResponse.json({ message: `Something went wrong: ${error}` }, { status: 500 });
