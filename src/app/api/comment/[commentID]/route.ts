@@ -77,7 +77,7 @@ export async function POST(req: NextRequest, context : any)
   try{
     const profile = await initialUser()
     if(!profile)
-      return NextResponse.json({ message: `Unauthorized`},{status: 400})
+      return NextResponse.json({ message: `Unauthorized`},{status: 401})
 
     const data = await req.json()
     const commentID = context.params.commentID

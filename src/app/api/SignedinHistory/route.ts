@@ -39,7 +39,7 @@ export async function DELETE(req:NextRequest) {
             },
         })
 
-        return NextResponse.json(deleteComic, { status: 204 })
+        return new Response(null, { status: 204 })
     }
     catch (error) {
         return NextResponse.json({ message: 'Có lỗi xảy ra' }, { status: 500 })

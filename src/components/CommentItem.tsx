@@ -38,8 +38,8 @@ async function likeHandler(
     body: JSON.stringify({ isLike }),
   });
 
-  const data = await dataFetch.json();
   if (!dataFetch.ok) {
+    const data = await dataFetch.json();
     toast({
       variant: "warning",
       title: `Đã có lỗi xảy ra`,
@@ -70,7 +70,7 @@ const CommentItem = ({
   queryCommentChain,
 }: CommentItemType) => {
   const MAX_DEPTH = 2;
-  const LIMIT_DIV = 12;
+  const LIMIT_DIV = 16;
   const [isReply, setIsReply] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [comment, setComment] = useState(commentSent);
@@ -169,7 +169,7 @@ const CommentItem = ({
           <div>
             <div
               className={`comment-content mt-1 text-pretty whitespace-pre-line truncate ${
-                isExpend ? "max-h-full" : "max-h-12"
+                isExpend ? "max-h-full" : "max-h-16"
               }`}
               ref={heightRef}
             >

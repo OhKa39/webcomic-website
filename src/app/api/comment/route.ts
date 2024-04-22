@@ -110,7 +110,7 @@ export async function PATCH(req: NextRequest, context : any) { //chỉnh sửa n
       const id = data.query.commentID 
       await pusherServer.trigger(id, `commentMessageEdit: ${id}`, dataOut)
 
-      return NextResponse.json(dataOut,{status: 204})
+      return new Response(null,{status: 204})
   }
   catch(error)
   {
@@ -159,7 +159,7 @@ export async function DELETE(req: NextRequest, context : any) {
       const id = data.query.parentId
       await pusherServer.trigger(id, `commentMessageDelete: ${id}`, data.query.comment.id)
 
-      return NextResponse.json({message:"Delete successfully"},{status: 204})
+      return new Response(null,{status: 204})
   }
   catch(error)
   {
