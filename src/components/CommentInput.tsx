@@ -66,18 +66,18 @@ const CommentInput = ({
       },
       body: JSON.stringify({ query }),
     });
-    const data = await dataFetch.json();
 
     // Notification for user
-    if (dataFetch.status === 200) {
+    if (dataFetch.ok) {
       toast({
         variant: "success",
         title: `Thành công`,
         description: `${!content ? "Gửi" : "Sửa"} bình luận thành công`,
       });
 
-      //If post sent notification to every follower
+      //If this is create comment action, sent notification to all comment's followers
       if (!content) {
+        const data = await dataFetch.json();
         const urlNotification = `${urlPage}/api/notification`;
         const queryNotification = {
           commentID,
@@ -91,12 +91,14 @@ const CommentInput = ({
           body: JSON.stringify({ queryNotification }),
         });
       }
-    } else
+    } else {
+      const data = await dataFetch.json();
       toast({
         variant: "warning",
         title: `Đã có lỗi xảy ra`,
         description: `Gửi bình luận thất bại: ${data.message}`,
       });
+    }
 
     // console.log(data);
     // console.log(values);

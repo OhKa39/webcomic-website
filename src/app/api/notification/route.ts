@@ -84,7 +84,7 @@ export async function PATCH(req: NextRequest)
     })
 
     await pusherServer.trigger(data.query.userID, `NotificationUpdate: ${data.query.userID}`, updateData)
-    return NextResponse.json(updateData,{status: 204})
+    return new Response(null,{status: 204})
   }
   catch(error)
   {
