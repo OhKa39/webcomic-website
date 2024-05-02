@@ -43,7 +43,14 @@ export async function GET(req: NextRequest, context : any)
           updateAt: "asc"
         },
         include:{
-          user: true
+          user: {
+            select:{
+              id: true,
+              role: true,
+              name: true,
+              imageUrl: true
+            }
+          }
         }
       })
       return NextResponse.json(data,{status: 200})
@@ -93,10 +100,12 @@ export async function POST(req: NextRequest, context : any)
         }
       },
       include:{
-        user: true,
-        userLikes: {
+        user: {
           select:{
-            _count: true,
+            id: true,
+            role: true,
+            name: true,
+            imageUrl: true
           }
         }
       }

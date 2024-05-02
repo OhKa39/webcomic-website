@@ -44,7 +44,7 @@ const CommentInput = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      content: content ?? "",
+      content: content?.split("-")[0] ?? "",
     },
   });
 
@@ -55,6 +55,7 @@ const CommentInput = ({
       comicsID,
       chapterID,
       commentID,
+      userId: content?.split("-")[1],
     };
     const url = `${urlPage}/api/comment`;
     form.reset();
