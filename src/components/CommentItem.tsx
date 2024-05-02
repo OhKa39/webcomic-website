@@ -194,7 +194,7 @@ const CommentItem = ({
             comicsID={comicID}
             chapterID={chapterID}
             commentID={comment.id}
-            content={comment.content}
+            content={comment.content + "-" + comment.user.id}
           />
         )}
 

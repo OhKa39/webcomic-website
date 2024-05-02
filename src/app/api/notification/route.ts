@@ -19,16 +19,42 @@ export async function GET(req: NextRequest)
         events:{
           include:
           {
-            user: true,
+            user: {
+              select:{
+                id: true,
+                role: true,
+                name: true,
+                imageUrl: true
+              }
+            }
           }
         },
         commentActor: {
           include:{
-            user:true,
-            comics: true,
+            user: {
+              select:{
+                id: true,
+                role: true,
+                name: true,
+                imageUrl: true
+              }
+            },
+            comics: {
+              select: {
+                id: true,
+                comicName: true,
+              }
+            },
             comicChapters: {
-              include: {
-                comics: true
+              select:{
+                id: true,
+                chapterNumber: true,
+                comics: {
+                  select: {
+                    id: true,
+                    comicName: true,
+                  }
+                }
               }
             }
           }
@@ -65,16 +91,42 @@ export async function PATCH(req: NextRequest)
         events:{
           include:
           {
-            user: true,
+            user: {
+              select:{
+                id: true,
+                role: true,
+                name: true,
+                imageUrl: true
+              }
+            }
           }
         },
         commentActor: {
           include:{
-            user:true,
-            comics: true,
+            user: {
+              select:{
+                id: true,
+                role: true,
+                name: true,
+                imageUrl: true
+              }
+            },
+            comics: {
+              select:{
+                id: true,
+                comicName: true,
+              }
+            },
             comicChapters: {
-              include:{
-                comics:true
+              select:{
+                id: true,
+                chapterNumber: true,
+                comics:{
+                  select:{
+                    id: true,
+                    comicName: true,
+                  }
+                }
               }
             }
           }
@@ -124,27 +176,54 @@ export async function POST(req: NextRequest){
         },
       })
 
+      const COMMENT_NOTIFICATION_ENTITYID = "661962f9da0105ab37470cb9"
       for(const ele of followerComment){
         const dataNotificationOut = await prisma.notifications.create({
           data:{
             commentsActorId: data.queryNotification.currentComment.id,
-            entityNotificationId: "661962f9da0105ab37470cb9",
+            entityNotificationId: COMMENT_NOTIFICATION_ENTITYID,
             eventsId: ele.id
           },
           include:{
             events:{
               include:
               {
-                user: true,
+                user: {
+                  select:{
+                    id: true,
+                    role: true,
+                    name: true,
+                    imageUrl: true
+                  }
+                }
               }
             },
             commentActor: {
               include:{
-                user:true,
-                comics: true,
+                user: {
+                  select:{
+                    id: true,
+                    role: true,
+                    name: true,
+                    imageUrl: true
+                  }
+                },
+                comics: {
+                  select:{
+                    id: true,
+                    comicName: true,
+                  }
+                },
                 comicChapters: {
-                  include:{
-                    comics:true
+                  select:{
+                    id: true,
+                    chapterNumber: true,
+                    comics:{
+                      select:{
+                        id: true,
+                        comicName: true,
+                      }
+                    }
                   }
                 }
               }
