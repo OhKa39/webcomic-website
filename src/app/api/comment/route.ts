@@ -25,10 +25,12 @@ export async function POST(req: NextRequest, context : any) {
               commentReplyId: data.query.commentID
           },
           include:{
-            user: true,
-            userLikes: {
+            user: {
               select:{
-                _count: true,
+                id: true,
+                role: true,
+                name: true,
+                imageUrl: true
               }
             }
           }
@@ -61,10 +63,12 @@ export async function GET(req: NextRequest) //Lấy tất cả các root của c
           updateAt: "desc"
         },
         include:{
-          user: true,
-          userLikes: {
+          user: {
             select:{
-              _count: true,
+              id: true,
+              role: true,
+              name: true,
+              imageUrl: true
             }
           }
         }
@@ -84,7 +88,10 @@ export async function PATCH(req: NextRequest, context : any) { //chỉnh sửa n
       if(!profile)
         return NextResponse.json({message: `Unauthorized`},{status: 401})
       
-      const data  = await req.json()  
+      const data  = await req.json()
+      
+      if(profile.id !== data.query.userId)  
+        return NextResponse.json({message: `Forbidden`},{status: 403})
 
       if(data.query.content.trim() === "")
         return NextResponse.json({message: `Bad Request`},{status: 400})
@@ -98,10 +105,12 @@ export async function PATCH(req: NextRequest, context : any) { //chỉnh sửa n
             content: data.query.content.trim()
         },
         include:{
-          user: true,
-          userLikes: {
+          user: {
             select:{
-              _count: true,
+              id: true,
+              role: true,
+              name: true,
+              imageUrl: true
             }
           }
         }
