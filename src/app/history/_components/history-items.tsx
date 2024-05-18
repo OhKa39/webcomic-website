@@ -17,7 +17,7 @@ export default async function HistoryItems({
   comicIdToDelete: any;
   setcomicIdToDelete: any;
 }) {
-  if (data.length == 0) return <h1>không tìm thấy truyện!</h1>;
+  if (data.length === 0) return <h1>không tìm thấy truyện!</h1>;
   const comicAfterDelete = data.filter(
     (i: any) => i.comicId !== comicIdToDelete
   ); //xoa thg co id can xoa
@@ -26,6 +26,13 @@ export default async function HistoryItems({
   const comicIdString = comicIdArray.join(",");
   if (comicIdArray.length < 1) return <h1>không tìm thấy truyện!</h1>;
   let localComic = await getData(comicIdString);
+  if (
+    localComic.message ===
+    "Bad request: contain at least one wrong id format in IDs"
+  ) {
+    localStorage.removeItem("visited-comics");
+    return <h1>không tìm thấy truyện!</h1>;
+  }
 
   localComic.forEach((i: any) => {
     comicAfterDelete.forEach((j: any) => {

@@ -27,17 +27,16 @@ export default function DeleteCommentButton({
     const urlPage = process.env.NEXT_PUBLIC_URL;
 
     const query = {
-      comment,
       parentId,
     };
 
-    const url = `${urlPage}/api/comment`;
+    const url = `${urlPage}/api/comment/${comment.id}`;
     const dataFetch = await fetch(url, {
       method: `DELETE`,
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ query }),
+      body: JSON.stringify({ ...query }),
     });
 
     if (dataFetch.ok)
