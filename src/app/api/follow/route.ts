@@ -65,8 +65,20 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
-    const userID = req.nextUrl.searchParams.get('id')
-    const pageNumber = Number(req.nextUrl.searchParams.get('page')) || 1;
+    const profile = await initialUser()
+    if(!profile)
+        return NextResponse.json({message: `Unauthorized: Please login to use this feature`},{status: 401})
+
+    const userID = profile!.id
+
+    if(isNaN(Number(req.nextUrl.searchParams.get('page')))
+      || isNaN(Number(req.nextUrl.searchParams.get('offset'))))
+      return NextResponse.json(
+        { message: `Bad request: Page or offset must be a number` },
+        { status: 400 }
+      );
+
+    const pageNumber = Number(req.nextUrl.searchParams.get('page'));
     const offset = Number(req.nextUrl.searchParams.get('offset'));
 
     try {
@@ -77,6 +89,8 @@ export async function GET(req: NextRequest) {
         }})
         const comicsQuery = prisma.events.findMany({
             select: {
+                userID: true,
+                isTurnOn: true,
                 comics: true
             },
             where: {

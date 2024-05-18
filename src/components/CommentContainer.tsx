@@ -57,7 +57,7 @@ const CommentContainer = async ({
         chapterID={chapterID}
         user={user}
         query={query}
-        queryCommentChain={commentRootID.rootComment.reverse()}
+        queryCommentChain={commentRootID.reverse()}
       />
     </div>
   );

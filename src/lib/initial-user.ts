@@ -1,5 +1,5 @@
 import React, { use } from 'react'
-import { currentUser } from '@clerk/nextjs'
+import { currentUser } from '@clerk/nextjs/server'
 import prisma from './db'
 
 const initialUser = async () => {
