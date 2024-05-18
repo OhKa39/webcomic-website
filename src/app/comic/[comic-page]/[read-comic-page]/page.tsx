@@ -5,33 +5,31 @@ import initialUser from "@/lib/initial-user";
 import { FaRegCommentDots } from "react-icons/fa6";
 import CommentInput from "@/components/CommentInput";
 import CommentContainer from "@/components/CommentContainer";
+import { notFound } from "next/navigation";
 
 const getPages = async (comicID: any, comicChapter: any) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
 
   const data = await fetch(`${urlPage}/api/comic/${comicID}/${comicChapter}`); // xoa
+  if (data.status === 404) notFound();
   return data.json();
 };
 
 const getData = async (comicID: any) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
   const data = await fetch(`${urlPage}/api/comic/${comicID}`);
+  if (data.status === 404) notFound();
   return data.json();
 };
 
-const userHistory = async (
-  comicID: any,
-  chapterNumber: any,
-  chapterId: any,
-  profile: any
-) => {
+const userHistory = async (comicID: any, chapterNumber: any) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
   const data = await fetch(
     `${urlPage}/api/comic/${comicID}/${chapterNumber}?`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ profile, comicID, chapterNumber }),
+      body: JSON.stringify({ comicID, chapterNumber }),
     }
   );
   return data.json();
@@ -47,13 +45,13 @@ export default async function ReadComicPage({
   const comicChapter = params["read-comic-page"]; // chapter cua thg comic do
   const comicId = params["comic-page"]; // id cua thg comic
   const pagesData = getPages(comicId, comicChapter); // lay trang trong chapter do
-  const ListData = getData(comicId);
-  const [pages, data] = await Promise.all([pagesData, ListData]);
+  const listData = getData(comicId);
+  const [pages, data] = await Promise.all([pagesData, listData]);
   const profile = await initialUser();
   const chapterId = pages["id"];
   const query = searchParams["commentID"];
 
-  userHistory(comicId, comicChapter, chapterId, profile);
+  await userHistory(comicId, comicChapter);
 
   const ListChapter = data.comicChapters; // lay mang gom cac chapter
   return (

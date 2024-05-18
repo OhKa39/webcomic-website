@@ -17,12 +17,14 @@ import CommentContainer from "@/components/CommentContainer";
 import initialUser from "@/lib/initial-user";
 import ComicTags from "./_components/ComicTags";
 import { Suspense } from "react";
+import { notFound } from "next/navigation";
 
 const getComic = async (comicID: any) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
   const data = await fetch(`${urlPage}/api/comic/${comicID}`, {
     cache: "no-cache",
   });
+  if (data.status === 404) notFound();
   return data.json();
 };
 
@@ -74,12 +76,11 @@ export default async function comicPage({
             <li>
               {" "}
               <FaHeart className="inline" /> Lượt theo dõi:{" "}
-              {comic.events ? comic.events.length : 0}
+              {comic._count.events}
             </li>
             <li>
               {" "}
-              <FaRegEye className="inline" /> Lượt xem:{" "}
-              {comic.viewCount ? comic.viewCount.length : 0}
+              <FaRegEye className="inline" /> Lượt xem: {comic._count.viewCount}
             </li>
             <li>
               {" "}

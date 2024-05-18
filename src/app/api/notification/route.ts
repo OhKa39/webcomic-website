@@ -7,7 +7,11 @@ import { Comments } from "@prisma/client";
 export async function GET(req: NextRequest)
 {
   try{
-    const userID = req.nextUrl.searchParams.get('userID')
+    const profile = await initialUser()
+    if(!profile)
+      return NextResponse.json({message: `Unauthorized: Please login to use this feature`},{status: 401})
+    const userID = profile!.id;
+    // const userID = req.nextUrl.searchParams.get('userID')
     const data = await prisma.notifications.findMany({
       where:
       {
@@ -71,7 +75,7 @@ export async function GET(req: NextRequest)
   }
   catch(error)
   {
-    return NextResponse.json({ message: `Something is error:${error}`},{status: 500})
+    return NextResponse.json({ message: `something went wrong:${error}`},{status: 500})
   }
 }
 
@@ -140,7 +144,7 @@ export async function PATCH(req: NextRequest)
   }
   catch(error)
   {
-    return NextResponse.json({ message: `Something is error:${error}`},{status: 500})
+    return NextResponse.json({ message: `something went wrong:${error}`},{status: 500})
   }
 }
 
@@ -257,6 +261,6 @@ export async function POST(req: NextRequest){
   }
   catch(error)
   {
-    return NextResponse.json({ message: `Something is error:${error}`},{status: 500})
+    return NextResponse.json({ message: `something went wrong:${error}`},{status: 500})
   }
 }

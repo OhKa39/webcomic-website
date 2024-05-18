@@ -20,15 +20,15 @@ export default function DeleteHistoryButton({
         headers: { "Content-Type": "application/json" },
       }
     );
-    return data.json();
+    // return data.json();
   };
   const handleClick = (newComicIdToDelete: string, userId: string) => {
     if (userId) {
-      const data = deleteComic(userId, newComicIdToDelete);
+      setcomicIdToDelete(newComicIdToDelete);
+      deleteComic(userId, newComicIdToDelete);
       toast({
-        variant: "warning",
+        variant: "success",
         title: "Đã xóa thành công!",
-        description: "Vui lòng load lại page",
       });
     } else {
       const localStorageComics = JSON.parse(

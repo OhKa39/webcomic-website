@@ -1,9 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from '@/lib/db'
+import initialUser from "@/lib/initial-user";
 
 export async function GET(req:NextRequest) {
     try {
-        const userId = req.nextUrl.searchParams.get('userId');
+        const profile = await initialUser()
+        if(!profile)
+            return NextResponse.json({message: `Unauthorized: Please login to use this feature`},{status: 401})
+
+        const userId = profile!.id
         const allComics = await prisma.history.findMany({
             where: {
                 userID: userId!
@@ -24,7 +29,7 @@ export async function GET(req:NextRequest) {
         return NextResponse.json(allComics, { status: 200 })
     }
     catch (error) {
-        return NextResponse.json({ message: 'Có lỗi xảy ra' }, { status: 500 })
+        return NextResponse.json({ message: 'something went wrong' }, { status: 500 })
     }
 }
 
@@ -42,6 +47,6 @@ export async function DELETE(req:NextRequest) {
         return new Response(null, { status: 204 })
     }
     catch (error) {
-        return NextResponse.json({ message: 'Có lỗi xảy ra' }, { status: 500 })
+        return NextResponse.json({ message: 'something went wrong' }, { status: 500 })
     }
 }

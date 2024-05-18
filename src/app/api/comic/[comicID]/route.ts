@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/lib/db'
+import {Prisma} from '@prisma/client' 
 export async function GET(req: NextRequest, context : any) {
     try{
         const {params} = context
@@ -22,11 +23,15 @@ export async function GET(req: NextRequest, context : any) {
                         chapterNumber: true,
                     }
                 },
-                viewCount: true,
-                events:{
-                 where:{
-                    isTurnOn: true
-                 }
+                _count: {
+                    select:{
+                        viewCount: true,
+                        events:{
+                            where:{
+                                isTurnOn: true
+                            }
+                        }
+                    }
                 },
                 comicTypes: {
                     select:{
@@ -38,8 +43,14 @@ export async function GET(req: NextRequest, context : any) {
         })
         return NextResponse.json(comic,{status: 200})
     }
-    catch(error)
+    catch(error: any)
     {
-        return NextResponse.json({ message: `Something is error:${error}`},{status: 500})
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            // The .code property can be accessed in a type-safe manner
+            if (error.code === 'P2025' || error.code === 'P2023') {
+                return NextResponse.json({ message: `Comic not found`},{status: 404})
+            }
+        }
+        return NextResponse.json({ message: `something went wrong:${error}`},{status: 500})
     }
 }

@@ -23,12 +23,9 @@ import { pusherClient } from "@/lib/pusher";
 const getData = async (user: any) => {
   const urlPage = process.env.NEXT_PUBLIC_URL;
   // console.log(`${urlPage}/api/notification?userID=${user.user.id}`);
-  const response = await fetch(
-    `${urlPage}/api/notification?userID=${user.id}`,
-    {
-      method: "GET",
-    }
-  );
+  const response = await fetch(`${urlPage}/api/notification`, {
+    method: "GET",
+  });
   return response.json();
 };
 
@@ -40,12 +37,9 @@ const NotificationDropDown = ({ user }: { user: any }) => {
     const fetchData = async () => {
       const urlPage = process.env.NEXT_PUBLIC_URL;
       // console.log(`${urlPage}/api/notification?userID=${user.id}`);
-      const response = await fetch(
-        `${urlPage}/api/notification?userID=${user.id}`,
-        {
-          method: "GET",
-        }
-      );
+      const response = await fetch(`${urlPage}/api/notification`, {
+        method: "GET",
+      });
       const dataFetch = await response.json();
       setData(dataFetch);
       setNotReadCount(
