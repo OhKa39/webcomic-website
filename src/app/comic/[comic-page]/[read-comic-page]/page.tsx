@@ -29,7 +29,7 @@ const userHistory = async (comicID: any, chapterNumber: any) => {
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ comicID, chapterNumber }),
+      // body: JSON.stringify({ comicID, chapterNumber }),
     }
   );
   return data.json();
@@ -46,8 +46,8 @@ export default async function ReadComicPage({
   const comicId = params["comic-page"]; // id cua thg comic
   const pagesData = getPages(comicId, comicChapter); // lay trang trong chapter do
   const listData = getData(comicId);
-  const [pages, data] = await Promise.all([pagesData, listData]);
   const profile = await initialUser();
+  const [pages, data] = await Promise.all([pagesData, listData]);
   const chapterId = pages["id"];
   const query = searchParams["commentID"];
 
