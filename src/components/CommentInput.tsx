@@ -44,7 +44,7 @@ const CommentInput = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      content: content?.split("-")[0] ?? "",
+      content: content ?? "",
     },
   });
 
@@ -55,9 +55,8 @@ const CommentInput = ({
       comicsID,
       chapterID,
       commentID,
-      userId: content?.split("-")[1],
     };
-    const url = `${urlPage}/api/comment`;
+    const url = `${urlPage}/api/comment${content ? "/" + commentID : ""}`;
     form.reset();
 
     const dataFetch = await fetch(url, {
@@ -65,7 +64,7 @@ const CommentInput = ({
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ query }),
+      body: JSON.stringify({ ...query }),
     });
 
     // Notification for user

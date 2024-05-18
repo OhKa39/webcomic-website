@@ -1,18 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/lib/db'
+import {Prisma} from '@prisma/client' 
+import initialUser from '@/lib/initial-user'
 
 export async function POST(req: NextRequest, context : any) {
     try{
         const {params} = context
         const comicID = params.comicID
         // const comicChapter = params.comicChapter
+        const profile = await initialUser()
         const data = await req.json() 
         const increaseViewCount = await prisma.viewCount.create({
            data:{
             comicsId: comicID,
            }, 
         });
-        if (data.profile) {
+        if (profile) {
             const user = {
                 chapterNumber: parseInt(data.chapterNumber),
                 userID: data.profile.id,
@@ -36,7 +39,7 @@ export async function POST(req: NextRequest, context : any) {
     }
     catch(error)
     {
-        return NextResponse.json({ message: `Something is error:${error}`},{status: 500})
+        return NextResponse.json({ message: `something went wrong:${error}`},{status: 500})
     }
 }
 
@@ -62,8 +65,14 @@ export async function GET(req: NextRequest, context : any) {
             })  
         return NextResponse.json(pages,{status: 200})
     }
-    catch(error)
+    catch(error: any)
     {
-        return NextResponse.json({ message: `Something is error:${error}`},{status: 500})
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            // The .code property can be accessed in a type-safe manner
+            if (error.code === 'P2025' || error.code === 'P2023') {
+                return NextResponse.json({ message: `Chapter not found`},{status: 404})
+            }
+        }
+        return NextResponse.json({ message: `something went wrong:${error}`},{status: 500})
     }
 }

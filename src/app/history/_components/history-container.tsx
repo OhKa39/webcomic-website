@@ -16,7 +16,6 @@ export default function HistoryContainer() {
 
     return (
         <HistoryItems data={localComics!} comicIdToDelete={comicIdToDelete} setcomicIdToDelete={handleChangeComicIdToD}/>
-        
     )
     
 }
