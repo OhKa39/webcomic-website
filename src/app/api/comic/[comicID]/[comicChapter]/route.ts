@@ -15,10 +15,10 @@ export async function POST(req: NextRequest, context : any) {
             comicsId: comicID,
            }, 
         });
-        if (profile) {
+        if (!!profile) {
             const user = {
                 chapterNumber: parseInt(data.chapterNumber),
-                userID: data.profile.id,
+                userID: profile.id,
                 comicsId: data.comicID
             }
             const history = await prisma.history.upsert(
