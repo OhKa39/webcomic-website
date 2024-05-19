@@ -1,0 +1,260 @@
+<html><head><meta charset="utf-8"/><title>Test Report</title><style type="text/css">html,
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+body {
+  padding: 2rem 1rem;
+  font-size: 0.85rem;
+}
+.jesthtml-content {
+  margin: 0 auto;
+  max-width: 70rem;
+}
+header {
+  display: flex;
+  align-items: center;
+}
+#title {
+  margin: 0;
+  flex-grow: 1;
+}
+#logo {
+  height: 4rem;
+}
+#timestamp {
+  color: #777;
+  margin-top: 0.5rem;
+}
+
+/** SUMMARY */
+#summary {
+  color: #333;
+  margin: 2rem 0;
+  display: flex;
+  font-family: monospace;
+  font-size: 1rem;
+}
+#summary > div {
+  margin-right: 2rem;
+  background: #eee;
+  padding: 1rem;
+  min-width: 15rem;
+}
+#summary > div:last-child {
+  margin-right: 0;
+}
+@media only screen and (max-width: 720px) {
+  #summary {
+    flex-direction: column;
+  }
+  #summary > div {
+    margin-right: 0;
+    margin-top: 2rem;
+  }
+  #summary > div:first-child {
+    margin-top: 0;
+  }
+}
+
+.summary-total {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+.summary-passed {
+  color: #4f8a10;
+  border-left: 0.4rem solid #4f8a10;
+  padding-left: 0.5rem;
+}
+.summary-failed,
+.summary-obsolete-snapshots {
+  color: #d8000c;
+  border-left: 0.4rem solid #d8000c;
+  padding-left: 0.5rem;
+}
+.summary-pending {
+  color: #9f6000;
+  border-left: 0.4rem solid #9f6000;
+  padding-left: 0.5rem;
+}
+.summary-empty {
+  color: #999;
+  border-left: 0.4rem solid #999;
+}
+
+.test-result {
+  padding: 1rem;
+  margin-bottom: 0.25rem;
+}
+.test-result:last-child {
+  border: 0;
+}
+.test-result.passed {
+  background-color: #dff2bf;
+  color: #4f8a10;
+}
+.test-result.failed {
+  background-color: #ffbaba;
+  color: #d8000c;
+}
+.test-result.pending {
+  background-color: #ffdf61;
+  color: #9f6000;
+}
+
+.test-info {
+  display: flex;
+  justify-content: space-between;
+}
+.test-suitename {
+  width: 20%;
+  text-align: left;
+  font-weight: bold;
+  word-break: break-word;
+}
+.test-title {
+  width: 40%;
+  text-align: left;
+  font-style: italic;
+}
+.test-status {
+  width: 20%;
+  text-align: right;
+}
+.test-duration {
+  width: 10%;
+  text-align: right;
+  font-size: 0.75rem;
+}
+
+.failureMessages {
+  padding: 0 1rem;
+  margin-top: 1rem;
+  border-top: 1px dashed #d8000c;
+}
+.failureMessages.suiteFailure {
+  border-top: none;
+}
+.failureMsg {
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+
+.suite-container {
+  margin-bottom: 2rem;
+}
+.suite-container > input[type="checkbox"] {
+  position: absolute;
+  left: -100vw;
+}
+.suite-container label {
+  display: block;
+}
+.suite-container .suite-tests {
+  overflow-y: hidden;
+  height: 0;
+}
+.suite-container > input[type="checkbox"]:checked ~ .suite-tests {
+  height: auto;
+  overflow: visible;
+}
+.suite-info {
+  padding: 1rem;
+  background-color: #eee;
+  color: #777;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+.suite-info:hover {
+  background-color: #ddd;
+  cursor: pointer;
+}
+.suite-info .suite-path {
+  word-break: break-all;
+  flex-grow: 1;
+  font-family: monospace;
+  font-size: 1rem;
+}
+.suite-info .suite-time {
+  margin-left: 0.5rem;
+  padding: 0.2rem 0.3rem;
+  font-size: 0.75rem;
+}
+.suite-info .suite-time.warn {
+  background-color: #d8000c;
+  color: #fff;
+}
+.suite-info:before {
+  content: "\2303";
+  display: inline-block;
+  margin-right: 0.5rem;
+  transform: rotate(0deg);
+}
+.suite-container > input[type="checkbox"]:checked ~ label .suite-info:before {
+  transform: rotate(180deg);
+}
+
+/* CONSOLE LOGS */
+.suite-consolelog {
+  margin-bottom: 0.25rem;
+  padding: 1rem;
+  background-color: #efefef;
+}
+.suite-consolelog-header {
+  font-weight: bold;
+}
+.suite-consolelog-item {
+  padding: 0.5rem;
+}
+.suite-consolelog-item pre {
+  margin: 0.5rem 0;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+.suite-consolelog-item-origin {
+  color: #777;
+  font-weight: bold;
+}
+.suite-consolelog-item-message {
+  color: #000;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+}
+
+/* OBSOLETE SNAPSHOTS */
+.suite-obsolete-snapshots {
+  margin-bottom: 0.25rem;
+  padding: 1rem;
+  background-color: #ffbaba;
+  color: #d8000c;
+}
+.suite-obsolete-snapshots-header {
+  font-weight: bold;
+}
+.suite-obsolete-snapshots-item {
+  padding: 0.5rem;
+}
+.suite-obsolete-snapshots-item pre {
+  margin: 0.5rem 0;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+.suite-obsolete-snapshots-item-message {
+  color: #000;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+}
+</style></head><body><div class="jesthtml-content"><header><h1 id="title">Test Report</h1></header><div id="metadata-container"><div id="timestamp">Started: 2024-05-19 23:30:56</div><div id="summary"><div id="suite-summary"><div class="summary-total">Suites (13)</div><div class="summary-passed ">10 passed</div><div class="summary-failed ">3 failed</div><div class="summary-pending  summary-empty">0 pending</div></div><div id="test-summary"><div class="summary-total">Tests (63)</div><div class="summary-passed ">58 passed</div><div class="summary-failed ">5 failed</div><div class="summary-pending  summary-empty">0 pending</div></div></div></div><div id="suite-1" class="suite-container"><input id="collapsible-0" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-0"><div class="suite-info"><div class="suite-path">D:\webcomic-website\__tests__\api\[DELETE]\comment.commentID.test.ts</div><div class="suite-time warn">43.229s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">[DELETE]/api/comment/[commentID]</div><div class="test-title">[DELETE]: Should return status code 401 when not log in</div><div class="test-status">passed</div><div class="test-duration">0.486s</div></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">[DELETE]/api/comment/[commentID]</div><div class="test-title">[DELETE]: Should return status code 404 when not found comment</div><div class="test-status">failed</div><div class="test-duration">5.065s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[DELETE]/api/comment/[commentID]</div><div class="test-title">[DELETE]: Should return status code 403 when comment is not created by userID</div><div class="test-status">passed</div><div class="test-duration">2.572s</div></div></div></div></div><div id="suite-2" class="suite-container"><input id="collapsible-1" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-1"><div class="suite-info"><div class="suite-path">D:\webcomic-website\__tests__\api\[POST]\comment\comment.test.ts</div><div class="suite-time warn">41.063s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">[POST]/api/comment/</div><div class="test-title">[POST]: Should return status code 401 when not log in</div><div class="test-status">passed</div><div class="test-duration">0.538s</div></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">[POST]/api/comment/</div><div class="test-title">[POST]: Should return status code 201 when logged in and sent true format data to comic</div><div class="test-status">failed</div><div class="test-duration">0.198s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[POST]/api/comment/</div><div class="test-title">[POST]: Should return status code 400 when input both comicID and chapterID</div><div class="test-status">passed</div><div class="test-duration">0.137s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[POST]/api/comment/</div><div class="test-title">[POST]: Should return status code 400 when content is blank</div><div class="test-status">passed</div><div class="test-duration">0.026s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[POST]/api/comment/</div><div class="test-title">[POST]: Should return status code 400 when content is contain all space</div><div class="test-status">passed</div><div class="test-duration">0.014s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[POST]/api/comment/</div><div class="test-title">[POST]: Should return status code 404 when comicID has true format but not in db</div><div class="test-status">passed</div><div class="test-duration">3.425s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[POST]/api/comment/</div><div class="test-title">[POST]: Should return status code 400 when comicID has wrong format</div><div class="test-status">passed</div><div class="test-duration">2.649s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[POST]/api/comment/</div><div class="test-title">[POST]: Should return status code 404 when chapterID has true format but not in db</div><div class="test-status">passed</div><div class="test-duration">0.21s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[POST]/api/comment/</div><div class="test-title">[POST]: Should return status code 400 when chapterID has wrong format</div><div class="test-status">passed</div><div class="test-duration">0.139s</div></div></div></div></div><div id="suite-3" class="suite-container"><input id="collapsible-2" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-2"><div class="suite-info"><div class="suite-path">D:\webcomic-website\__tests__\api\[PATCH]\comment.commentID.test.ts</div><div class="suite-time warn">45.817s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">[PATCH]/api/comment/[commentID]</div><div class="test-title">[PATCH]: Should return status code 401 when not log in</div><div class="test-status">passed</div><div class="test-duration">0.477s</div></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">[PATCH]/api/comment/[commentID]</div><div class="test-title">[PATCH]: Should return status code 404 when not found comment</div><div class="test-status">failed</div><div class="test-duration">5.112s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[PATCH]/api/comment/[commentID]</div><div class="test-title">[PATCH]: Should return status code 403 when comment is not created by userID</div><div class="test-status">passed</div><div class="test-duration">2.757s</div></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">[PATCH]/api/comment/[commentID]</div><div class="test-title">[PATCH]: Should return status code 400 when content is blank</div><div class="test-status">failed</div><div class="test-duration">2.049s</div></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">[PATCH]/api/comment/[commentID]</div><div class="test-title">[PATCH]: Should return status code 400 when content is contain all space</div><div class="test-status">failed</div><div class="test-duration">0.124s</div></div></div></div></div><div id="suite-4" class="suite-container"><input id="collapsible-3" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-3"><div class="suite-info"><div class="suite-path">D:\webcomic-website\__tests__\api\[GET]\comment\comment.commentID.test.ts</div><div class="suite-time warn">14.302s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comment/[commentID]</div><div class="test-title">[GET]: Should return status code 200 and all children of this comment - with exact commentID</div><div class="test-status">passed</div><div class="test-duration">0.956s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comment/[commentID]</div><div class="test-title">[GET]: Should return status code 200 and empty children list - with wrong commentID format</div><div class="test-status">passed</div><div class="test-duration">0.774s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comment/[commentID]</div><div class="test-title">[GET]: Should return status code 200 and empty children list - with true commentID format but not in db</div><div class="test-status">passed</div><div class="test-duration">0.068s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comment/[commentID]</div><div class="test-title">[GET]: Should return status code 200 and RootChain list - with exact commentID</div><div class="test-status">passed</div><div class="test-duration">0.984s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comment/[commentID]</div><div class="test-title">[GET]: Should return status code 200 and empty RootChain list - with wrong commentID format</div><div class="test-status">passed</div><div class="test-duration">0.153s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comment/[commentID]</div><div class="test-title">[GET]: Should return status code 200 and empty RootChain list - with true commentID format but not in db</div><div class="test-status">passed</div><div class="test-duration">0.481s</div></div></div></div></div><div id="suite-5" class="suite-container"><input id="collapsible-4" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-4"><div class="suite-info"><div class="suite-path">D:\webcomic-website\__tests__\api\[GET]\comic\comic.test.ts</div><div class="suite-time warn">14.362s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comic</div><div class="test-title">[GET]: Should return status code 200 and list with 20 items</div><div class="test-status">passed</div><div class="test-duration">1.256s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comic</div><div class="test-title">[GET]: Should return status code 400 - with page contain alphabet char</div><div class="test-status">passed</div><div class="test-duration">0.018s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comic</div><div class="test-title">[GET]: Should return status code 400 - with offset contain alphabet char</div><div class="test-status">passed</div><div class="test-duration">0.102s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comic</div><div class="test-title">[GET]: Should return all comic name contain `thế` - with sValue exactly match</div><div class="test-status">passed</div><div class="test-duration">0.432s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comic</div><div class="test-title">[GET]: Should return all comic name contain `thế` - with sValue contain at least one UpperCase char</div><div class="test-status">passed</div><div class="test-duration">0.389s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comic</div><div class="test-title">[GET]: Should return all comic name contain `thế` - with sValue contain at least one space at begin</div><div class="test-status">passed</div><div class="test-duration">0.6s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comic</div><div class="test-title">[GET]: Should return all comic name contain `thế` - with sValue contain at least one space at end</div><div class="test-status">passed</div><div class="test-duration">0.285s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comic</div><div class="test-title">[GET]: Should return all comic name contain `thế` - with sValue contain all UpperCase char</div><div class="test-status">passed</div><div class="test-duration">0.305s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comic</div><div class="test-title">[GET]: Should return empty comic array - with sValue does not match with filter condition</div><div class="test-status">passed</div><div class="test-duration">0.508s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comic</div><div class="test-title">[GET]: Should return comic that match categoryIds filter condition - with exact categoryIds</div><div class="test-status">passed</div><div class="test-duration">0.863s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comic</div><div class="test-title">[GET]: Should return empty comic array - with contain at least one wrong id format in categoryIds</div><div class="test-status">passed</div><div class="test-duration">3.398s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comic</div><div class="test-title">[GET]: Should return empty comic array - with categoryIds does not match with filter condition</div><div class="test-status">passed</div><div class="test-duration">0.778s</div></div></div></div></div><div id="suite-6" class="suite-container"><input id="collapsible-5" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-5"><div class="suite-info"><div class="suite-path">D:\webcomic-website\__tests__\api\[GET]\comment\comment.test.ts</div><div class="suite-time warn">19.021s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comment</div><div class="test-title">[GET]: Should return status code 200 and sorted list(updateDate: desc) - with exact comicID</div><div class="test-status">passed</div><div class="test-duration">3.52s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comment</div><div class="test-title">[GET]: Should return status code 200 and empty list - with wrong comicID format</div><div class="test-status">passed</div><div class="test-duration">1.204s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comment</div><div class="test-title">[GET]: Should return status code 200 and empty list - with true comicID format but not in db</div><div class="test-status">passed</div><div class="test-duration">0.291s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comment</div><div class="test-title">[GET]: Should return status code 200 and empty list - with input both ComicId and chapterId</div><div class="test-status">passed</div><div class="test-duration">1.059s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comment</div><div class="test-title">[GET]: Should return status code 200 and sorted list(updateDate: desc) - with exact chapterId</div><div class="test-status">passed</div><div class="test-duration">0.688s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comment</div><div class="test-title">[GET]: Should return status code 200 and empty list - with wrong chapterId format</div><div class="test-status">passed</div><div class="test-duration">0.116s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comment</div><div class="test-title">[GET]: Should return status code 200 and empty list - with true chapterId format but not in db</div><div class="test-status">passed</div><div class="test-duration">0.17s</div></div></div></div></div><div id="suite-7" class="suite-container"><input id="collapsible-6" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-6"><div class="suite-info"><div class="suite-path">D:\webcomic-website\__tests__\api\[GET]\follow\follow.test.ts</div><div class="suite-time warn">19.977s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comment/follow</div><div class="test-title">[GET]: Should return status code 401 when not log in</div><div class="test-status">passed</div><div class="test-duration">0.031s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comment/follow</div><div class="test-title">[GET]: Should return status code 200 and user's follow list when logged in</div><div class="test-status">passed</div><div class="test-duration">2.453s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comment/follow</div><div class="test-title">[GET]: Should return status code 400 - with page contain alphabet char</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comment/follow</div><div class="test-title">[GET]: Should return status code 400 - with offset contain alphabet char</div><div class="test-status">passed</div><div class="test-duration">0.011s</div></div></div></div></div><div id="suite-8" class="suite-container"><input id="collapsible-7" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-7"><div class="suite-info"><div class="suite-path">D:\webcomic-website\__tests__\api\[GET]\history\history.test.ts</div><div class="suite-time warn">14.332s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/history</div><div class="test-title">[GET]: Should return status code 200 - with exact IDs</div><div class="test-status">passed</div><div class="test-duration">2.093s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/history</div><div class="test-title">[GET]: Should return status code 400 - with at least 1 wrong comicID format in IDs</div><div class="test-status">passed</div><div class="test-duration">0.368s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/history</div><div class="test-title">[GET]: Should return status code 400 - with at least 1 true comicID format but not in db</div><div class="test-status">passed</div><div class="test-duration">0.171s</div></div></div></div></div><div id="suite-9" class="suite-container"><input id="collapsible-8" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-8"><div class="suite-info"><div class="suite-path">D:\webcomic-website\__tests__\api\[GET]\comic\comic.comicID.comicChapter.test.ts</div><div class="suite-time warn">11.963s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comic/[comicID]/[comicChapter]</div><div class="test-title">[GET]: Should return status code 200 - with exact comicID and comicChapter</div><div class="test-status">passed</div><div class="test-duration">1.341s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comic/[comicID]/[comicChapter]</div><div class="test-title">[GET]: Should return status code 404 - with comicChapter is not in db</div><div class="test-status">passed</div><div class="test-duration">0.514s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comic/[comicID]/[comicChapter]</div><div class="test-title">[GET]: Should return status code 404 - with true comicID format but not in db</div><div class="test-status">passed</div><div class="test-duration">0.01s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comic/[comicID]/[comicChapter]</div><div class="test-title">[GET]: Should return status code 404 - with wrong comicID format</div><div class="test-status">passed</div><div class="test-duration">0.007s</div></div></div></div></div><div id="suite-10" class="suite-container"><input id="collapsible-9" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-9"><div class="suite-info"><div class="suite-path">D:\webcomic-website\__tests__\api\[GET]\notification\notification.test.ts</div><div class="suite-time warn">8.463s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/notification</div><div class="test-title">[GET]: Should return status code 401 when not log in</div><div class="test-status">passed</div><div class="test-duration">0.066s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/notification</div><div class="test-title">[GET]: Should return status code 200 and user's notifications match with userID when logged in</div><div class="test-status">passed</div><div class="test-duration">1.072s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/notification</div><div class="test-title">[GET]: Should return status code 500 when error in database</div><div class="test-status">passed</div><div class="test-duration">0.005s</div></div></div></div></div><div id="suite-11" class="suite-container"><input id="collapsible-10" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-10"><div class="suite-info"><div class="suite-path">D:\webcomic-website\__tests__\api\[GET]\comic\comic.comicID.test.ts</div><div class="suite-time warn">9.149s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comic/[comicID]</div><div class="test-title">[GET]: Should return status code 200 - with exact comicID</div><div class="test-status">passed</div><div class="test-duration">0.978s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comic/[comicID]</div><div class="test-title">[GET]: Should return status code 404 - with wrong comicID format</div><div class="test-status">passed</div><div class="test-duration">0.464s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comic/[comicID]</div><div class="test-title">[GET]: Should return status code 404 - with true comicID format but not in db</div><div class="test-status">passed</div><div class="test-duration">0.327s</div></div></div></div></div><div id="suite-12" class="suite-container"><input id="collapsible-11" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-11"><div class="suite-info"><div class="suite-path">D:\webcomic-website\__tests__\api\[GET]\SignedinHistory\SignedinHistory.test.ts</div><div class="suite-time warn">7.066s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/SignedinHistory</div><div class="test-title">[GET]: Should return status code 401 when not log in</div><div class="test-status">passed</div><div class="test-duration">0.033s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/SignedinHistory</div><div class="test-title">[GET]: Should return status code 200 and user's history match with userID when logged in</div><div class="test-status">passed</div><div class="test-duration">0.964s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/SignedinHistory</div><div class="test-title">[GET]: Should return status code 500 when error in database</div><div class="test-status">passed</div><div class="test-duration">0.004s</div></div></div></div></div><div id="suite-13" class="suite-container"><input id="collapsible-12" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-12"><div class="suite-info"><div class="suite-path">D:\webcomic-website\__tests__\api\[GET]\comicTypes\comicTypes.test.ts</div><div class="suite-time warn">5.264s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">[GET]/api/comic/comicTypes</div><div class="test-title">[GET]: Should return status code 200 and list with 45 items</div><div class="test-status">passed</div><div class="test-duration">0.717s</div></div></div></div></div></div></body></html>

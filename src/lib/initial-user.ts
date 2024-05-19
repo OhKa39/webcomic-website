@@ -6,7 +6,7 @@ const initialUser = async () => {
   const user = await currentUser()
 
   if (!user)
-    return
+    return null
 
   const profile = await prisma.user.findUnique({
     where: {
