@@ -14,7 +14,13 @@ const config: Config = {
     // ...
     '^@/components/(.*)$': '<rootDir>/src/components/$1',
     '^@/lib/(.*)$': '<rootDir>/src/lib/$1'
-  }
+  },
+  reporters: [
+    "default",
+    ["./node_modules/jest-html-reporter", {
+      "pageTitle": "Test Report"
+    }]
+  ]
   // Add more setup options before each test is run
   // setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 }
