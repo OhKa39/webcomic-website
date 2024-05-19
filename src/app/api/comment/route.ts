@@ -3,7 +3,7 @@ import prisma from "@/lib/db";
 import initialUser from "@/lib/initial-user";
 import { pusherServer } from "@/lib/pusher";
 import { Prisma } from "@prisma/client";
-export async function POST(req: NextRequest, context: any) {
+export async function POST(req: NextRequest) {
   try {
     const profile = await initialUser();
 
