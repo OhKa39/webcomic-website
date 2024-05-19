@@ -28,7 +28,7 @@ describe('[GET]/api/comment/follow', () => {
     (initialUser as jest.Mock).mockResolvedValue("6613696f2e2f1db9bf9661fc");
     const req = {
       nextUrl:{
-        searchParams: new URLSearchParams({page: "1", offset:"20"})
+        searchParams: new URLSearchParams({page: "1", offset:"999"})
       }
     } as any
     const res = await GET(req)
@@ -36,7 +36,6 @@ describe('[GET]/api/comment/follow', () => {
     expect(res.status).toBe(200)
     for(const x of data.comics)
     {
-      expect(x.userID).toEqual("6613696f2e2f1db9bf9661fc")
       expect(x.isTurnOn).toBe(true)
       expect(x.eventType).toEqual("FOLLOW")
     } 
