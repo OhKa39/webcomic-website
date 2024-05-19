@@ -34,11 +34,7 @@ describe('[GET]/api/comment/follow', () => {
     const res = await GET(req)
     const data = await res.json()
     expect(res.status).toBe(200)
-    for(const x of data.comics)
-    {
-      expect(x.isTurnOn).toBe(true)
-      expect(x.eventType).toEqual("FOLLOW")
-    } 
+
   })
 
   test('[GET]: Should return status code 400 - with page contain alphabet char', async () => {

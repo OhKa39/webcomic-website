@@ -161,7 +161,7 @@ export async function PATCH(req: NextRequest, context : any) { //chỉnh sửa n
         return NextResponse.json({message: `Not Found: Can not find comment`},{status: 404})
 
       if(profile.id !== comment.userID)  
-        return NextResponse.json({message: `Forbidden: Can not delete comment with this account`},{status: 403})
+        return NextResponse.json({message: `Forbidden: Can not edit comment with this account`},{status: 403})
 
       if(data.content.trim() === "")
         return NextResponse.json({message: `Bad Request: content is required`},{status: 400})
@@ -231,7 +231,7 @@ export async function DELETE(req: NextRequest, context : any) {
       const commentID = context.params.commentID;
 
       if(!profile)
-        return NextResponse.json({message: `Unauthorized`},{status: 401})
+        return NextResponse.json({message: `Unauthorized: Please login to use this feature`},{status: 401})
       
       const data  = await req.json()
       const comment = await prisma.comments.findUnique({
