@@ -4,7 +4,7 @@ import prisma from './db'
 
 const initialUser = async () => {
   const user = await currentUser()
-  console.log(user)
+
   if (!user)
     return null
 
