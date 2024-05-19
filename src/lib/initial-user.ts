@@ -4,6 +4,7 @@ import prisma from './db'
 
 const initialUser = async () => {
   const user = await currentUser()
+  const makedby = "abc"
 
   if (!user)
     return
