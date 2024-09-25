@@ -132,7 +132,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 ## <a name="contact">📱 Contact</a>
 
-Khoa Ly - [Facebook](https://facebook.com/khoaly12)
+Khoa Ly - [Facebook](https://facebook.com/khoaly4)
 
 An Vu - [Facebook](https://www.facebook.com/veryfii)
 
