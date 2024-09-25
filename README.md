@@ -134,7 +134,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 Khoa Ly - [Facebook](https://facebook.com/khoaly4)
 
-An Vu - [Facebook](https://www.facebook.com/veryfii)
+An Vu - [Facebook](https://www.facebook.com/naalaya.2712)
 
 Hung Nguyen - [Facebook](https://www.facebook.com/profile.php?id=100026656487897)
 
